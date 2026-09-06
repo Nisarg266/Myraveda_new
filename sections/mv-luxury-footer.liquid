@@ -12,6 +12,7 @@
 
 {%- liquid
   assign brand_logo = section.settings.brand_image
+  assign mobile_brand_logo = section.settings.mobile_brand_image
   assign brand_tagline = section.settings.brand_tagline
   assign brand_align = section.settings.brand_alignment | default: 'center'
   assign contact_title = section.settings.contact_title | default: 'CONTACT US'
@@ -25,7 +26,24 @@
   assign social_yt = section.settings.social_youtube | default: 'https://youtube.com/@myravedaluxuryessentials9186'
   
   assign menu_title = section.settings.menu_title | default: 'QUICK LINKS'
-  assign menu_handle = section.settings.menu | default: 'quick-link'
+  assign footer_menu_obj = section.settings.menu
+  assign menu_links = footer_menu_obj.links
+  if menu_links == blank or menu_links.size == 0
+    assign menu_links = linklists[footer_menu_obj].links
+  endif
+  if menu_links == blank or menu_links.size == 0
+    assign menu_links = linklists['quick-link'].links
+  endif
+  if menu_links == blank or menu_links.size == 0
+    assign menu_links = linklists['footer'].links
+  endif
+
+  assign menu_2_title = section.settings.menu_2_title | default: 'CUSTOMER CARE'
+  assign footer_menu_2_obj = section.settings.menu_2
+  assign menu_2_links = footer_menu_2_obj.links
+  if menu_2_links == blank or menu_2_links.size == 0
+    assign menu_2_links = linklists[footer_menu_2_obj].links
+  endif
   
   assign newsletter_title = section.settings.newsletter_title | default: 'INSIDER INFORMATION'
   assign newsletter_subtext = section.settings.newsletter_subtext | default: 'Subscribe to receive invitations to private botanical harvests, VIP ritual previews, and 15% off your first order.'
@@ -33,7 +51,33 @@
   assign scheme = section.settings.color_scheme | default: 'pure_white_gold'
 -%}
 
-<div class="mv-footer-wrapper mv-scheme--{{ scheme }}" id="mv-luxury-footer">
+<div class="mv-footer-wrapper mv-scheme--{{ scheme }}" id="mv-luxury-footer" style="
+  {%- if section.settings.custom_bg != blank and section.settings.color_scheme == 'custom' -%}
+    --mv-f-bg: {{ section.settings.custom_bg }};
+  {%- endif -%}
+  {%- if section.settings.custom_heading_color != blank and section.settings.color_scheme == 'custom' -%}
+    --mv-f-text-primary: {{ section.settings.custom_heading_color }};
+  {%- endif -%}
+  {%- if section.settings.custom_text_color != blank and section.settings.color_scheme == 'custom' -%}
+    --mv-f-text-secondary: {{ section.settings.custom_text_color }};
+  {%- endif -%}
+  {%- if section.settings.custom_accent_gold != blank and section.settings.color_scheme == 'custom' -%}
+    --mv-f-gold-primary: {{ section.settings.custom_accent_gold }};
+  {%- endif -%}
+  {%- if section.settings.bottom_bar_bg != blank and section.settings.color_scheme == 'custom' -%}
+    --mv-f-bottom-bg: {{ section.settings.bottom_bar_bg }};
+  {%- endif -%}
+  --mv-footer-pt: {{ section.settings.padding_top_desktop | default: 40 }}px;
+  --mv-footer-pb: {{ section.settings.padding_bottom_desktop | default: 28 }}px;
+  --mv-footer-pt-mobile: {{ section.settings.padding_top_mobile | default: 28 }}px;
+  --mv-footer-pb-mobile: {{ section.settings.padding_bottom_mobile | default: 20 }}px;
+  --mv-f-heading-desktop: {{ section.settings.heading_size_desktop | default: 16 }}px;
+  --mv-f-heading-mobile: {{ section.settings.heading_size_mobile | default: 15 }}px;
+  --mv-f-link-desktop: {{ section.settings.link_size_desktop | default: 14 }}px;
+  --mv-f-link-mobile: {{ section.settings.link_size_mobile | default: 13 }}px;
+  --mv-f-body-desktop: {{ section.settings.body_size_desktop | default: 14 }}px;
+  --mv-f-body-mobile: {{ section.settings.body_size_mobile | default: 13 }}px;
+">
   
   {%- if section.settings.show_trust_strip -%}
     <!-- 1. PRE-FOOTER LUXURY TRUST PILLARS (COMPACT LUXE) -->
@@ -104,302 +148,556 @@
     </div>
   {%- endif -%}
 
-  <!-- 2. MAIN GRAND FOOTER ARCHITECTURE (TIGHT & BALANCED) -->
   <footer class="mv-footer-main">
     <div class="mv-footer-container">
-      <div class="mv-footer-grid">
-        
-        <!-- COLUMN 1: MAISON & HERITAGE -->
-        <div class="mv-footer-col mv-footer-col--brand">
-          <div class="mv-footer-brand-stage mv-brand-align--{{ brand_align }}">
-            {%- if brand_logo != blank -%}
-              <a href="{{ routes.root_url }}" class="mv-footer-logo-link" aria-label="{{ shop.name }}">
-                <img 
-                  src="{{ brand_logo | image_url: width: 600 }}"
-                  alt="{{ shop.name }}"
-                  class="mv-footer-logo-img"
-                  width="{{ section.settings.logo_width }}"
-                  height="auto"
-                  loading="lazy"
-                >
-              </a>
-            {%- else -%}
-              <a href="{{ routes.root_url }}" class="mv-footer-logo-fallback" aria-label="{{ shop.name }}">
-                <span class="mv-logo-emblem">✦</span>
-                <span class="mv-logo-text">MYRA VEDA</span>
-                <span class="mv-logo-subtext">LUXURY ESSENTIALS</span>
-              </a>
-            {%- endif -%}
+      {%- if section.blocks.size > 0 -%}
+        <div class="mv-footer-grid mv-footer-grid--blocks">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'brand' -%}
+                <div class="mv-footer-col mv-footer-col--brand" {{ block.shopify_attributes }}>
+                  <div class="mv-footer-brand-stage mv-brand-align--{{ block.settings.brand_alignment | default: 'center' }}">
+                    {%- assign b_logo = block.settings.brand_image | default: brand_logo -%}
+                    {%- assign b_mob_logo = block.settings.mobile_brand_image | default: mobile_brand_logo -%}
+                    {%- if b_logo != blank -%}
+                      <a href="{{ routes.root_url }}" class="mv-footer-logo-link" aria-label="{{ shop.name }}">
+                        <picture>
+                          {%- if b_mob_logo != blank -%}
+                            <source media="(max-width: 767px)" srcset="{{ b_mob_logo | image_url: width: 400 }}">
+                          {%- endif -%}
+                          <img 
+                            src="{{ b_logo | image_url: width: 600 }}"
+                            alt="{{ shop.name }}"
+                            class="mv-footer-logo-img"
+                            width="{{ block.settings.logo_width | default: section.settings.logo_width | default: 220 }}"
+                            height="auto"
+                            loading="lazy"
+                          >
+                        </picture>
+                      </a>
+                    {%- else -%}
+                      <a href="{{ routes.root_url }}" class="mv-footer-logo-fallback" aria-label="{{ shop.name }}">
+                        <span class="mv-logo-emblem">✦</span>
+                        <span class="mv-logo-text">MYRA VEDA</span>
+                        <span class="mv-logo-subtext">LUXURY ESSENTIALS</span>
+                      </a>
+                    {%- endif -%}
 
-            <div class="mv-gold-divider-subtle"></div>
+                    <div class="mv-gold-divider-subtle"></div>
 
-            <p class="mv-footer-tagline">
-              {%- if brand_tagline != blank -%}
-                {{ brand_tagline }}
-              {%- else -%}
-                World's First Sustainable Clean-Beauty Brand. Handcrafted Ayurvedic formulations merging sacred Vedic herbs with European dermatological science.
-              {%- endif -%}
-            </p>
+                    <p class="mv-footer-tagline">
+                      {%- if block.settings.brand_tagline != blank -%}
+                        {{ block.settings.brand_tagline }}
+                      {%- else -%}
+                        {{ brand_tagline }}
+                      {%- endif -%}
+                    </p>
 
-            <div class="mv-footer-creds">
-              <span class="mv-cred-pill">✦ PETA Cruelty-Free</span>
-              <span class="mv-cred-pill">✦ 100% Vegetarian</span>
-              <span class="mv-cred-pill">✦ Sustainable Glass</span>
-            </div>
-          </div>
+                    {%- if block.settings.show_creds != false -%}
+                      <div class="mv-footer-creds">
+                        <span class="mv-cred-pill">✦ PETA Cruelty-Free</span>
+                        <span class="mv-cred-pill">✦ 100% Vegetarian</span>
+                        <span class="mv-cred-pill">✦ Sustainable Glass</span>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+
+              {%- when 'contact' -%}
+                <div class="mv-footer-col mv-footer-col--contact" {{ block.shopify_attributes }}>
+                  <h3 class="mv-footer-heading">
+                    <span class="mv-heading-star">✦</span>
+                    {{ block.settings.title | default: contact_title }}
+                  </h3>
+                  
+                  <div class="mv-contact-items">
+                    {%- assign b_phone = block.settings.phone | default: contact_phone -%}
+                    {%- if b_phone != blank -%}
+                      <a href="tel:{{ b_phone | replace: ' ', '' | replace: '-', '' }}" class="mv-contact-card" title="Call Concierge">
+                        <div class="mv-contact-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        </div>
+                        <div class="mv-contact-details">
+                          <span class="mv-contact-label">Customer Care</span>
+                          <span class="mv-contact-val">{{ b_phone }}</span>
+                        </div>
+                      </a>
+                    {%- endif -%}
+
+                    {%- assign b_email = block.settings.email | default: contact_email -%}
+                    {%- if b_email != blank -%}
+                      <a href="mailto:{{ b_email }}" class="mv-contact-card" title="Email Concierge">
+                        <div class="mv-contact-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        </div>
+                        <div class="mv-contact-details">
+                          <span class="mv-contact-label">Apothecary Support</span>
+                          <span class="mv-contact-val">{{ b_email }}</span>
+                        </div>
+                      </a>
+                    {%- endif -%}
+
+                    {%- assign b_hours = block.settings.hours | default: contact_hours -%}
+                    {%- if b_hours != blank -%}
+                      <div class="mv-contact-card mv-contact-card--static">
+                        <div class="mv-contact-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div class="mv-contact-details">
+                          <span class="mv-contact-label">Ritual Concierge Hours</span>
+                          <span class="mv-contact-val">{{ b_hours }}</span>
+                        </div>
+                      </div>
+                    {%- endif -%}
+                  </div>
+
+                  {%- if block.settings.show_social != false -%}
+                    <div class="mv-footer-socials-wrap">
+                      <span class="mv-socials-label">FOLLOW OUR JOURNEY</span>
+                      <div class="mv-footer-socials">
+                        {%- if social_ig != blank -%}
+                          <a href="{{ social_ig }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Instagram">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                          </a>
+                        {%- endif -%}
+                        {%- if social_fb != blank -%}
+                          <a href="{{ social_fb }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Facebook">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                          </a>
+                        {%- endif -%}
+                        {%- if social_yt != blank -%}
+                          <a href="{{ social_yt }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="YouTube">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+                          </a>
+                        {%- endif -%}
+                        {%- if social_tw != blank -%}
+                          <a href="{{ social_tw }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Twitter X">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
+                          </a>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  {%- endif -%}
+                </div>
+
+              {%- when 'menu' -%}
+                <div class="mv-footer-col mv-footer-col--links" {{ block.shopify_attributes }}>
+                  <h3 class="mv-footer-heading">
+                    <span class="mv-heading-star">✦</span>
+                    {{ block.settings.title | default: 'QUICK LINKS' }}
+                  </h3>
+                  <nav class="mv-footer-menu" aria-label="{{ block.settings.title | default: 'Quick Links' }}">
+                    {%- assign b_menu = block.settings.menu -%}
+                    {%- assign b_links = b_menu.links -%}
+                    {%- if b_links == blank or b_links.size == 0 -%}
+                      {%- assign b_links = linklists[b_menu].links -%}
+                    {%- endif -%}
+                    {%- if b_links.size > 0 -%}
+                      <ul class="mv-footer-nav-list">
+                        {%- for link in b_links -%}
+                          <li class="mv-nav-item">
+                            <a href="{{ link.url }}" class="mv-nav-link">
+                              <span class="mv-link-bullet">✦</span>
+                              <span class="mv-link-text">{{ link.title }}</span>
+                              <span class="mv-link-arrow">›</span>
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  </nav>
+                </div>
+
+              {%- when 'newsletter' -%}
+                <div class="mv-footer-col mv-footer-col--newsletter" {{ block.shopify_attributes }}>
+                  <div class="mv-newsletter-podium">
+                    <span class="mv-newsletter-kicker">{{ block.settings.kicker | default: '✦ THE INNER CIRCLE' }}</span>
+                    <h3 class="mv-footer-heading mv-footer-heading--gold">
+                      {{ block.settings.title | default: newsletter_title }}
+                    </h3>
+                    <p class="mv-newsletter-desc">
+                      {{ block.settings.subtext | default: newsletter_subtext }}
+                    </p>
+                    <div class="mv-newsletter-form-box">
+                      {%- form 'customer', id: 'mv-footer-newsletter-form-block', class: 'mv-newsletter-form' -%}
+                        <input type="hidden" name="contact[tags]" value="newsletter,mv_insider_circle">
+                        {%- if form.posted_successfully? -%}
+                          <div class="mv-newsletter-success">
+                            <span class="mv-success-star">✦</span>
+                            <p class="mv-success-text">Welcome to the Inner Circle. Your invitation is on its way.</p>
+                          </div>
+                        {%- else -%}
+                          <div class="mv-newsletter-capsule">
+                            <div class="mv-capsule-input-wrap">
+                              <svg class="mv-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                              <input 
+                                type="email" 
+                                name="contact[email]" 
+                                id="mv-footer-email-block" 
+                                class="mv-email-input" 
+                                placeholder="Enter your email address"
+                                required
+                                autocomplete="email"
+                                aria-label="Email address"
+                              >
+                            </div>
+                            <button type="submit" class="mv-newsletter-btn" aria-label="Subscribe to newsletter">
+                              <span class="mv-btn-shimmer"></span>
+                              <span class="mv-btn-text">{{ block.settings.button_text | default: 'JOIN CIRCLE' }}</span>
+                              <span class="mv-btn-icon">→</span>
+                            </button>
+                          </div>
+                          {%- if form.errors -%}
+                            <p class="mv-newsletter-error">
+                              {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+                            </p>
+                          {%- endif -%}
+                        {%- endif -%}
+                      {%- endform -%}
+                    </div>
+                    <div class="mv-newsletter-perks">
+                      <span class="mv-perk-item">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        Spam-free assurance
+                      </span>
+                      <span class="mv-perk-item">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                        15% VIP welcome reward
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+              {%- when 'text' -%}
+                <div class="mv-footer-col mv-footer-col--text" {{ block.shopify_attributes }}>
+                  <h3 class="mv-footer-heading">
+                    <span class="mv-heading-star">✦</span>
+                    {{ block.settings.title }}
+                  </h3>
+                  <div class="mv-footer-tagline">
+                    {{ block.settings.content }}
+                  </div>
+                </div>
+
+            {%- endcase -%}
+          {%- endfor -%}
         </div>
-
-        <!-- COLUMN 2: CONTACT US & CONCIERGE -->
-        <div class="mv-footer-col mv-footer-col--contact">
-          <h3 class="mv-footer-heading">
-            <span class="mv-heading-star">✦</span>
-            {{ contact_title }}
-          </h3>
+      {%- else -%}
+        <!-- DEFAULT 4-COLUMN ARCHITECTURE (100% PRESERVED FALLBACK) -->
+        <div class="mv-footer-grid">
           
-          <div class="mv-contact-items">
+          <!-- COLUMN 1: MAISON & HERITAGE -->
+          <div class="mv-footer-col mv-footer-col--brand">
+            <div class="mv-footer-brand-stage mv-brand-align--{{ brand_align }}">
+              {%- if brand_logo != blank -%}
+                <a href="{{ routes.root_url }}" class="mv-footer-logo-link" aria-label="{{ shop.name }}">
+                  <picture>
+                    {%- if mobile_brand_logo != blank -%}
+                      <source media="(max-width: 767px)" srcset="{{ mobile_brand_logo | image_url: width: 400 }}">
+                    {%- endif -%}
+                    <img 
+                      src="{{ brand_logo | image_url: width: 600 }}"
+                      alt="{{ shop.name }}"
+                      class="mv-footer-logo-img"
+                      width="{{ section.settings.logo_width }}"
+                      height="auto"
+                      loading="lazy"
+                    >
+                  </picture>
+                </a>
+              {%- else -%}
+                <a href="{{ routes.root_url }}" class="mv-footer-logo-fallback" aria-label="{{ shop.name }}">
+                  <span class="mv-logo-emblem">✦</span>
+                  <span class="mv-logo-text">MYRA VEDA</span>
+                  <span class="mv-logo-subtext">LUXURY ESSENTIALS</span>
+                </a>
+              {%- endif -%}
+
+              <div class="mv-gold-divider-subtle"></div>
+
+              <p class="mv-footer-tagline">
+                {%- if brand_tagline != blank -%}
+                  {{ brand_tagline }}
+                {%- else -%}
+                  World's First Sustainable Clean-Beauty Brand. Handcrafted Ayurvedic formulations merging sacred Vedic herbs with European dermatological science.
+                {%- endif -%}
+              </p>
+
+              <div class="mv-footer-creds">
+                <span class="mv-cred-pill">✦ PETA Cruelty-Free</span>
+                <span class="mv-cred-pill">✦ 100% Vegetarian</span>
+                <span class="mv-cred-pill">✦ Sustainable Glass</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- COLUMN 2: CONTACT US & CONCIERGE -->
+          <div class="mv-footer-col mv-footer-col--contact">
+            <h3 class="mv-footer-heading">
+              <span class="mv-heading-star">✦</span>
+              {{ contact_title }}
+            </h3>
             
-            <a href="tel:{{ contact_phone | replace: ' ', '' | replace: '-', '' }}" class="mv-contact-card" title="Call Concierge">
-              <div class="mv-contact-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-              </div>
-              <div class="mv-contact-details">
-                <span class="mv-contact-label">Customer Care</span>
-                <span class="mv-contact-val">{{ contact_phone }}</span>
-              </div>
-            </a>
+            <div class="mv-contact-items">
+              <a href="tel:{{ contact_phone | replace: ' ', '' | replace: '-', '' }}" class="mv-contact-card" title="Call Concierge">
+                <div class="mv-contact-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                </div>
+                <div class="mv-contact-details">
+                  <span class="mv-contact-label">Customer Care</span>
+                  <span class="mv-contact-val">{{ contact_phone }}</span>
+                </div>
+              </a>
 
-            <a href="mailto:{{ contact_email }}" class="mv-contact-card" title="Email Concierge">
-              <div class="mv-contact-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                  <polyline points="22,6 12,13 2,6"/>
-                </svg>
-              </div>
-              <div class="mv-contact-details">
-                <span class="mv-contact-label">Apothecary Support</span>
-                <span class="mv-contact-val">{{ contact_email }}</span>
-              </div>
-            </a>
+              <a href="mailto:{{ contact_email }}" class="mv-contact-card" title="Email Concierge">
+                <div class="mv-contact-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                </div>
+                <div class="mv-contact-details">
+                  <span class="mv-contact-label">Apothecary Support</span>
+                  <span class="mv-contact-val">{{ contact_email }}</span>
+                </div>
+              </a>
 
-            <div class="mv-contact-card mv-contact-card--static">
-              <div class="mv-contact-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
-              </div>
-              <div class="mv-contact-details">
-                <span class="mv-contact-label">Ritual Concierge Hours</span>
-                <span class="mv-contact-val">{{ contact_hours }}</span>
+              <div class="mv-contact-card mv-contact-card--static">
+                <div class="mv-contact-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                </div>
+                <div class="mv-contact-details">
+                  <span class="mv-contact-label">Ritual Concierge Hours</span>
+                  <span class="mv-contact-val">{{ contact_hours }}</span>
+                </div>
               </div>
             </div>
 
-          </div>
+            <!-- ANIMATED SOCIAL ICONS -->
+            <div class="mv-footer-socials-wrap">
+              <span class="mv-socials-label">FOLLOW OUR JOURNEY</span>
+              <div class="mv-footer-socials">
+                {%- if social_ig != blank -%}
+                  <a href="{{ social_ig }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Instagram">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                  </a>
+                {%- endif -%}
 
-          <!-- ANIMATED SOCIAL ICONS -->
-          <div class="mv-footer-socials-wrap">
-            <span class="mv-socials-label">FOLLOW OUR JOURNEY</span>
-            <div class="mv-footer-socials">
-              
-              {%- if social_ig != blank -%}
-                <a href="{{ social_ig }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Instagram">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                  </svg>
-                </a>
-              {%- endif -%}
+                {%- if social_fb != blank -%}
+                  <a href="{{ social_fb }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Facebook">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                  </a>
+                {%- endif -%}
 
-              {%- if social_fb != blank -%}
-                <a href="{{ social_fb }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Facebook">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                  </svg>
-                </a>
-              {%- endif -%}
+                {%- if social_yt != blank -%}
+                  <a href="{{ social_yt }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="YouTube">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                      <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                    </svg>
+                  </a>
+                {%- endif -%}
 
-              {%- if social_yt != blank -%}
-                <a href="{{ social_yt }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="YouTube">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
-                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
-                  </svg>
-                </a>
-              {%- endif -%}
-
-              {%- if social_tw != blank -%}
-                <a href="{{ social_tw }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Twitter X">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 4l11.733 16h4.267l-11.733 -16z"/>
-                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>
-                  </svg>
-                </a>
-              {%- endif -%}
-
+                {%- if social_tw != blank -%}
+                  <a href="{{ social_tw }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Twitter X">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 4l11.733 16h4.267l-11.733 -16z"/>
+                      <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>
+                    </svg>
+                  </a>
+                {%- endif -%}
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- COLUMN 3: QUICK LINKS & RITUALS -->
-        <div class="mv-footer-col mv-footer-col--links">
-          <h3 class="mv-footer-heading">
-            <span class="mv-heading-star">✦</span>
-            {{ menu_title }}
-          </h3>
+          <!-- COLUMN 3: QUICK LINKS & RITUALS -->
+          <div class="mv-footer-col mv-footer-col--links">
+            <h3 class="mv-footer-heading">
+              <span class="mv-heading-star">✦</span>
+              {{ menu_title }}
+            </h3>
 
-          <nav class="mv-footer-menu" aria-label="{{ menu_title }}">
-            {%- assign menu_links = linklists[menu_handle].links -%}
-            {%- if menu_links.size > 0 -%}
-              <ul class="mv-footer-nav-list">
-                {%- for link in menu_links -%}
+            <nav class="mv-footer-menu" aria-label="{{ menu_title }}">
+              {%- if menu_links.size > 0 -%}
+                <ul class="mv-footer-nav-list">
+                  {%- for link in menu_links -%}
+                    <li class="mv-nav-item">
+                      <a href="{{ link.url }}" class="mv-nav-link">
+                        <span class="mv-link-bullet">✦</span>
+                        <span class="mv-link-text">{{ link.title }}</span>
+                        <span class="mv-link-arrow">›</span>
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- else -%}
+                <!-- LUXURY BOTANICAL DEFAULT LINKS -->
+                <ul class="mv-footer-nav-list">
                   <li class="mv-nav-item">
-                    <a href="{{ link.url }}" class="mv-nav-link">
+                    <a href="/collections/all" class="mv-nav-link">
                       <span class="mv-link-bullet">✦</span>
-                      <span class="mv-link-text">{{ link.title }}</span>
+                      <span class="mv-link-text">Shop All</span>
                       <span class="mv-link-arrow">›</span>
                     </a>
                   </li>
-                {%- endfor -%}
-              </ul>
-            {%- else -%}
-              <!-- LUXURY BOTANICAL DEFAULT LINKS -->
-              <ul class="mv-footer-nav-list">
-                <li class="mv-nav-item">
-                  <a href="/collections/all" class="mv-nav-link">
-                    <span class="mv-link-bullet">✦</span>
-                    <span class="mv-link-text">Shop All</span>
-                    <span class="mv-link-arrow">›</span>
-                  </a>
-                </li>
-                <li class="mv-nav-item">
-                  <a href="/collections/all" class="mv-nav-link">
-                    <span class="mv-link-bullet">✦</span>
-                    <span class="mv-link-text">Best Sellers</span>
-                    <span class="mv-link-arrow">›</span>
-                  </a>
-                </li>
-                <li class="mv-nav-item">
-                  <a href="/pages/about-us" class="mv-nav-link">
-                    <span class="mv-link-bullet">✦</span>
-                    <span class="mv-link-text">Our Heritage</span>
-                    <span class="mv-link-arrow">›</span>
-                  </a>
-                </li>
-                <li class="mv-nav-item">
-                  <a href="/collections/all" class="mv-nav-link">
-                    <span class="mv-link-bullet">✦</span>
-                    <span class="mv-link-text">Daily Rituals</span>
-                    <span class="mv-link-arrow">›</span>
-                  </a>
-                </li>
-                <li class="mv-nav-item">
-                  <a href="/pages/contact" class="mv-nav-link">
-                    <span class="mv-link-bullet">✦</span>
-                    <span class="mv-link-text">Track Order</span>
-                    <span class="mv-link-arrow">›</span>
-                  </a>
-                </li>
-                <li class="mv-nav-item">
-                  <a href="/policies/privacy-policy" class="mv-nav-link">
-                    <span class="mv-link-bullet">✦</span>
-                    <span class="mv-link-text">Privacy Policy</span>
-                    <span class="mv-link-arrow">›</span>
-                  </a>
-                </li>
-                <li class="mv-nav-item">
-                  <a href="/policies/terms-of-service" class="mv-nav-link">
-                    <span class="mv-link-bullet">✦</span>
-                    <span class="mv-link-text">Terms of Service</span>
-                    <span class="mv-link-arrow">›</span>
-                  </a>
-                </li>
-                <li class="mv-nav-item">
-                  <a href="/pages/contact" class="mv-nav-link">
-                    <span class="mv-link-bullet">✦</span>
-                    <span class="mv-link-text">Contact Concierge</span>
-                    <span class="mv-link-arrow">›</span>
-                  </a>
-                </li>
-              </ul>
+                  <li class="mv-nav-item">
+                    <a href="/collections/all" class="mv-nav-link">
+                      <span class="mv-link-bullet">✦</span>
+                      <span class="mv-link-text">Best Sellers</span>
+                      <span class="mv-link-arrow">›</span>
+                    </a>
+                  </li>
+                  <li class="mv-nav-item">
+                    <a href="/pages/about-us" class="mv-nav-link">
+                      <span class="mv-link-bullet">✦</span>
+                      <span class="mv-link-text">Our Heritage</span>
+                      <span class="mv-link-arrow">›</span>
+                    </a>
+                  </li>
+                  <li class="mv-nav-item">
+                    <a href="/collections/all" class="mv-nav-link">
+                      <span class="mv-link-bullet">✦</span>
+                      <span class="mv-link-text">Daily Rituals</span>
+                      <span class="mv-link-arrow">›</span>
+                    </a>
+                  </li>
+                  <li class="mv-nav-item">
+                    <a href="/pages/contact" class="mv-nav-link">
+                      <span class="mv-link-bullet">✦</span>
+                      <span class="mv-link-text">Track Order</span>
+                      <span class="mv-link-arrow">›</span>
+                    </a>
+                  </li>
+                  <li class="mv-nav-item">
+                    <a href="/policies/privacy-policy" class="mv-nav-link">
+                      <span class="mv-link-bullet">✦</span>
+                      <span class="mv-link-text">Privacy Policy</span>
+                      <span class="mv-link-arrow">›</span>
+                    </a>
+                  </li>
+                  <li class="mv-nav-item">
+                    <a href="/policies/terms-of-service" class="mv-nav-link">
+                      <span class="mv-link-bullet">✦</span>
+                      <span class="mv-link-text">Terms of Service</span>
+                      <span class="mv-link-arrow">›</span>
+                    </a>
+                  </li>
+                  <li class="mv-nav-item">
+                    <a href="/pages/contact" class="mv-nav-link">
+                      <span class="mv-link-bullet">✦</span>
+                      <span class="mv-link-text">Contact Concierge</span>
+                      <span class="mv-link-arrow">›</span>
+                    </a>
+                  </li>
+                </ul>
+              {%- endif -%}
+            </nav>
+
+            {%- if menu_2_links.size > 0 -%}
+              <div class="mv-footer-menu-secondary" style="margin-top: 18px;">
+                <h3 class="mv-footer-heading">
+                  <span class="mv-heading-star">✦</span>
+                  {{ menu_2_title }}
+                </h3>
+                <ul class="mv-footer-nav-list">
+                  {%- for link in menu_2_links -%}
+                    <li class="mv-nav-item">
+                      <a href="{{ link.url }}" class="mv-nav-link">
+                        <span class="mv-link-bullet">✦</span>
+                        <span class="mv-link-text">{{ link.title }}</span>
+                        <span class="mv-link-arrow">›</span>
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
             {%- endif -%}
-          </nav>
-        </div>
+          </div>
 
-        <!-- COLUMN 4: INSIDER INFORMATION (NEWSLETTER - COMPACT STREAMLINED PODIUM) -->
-        <div class="mv-footer-col mv-footer-col--newsletter">
-          <div class="mv-newsletter-podium">
-            
-            <span class="mv-newsletter-kicker">✦ THE INNER CIRCLE</span>
-            <h3 class="mv-footer-heading mv-footer-heading--gold">
-              {{ newsletter_title }}
-            </h3>
-            
-            <p class="mv-newsletter-desc">
-              {{ newsletter_subtext }}
-            </p>
+          <!-- COLUMN 4: INSIDER INFORMATION (NEWSLETTER - COMPACT STREAMLINED PODIUM) -->
+          <div class="mv-footer-col mv-footer-col--newsletter">
+            <div class="mv-newsletter-podium">
+              
+              <span class="mv-newsletter-kicker">✦ THE INNER CIRCLE</span>
+              <h3 class="mv-footer-heading mv-footer-heading--gold">
+                {{ newsletter_title }}
+              </h3>
+              
+              <p class="mv-newsletter-desc">
+                {{ newsletter_subtext }}
+              </p>
 
-            <div class="mv-newsletter-form-box">
-              {%- form 'customer', id: 'mv-footer-newsletter-form', class: 'mv-newsletter-form' -%}
-                <input type="hidden" name="contact[tags]" value="newsletter,mv_insider_circle">
-                
-                {%- if form.posted_successfully? -%}
-                  <div class="mv-newsletter-success">
-                    <span class="mv-success-star">✦</span>
-                    <p class="mv-success-text">Welcome to the Inner Circle. Your invitation is on its way.</p>
-                  </div>
-                {%- else -%}
-                  <div class="mv-newsletter-capsule">
-                    <div class="mv-capsule-input-wrap">
-                      <svg class="mv-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                        <polyline points="22,6 12,13 2,6"/>
-                      </svg>
-                      <input 
-                        type="email" 
-                        name="contact[email]" 
-                        id="mv-footer-email" 
-                        class="mv-email-input" 
-                        placeholder="Enter your email address"
-                        required
-                        autocomplete="email"
-                        aria-label="Email address"
-                      >
+              <div class="mv-newsletter-form-box">
+                {%- form 'customer', id: 'mv-footer-newsletter-form', class: 'mv-newsletter-form' -%}
+                  <input type="hidden" name="contact[tags]" value="newsletter,mv_insider_circle">
+                  
+                  {%- if form.posted_successfully? -%}
+                    <div class="mv-newsletter-success">
+                      <span class="mv-success-star">✦</span>
+                      <p class="mv-success-text">Welcome to the Inner Circle. Your invitation is on its way.</p>
+                    </div>
+                  {%- else -%}
+                    <div class="mv-newsletter-capsule">
+                      <div class="mv-capsule-input-wrap">
+                        <svg class="mv-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                          <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <input 
+                          type="email" 
+                          name="contact[email]" 
+                          id="mv-footer-email" 
+                          class="mv-email-input" 
+                          placeholder="Enter your email address"
+                          required
+                          autocomplete="email"
+                          aria-label="Email address"
+                        >
+                      </div>
+
+                      <button type="submit" class="mv-newsletter-btn" aria-label="Subscribe to newsletter">
+                        <span class="mv-btn-shimmer"></span>
+                        <span class="mv-btn-text">JOIN CIRCLE</span>
+                        <span class="mv-btn-icon">→</span>
+                      </button>
                     </div>
 
-                    <button type="submit" class="mv-newsletter-btn" aria-label="Subscribe to newsletter">
-                      <span class="mv-btn-shimmer"></span>
-                      <span class="mv-btn-text">JOIN CIRCLE</span>
-                      <span class="mv-btn-icon">→</span>
-                    </button>
-                  </div>
-
-                  {%- if form.errors -%}
-                    <p class="mv-newsletter-error">
-                      {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
-                    </p>
+                    {%- if form.errors -%}
+                      <p class="mv-newsletter-error">
+                        {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+                      </p>
+                    {%- endif -%}
                   {%- endif -%}
-                {%- endif -%}
-              {%- endform -%}
-            </div>
+                {%- endform -%}
+              </div>
 
-            <div class="mv-newsletter-perks">
-              <span class="mv-perk-item">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                Spam-free assurance
-              </span>
-              <span class="mv-perk-item">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-                15% VIP welcome reward
-              </span>
-            </div>
+              <div class="mv-newsletter-perks">
+                <span class="mv-perk-item">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Spam-free assurance
+                </span>
+                <span class="mv-perk-item">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  15% VIP welcome reward
+                </span>
+              </div>
 
+            </div>
           </div>
-        </div>
 
-      </div>
+        </div>
+      {%- endif -%}
     </div>
   </footer>
 
@@ -648,7 +946,8 @@
 
   /* 2. MAIN FOOTER GRID (TIGHTENED VERTICAL PADDING) */
   .mv-footer-main {
-    padding: clamp(28px, 3.5vw, 40px) 0 clamp(20px, 2.5vw, 28px) 0;
+    padding-top: var(--mv-footer-pt, clamp(28px, 3.5vw, 40px));
+    padding-bottom: var(--mv-footer-pb, clamp(20px, 2.5vw, 28px));
   }
 
   /* BALANCED 4-COLUMN DISTRIBUTION - STRETCHES FULL WIDTH */
@@ -760,7 +1059,7 @@
   }
 
   .mv-footer-tagline {
-    font-size: 0.82rem;
+    font-size: var(--mv-f-body-desktop, 0.82rem);
     line-height: 1.58;
     color: var(--mv-f-text-secondary);
     margin: 0 0 14px 0;
@@ -797,7 +1096,7 @@
   /* HEADINGS (TIGHT SPACING) */
   .mv-footer-heading {
     font-family: 'Marcellus', serif;
-    font-size: 1.05rem;
+    font-size: var(--mv-f-heading-desktop, 1.05rem);
     letter-spacing: 0.12em;
     color: var(--mv-f-text-primary);
     margin: 0 0 16px 0;
@@ -962,9 +1261,9 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: var(--mv-f-text-secondary);
+    color: var(--mv-f-link-color, var(--mv-f-text-secondary));
     text-decoration: none;
-    font-size: 0.84rem;
+    font-size: var(--mv-f-link-desktop, 0.84rem);
     letter-spacing: 0.02em;
     position: relative;
     padding: 2px 0;
@@ -1003,7 +1302,7 @@
   }
 
   .mv-nav-link:hover {
-    color: var(--mv-f-gold-dark);
+    color: var(--mv-f-link-hover, var(--mv-f-gold-dark));
     transform: translateX(5px);
   }
 
@@ -1433,7 +1732,8 @@
     }
 
     .mv-footer-main {
-      padding: 26px 0 20px 0;
+      padding-top: var(--mv-footer-pt-mobile, 26px);
+      padding-bottom: var(--mv-footer-pb-mobile, 20px);
     }
 
     .mv-footer-grid {
@@ -1472,6 +1772,7 @@
     }
 
     .mv-footer-brand-stage .mv-footer-tagline {
+      font-size: var(--mv-f-body-mobile, 0.80rem);
       text-align: center !important;
       margin: 0 auto 16px auto !important;
       max-width: 380px !important;
@@ -1483,7 +1784,7 @@
     }
 
     .mv-footer-heading {
-      font-size: 1rem;
+      font-size: var(--mv-f-heading-mobile, 1rem);
       margin-bottom: 12px;
     }
 
@@ -1495,6 +1796,10 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 8px 12px;
+    }
+
+    .mv-nav-link {
+      font-size: var(--mv-f-link-mobile, 0.82rem);
     }
 
     .mv-newsletter-podium {
@@ -1558,44 +1863,202 @@
   "settings": [
     {
       "type": "header",
-      "content": "Color Theme"
+      "content": "Color Theme & Palette"
     },
     {
       "type": "select",
       "id": "color_scheme",
-      "label": "Footer Color Palette",
+      "label": "Footer Color Scheme",
       "options": [
-        {
-          "value": "pure_white_gold",
-          "label": "Pure White & 24K Gold"
-        },
-        {
-          "value": "cashmere_ivory",
-          "label": "Cashmere Ivory & Gold"
-        },
-        {
-          "value": "obsidian_gold",
-          "label": "Royal Obsidian & Gold"
-        }
+        { "value": "pure_white_gold", "label": "Pure White & 24K Gold" },
+        { "value": "cashmere_ivory", "label": "Cashmere Ivory & Gold" },
+        { "value": "obsidian_gold", "label": "Royal Obsidian & Gold" },
+        { "value": "custom", "label": "Custom Luxury Palette" }
       ],
       "default": "pure_white_gold"
     },
     {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom Background Color",
+      "default": "#FAF8F5"
+    },
+    {
+      "type": "color",
+      "id": "custom_heading_color",
+      "label": "Custom Heading Color",
+      "default": "#0E281F"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text / Body Color",
+      "default": "#696054"
+    },
+    {
+      "type": "color",
+      "id": "custom_link_color",
+      "label": "Custom Link Color",
+      "default": "#4A4238"
+    },
+    {
+      "type": "color",
+      "id": "custom_link_hover_color",
+      "label": "Custom Link Hover Color",
+      "default": "#C99E3E"
+    },
+    {
+      "type": "color",
+      "id": "custom_accent_gold",
+      "label": "Custom Accent Gold Color",
+      "default": "#C99E3E"
+    },
+    {
+      "type": "color",
+      "id": "bottom_bar_bg",
+      "label": "Bottom Bar Background",
+      "default": "#0E281F"
+    },
+    {
       "type": "header",
-      "content": "Brand Identity"
+      "content": "Typography (Desktop & Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 13,
+      "max": 26,
+      "step": 1,
+      "unit": "px",
+      "label": "Column Heading Size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Column Heading Size (Mobile)",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "link_size_desktop",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Menu Link Size (Desktop)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "link_size_mobile",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Menu Link Size (Mobile)",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "body_size_desktop",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Tagline / Body Size (Desktop)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "body_size_mobile",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Tagline / Body Size (Mobile)",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Section Dimensions & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Top Padding (Desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom Padding (Desktop)",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 15,
+      "max": 85,
+      "step": 1,
+      "unit": "px",
+      "label": "Top Padding (Mobile)",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 15,
+      "max": 85,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom Padding (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Pre-Footer Trust Strip"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_strip",
+      "label": "Show Pre-Footer Trust Strip",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Brand Identity (Column 1)"
     },
     {
       "type": "image_picker",
       "id": "brand_image",
-      "label": "Brand Logo or Tagline Image"
+      "label": "Brand Logo (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_brand_image",
+      "label": "Brand Logo (Mobile Optional)"
     },
     {
       "type": "range",
       "id": "logo_width",
-      "label": "Logo Width (px)",
+      "label": "Logo Max Width (px)",
       "min": 120,
       "max": 350,
       "step": 10,
+      "unit": "px",
       "default": 220
     },
     {
@@ -1609,20 +2072,14 @@
       "id": "brand_alignment",
       "label": "Brand Alignment",
       "options": [
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "left",
-          "label": "Left"
-        }
+        { "value": "center", "label": "Center" },
+        { "value": "left", "label": "Left" }
       ],
       "default": "center"
     },
     {
       "type": "header",
-      "content": "Contact Us (Concierge)"
+      "content": "Contact Us (Column 2)"
     },
     {
       "type": "text",
@@ -1645,18 +2102,12 @@
     {
       "type": "text",
       "id": "contact_hours",
-      "label": "Support Hours",
+      "label": "Concierge Support Hours",
       "default": "Mon – Sat: 10:00 AM – 7:00 PM IST"
     },
     {
       "type": "header",
-      "content": "Social Media Links"
-    },
-    {
-      "type": "text",
-      "id": "social_facebook",
-      "label": "Facebook URL",
-      "default": "https://www.facebook.com/myraveda?mibextid=LQQJ4d"
+      "content": "Social Media Channels"
     },
     {
       "type": "text",
@@ -1666,9 +2117,9 @@
     },
     {
       "type": "text",
-      "id": "social_twitter",
-      "label": "Twitter / X URL",
-      "default": "https://twitter.com/myravedaluxury?s=11&t=_1FLY9NLg9lMj-gnf1OCnw"
+      "id": "social_facebook",
+      "label": "Facebook URL",
+      "default": "https://www.facebook.com/myraveda?mibextid=LQQJ4d"
     },
     {
       "type": "text",
@@ -1677,23 +2128,42 @@
       "default": "https://youtube.com/@myravedaluxuryessentials9186"
     },
     {
+      "type": "text",
+      "id": "social_twitter",
+      "label": "Twitter / X URL",
+      "default": "https://twitter.com/myravedaluxury?s=11&t=_1FLY9NLg9lMj-gnf1OCnw"
+    },
+    {
       "type": "header",
-      "content": "Navigation Menu"
+      "content": "Shopify Navigation Menus (Column 3)"
     },
     {
       "type": "text",
       "id": "menu_title",
-      "label": "Menu Heading",
+      "label": "Primary Menu Heading",
       "default": "QUICK LINKS"
     },
     {
       "type": "link_list",
       "id": "menu",
-      "label": "Select Menu"
+      "label": "Primary Navigation Menu",
+      "info": "Select any menu created in Shopify Navigation (Online Store > Navigation)"
+    },
+    {
+      "type": "text",
+      "id": "menu_2_title",
+      "label": "Secondary Menu Heading (Optional)",
+      "default": "CUSTOMER CARE"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Secondary Navigation Menu (Optional)",
+      "info": "Optionally select a secondary menu for customer policies or legal pages"
     },
     {
       "type": "header",
-      "content": "Insider Information (Newsletter)"
+      "content": "Insider Information Newsletter (Column 4)"
     },
     {
       "type": "text",
@@ -1709,25 +2179,7 @@
     },
     {
       "type": "header",
-      "content": "Pillars & Extras"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_trust_strip",
-      "label": "Show Luxury Trust Strip (Pre-Footer)",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "Show Payment Badges",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_back_to_top",
-      "label": "Show Back-to-Top Button",
-      "default": true
+      "content": "Footer Bottom Bar"
     },
     {
       "type": "text",
@@ -1740,6 +2192,170 @@
       "id": "craft_credit",
       "label": "Craft Credit",
       "default": "Designed & Developed by Scraft Studio"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show Payment Badges",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_back_to_top",
+      "label": "Show Back-to-Top Button",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Navigation Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Menu Heading",
+          "default": "QUICK LINKS"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Select Shopify Menu",
+          "info": "Select any menu from Shopify Navigation"
+        }
+      ]
+    },
+    {
+      "type": "brand",
+      "name": "Brand / About",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "brand_image",
+          "label": "Brand Logo (Desktop)"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_brand_image",
+          "label": "Brand Logo (Mobile)"
+        },
+        {
+          "type": "range",
+          "id": "logo_width",
+          "label": "Logo Max Width (px)",
+          "min": 120,
+          "max": 350,
+          "step": 10,
+          "unit": "px",
+          "default": 220
+        },
+        {
+          "type": "textarea",
+          "id": "brand_tagline",
+          "label": "Tagline / Description",
+          "default": "World's First Sustainable Clean-Beauty Brand. Handcrafted Ayurvedic formulations merging sacred Vedic herbs with European dermatological science."
+        },
+        {
+          "type": "select",
+          "id": "brand_alignment",
+          "label": "Alignment",
+          "options": [
+            { "value": "center", "label": "Center" },
+            { "value": "left", "label": "Left" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_creds",
+          "label": "Show Trust Pills (Cruelty-Free, Vegetarian)",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "name": "Contact & Concierge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "CONTACT US"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone Number",
+          "default": "+91-9137254894"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email Address",
+          "default": "connect@myravedaluxury.com"
+        },
+        {
+          "type": "text",
+          "id": "hours",
+          "label": "Support Hours",
+          "default": "Mon – Sat: 10:00 AM – 7:00 PM IST"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social",
+          "label": "Show Social Media Icons",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter Podium",
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker / Eyebrow",
+          "default": "✦ THE INNER CIRCLE"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "INSIDER INFORMATION"
+        },
+        {
+          "type": "textarea",
+          "id": "subtext",
+          "label": "Description",
+          "default": "Subscribe to receive invitations to private botanical harvests, VIP ritual previews, and 15% off your first order."
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Label",
+          "default": "JOIN CIRCLE"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Custom Rich Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "OUR PHILOSOPHY"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Discover the rare purity of certified organic botanical extracts, sustainably cultivated for radiant skin wellness.</p>"
+        }
+      ]
     }
   ],
   "presets": [

@@ -9,6 +9,24 @@
 {% liquid
   assign block_settings = block.settings
   assign effective_submenu_color = block_settings.background_color | default: settings.page_background_color
+
+  # Resolve the menu from block settings, section settings, or Shopify linklists
+  assign raw_menu = block_settings.menu
+  if raw_menu == blank or raw_menu.links.size == 0
+    if section.settings.menu != blank
+      assign raw_menu = section.settings.menu
+    endif
+  endif
+  if raw_menu == blank or raw_menu.links.size == 0
+    assign raw_menu = linklists[block_settings.menu]
+  endif
+  if raw_menu == blank or raw_menu.links.size == 0
+    assign raw_menu = linklists[section.settings.menu]
+  endif
+  if raw_menu == blank or raw_menu.links.size == 0
+    assign raw_menu = linklists['main-menu']
+  endif
+  assign header_nav_menu = raw_menu
 %}
 
 {% case variant %}
@@ -20,7 +38,7 @@
       {{ block.shopify_attributes }}
     >
       {% render 'header-drawer',
-        linklist: block_settings.menu,
+        linklist: header_nav_menu,
         data_header_drawer_type: 'mobile-drawer',
         block: block,
         section: section
@@ -45,7 +63,7 @@
             class="menu-list__list list-unstyled"
             role="list"
           >
-            {% for link in block_settings.menu.links %}
+            {% for link in header_nav_menu.links %}
               <li>
                 <a
                   href="{{ link.url }}"
@@ -93,7 +111,7 @@
     %}
 
     {% capture children %}
-      {% for link in block_settings.menu.links %}
+      {% for link in header_nav_menu.links %}
         <li
           class="menu-list__list-item"
           on:blur="/deactivate"

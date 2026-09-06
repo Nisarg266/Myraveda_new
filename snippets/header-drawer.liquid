@@ -18,6 +18,14 @@
   assign max_featured_items = 4
   assign image_border_radius = block_settings.image_border_radius
 
+  if linklist.links == blank or linklist.links.size == 0
+    if linklists[linklist].links.size > 0
+      assign linklist = linklists[linklist]
+    elsif linklists['main-menu'].links.size > 0
+      assign linklist = linklists['main-menu']
+    endif
+  endif
+
   if block_settings.menu_style == 'featured_collections'
     assign ratio = block_settings.featured_collections_aspect_ratio
   elsif block_settings.menu_style == 'featured_products'
