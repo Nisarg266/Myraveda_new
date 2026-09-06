@@ -141,7 +141,21 @@
         .header-drawer--mobile,
         .menu-drawer-container,
         details.menu-drawer-container {
-          z-index: 999999 !important;
+          z-index: 2147483647 !important;
+        }
+        body.menu-drawer-open [id*="header_announcements"],
+        body.menu-drawer-open .announcement-bar,
+        body:has(.menu-drawer-container[open]) [id*="header_announcements"],
+        body:has(.menu-drawer-container[open]) .announcement-bar {
+          opacity: 0 !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+          z-index: -1 !important;
+        }
+        body.menu-drawer-open #shopify-section-header_section,
+        body:has(.menu-drawer-container[open]) #shopify-section-header_section {
+          z-index: 2147483647 !important;
+          position: relative !important;
         }
         .menu-drawer {
           position: fixed !important;
@@ -150,12 +164,28 @@
           height: 100dvh !important;
           height: 100vh !important;
           max-height: 100dvh !important;
-          z-index: 999999 !important;
+          z-index: 2147483647 !important;
+          overflow-y: auto !important;
+          overflow-x: hidden !important;
+          -webkit-overflow-scrolling: touch !important;
         }
         .menu-drawer__backdrop {
           position: fixed !important;
           inset: 0 !important;
-          z-index: 999998 !important;
+          z-index: 2147483646 !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+          display: none !important;
+        }
+        details.menu-open .menu-drawer__backdrop,
+        details[open] .menu-drawer__backdrop,
+        .menu-open .menu-drawer__backdrop,
+        body.menu-drawer-open .menu-drawer__backdrop {
+          display: block !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          pointer-events: auto !important;
         }
       }
     </style>

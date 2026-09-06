@@ -86,6 +86,8 @@ class HeaderDrawer extends Component {
     this.preventInitialAccordionAnimations(details);
     requestAnimationFrame(() => {
       details.classList.add('menu-open');
+      document.body.classList.add('menu-drawer-open');
+      document.documentElement.classList.add('menu-drawer-open');
 
       if (target) {
         this.refs.menuDrawer.classList.add('menu-drawer--has-submenu-opened');
@@ -124,6 +126,8 @@ class HeaderDrawer extends Component {
 
     summary.setAttribute('aria-expanded', 'false');
     details.classList.remove('menu-open');
+    document.body.classList.remove('menu-drawer-open');
+    document.documentElement.classList.remove('menu-drawer-open');
     this.refs.menuDrawer.classList.remove('menu-drawer--has-submenu-opened');
 
     // Wait for the .menu-drawer element's transition, not the entire details subtree

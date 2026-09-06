@@ -10,23 +10,74 @@
   assign block_settings = block.settings
   assign effective_submenu_color = block_settings.background_color | default: settings.page_background_color
 
-  # Resolve the menu from block settings, section settings, or Shopify linklists
-  assign raw_menu = block_settings.menu
-  if raw_menu == blank or raw_menu.links.size == 0
-    if section.settings.menu != blank
-      assign raw_menu = section.settings.menu
+  # Safely extract string handles from settings (handling both LinklistDrop objects and strings)
+  assign block_menu_handle = ''
+  if block.settings.menu != blank
+    if block.settings.menu.handle != blank
+      assign block_menu_handle = block.settings.menu.handle
+    else
+      assign block_menu_handle = block.settings.menu | strip
     endif
   endif
-  if raw_menu == blank or raw_menu.links.size == 0
-    assign raw_menu = linklists[block_settings.menu]
+
+  assign section_menu_handle = ''
+  if section.settings.menu != blank
+    if section.settings.menu.handle != blank
+      assign section_menu_handle = section.settings.menu.handle
+    else
+      assign section_menu_handle = section.settings.menu | strip
+    endif
   endif
-  if raw_menu == blank or raw_menu.links.size == 0
-    assign raw_menu = linklists[section.settings.menu]
+
+  assign chosen_handle = ''
+
+  # 1. Did the merchant change block_settings.menu to something other than 'main-menu'?
+  if block_menu_handle != blank and block_menu_handle != 'main-menu'
+    assign chosen_handle = block_menu_handle
+  # 2. Did the merchant change section.settings.menu to something other than 'main-menu'?
+  elsif section_menu_handle != blank and section_menu_handle != 'main-menu'
+    assign chosen_handle = section_menu_handle
+  # 3. Check if the store has a 'mega-menu' in Shopify Navigation (like in Myra Veda's store)
+  elsif linklists['mega-menu'] != blank and linklists['mega-menu'].links.size > 0
+    assign chosen_handle = 'mega-menu'
+  # 4. Check block_menu_handle
+  elsif block_menu_handle != blank
+    assign chosen_handle = block_menu_handle
+  # 5. Check section_menu_handle
+  elsif section_menu_handle != blank
+    assign chosen_handle = section_menu_handle
+  else
+    assign chosen_handle = 'main-menu'
   endif
-  if raw_menu == blank or raw_menu.links.size == 0
-    assign raw_menu = linklists['main-menu']
+
+  # Resolve linklist object
+  assign header_nav_menu = linklists[chosen_handle]
+
+  # If chosen_handle had no links, try mega-menu
+  if header_nav_menu == blank or header_nav_menu.links.size == 0
+    if linklists['mega-menu'] != blank and linklists['mega-menu'].links.size > 0
+      assign header_nav_menu = linklists['mega-menu']
+    endif
   endif
-  assign header_nav_menu = raw_menu
+
+  # If still no links, try section_menu_handle
+  if header_nav_menu == blank or header_nav_menu.links.size == 0
+    if section_menu_handle != blank and linklists[section_menu_handle] != blank and linklists[section_menu_handle].links.size > 0
+      assign header_nav_menu = linklists[section_menu_handle]
+    endif
+  endif
+
+  # If still no links, try block_menu_handle
+  if header_nav_menu == blank or header_nav_menu.links.size == 0
+    if block_menu_handle != blank and linklists[block_menu_handle] != blank and linklists[block_menu_handle].links.size > 0
+      assign header_nav_menu = linklists[block_menu_handle]
+    endif
+  endif
+
+  # Final fallback to main-menu
+  if header_nav_menu == blank or header_nav_menu.links.size == 0
+    assign header_nav_menu = linklists['main-menu']
+  endif
 %}
 
 {% case variant %}

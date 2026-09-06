@@ -23,7 +23,7 @@
             "button_label": "Shop Now",
             "link": "shopify://products/myra-veda-pure-rose-water-100ml",
             "secondary_button_label": "Explore Ritual",
-            "secondary_link": ""
+            "secondary_link": "shopify://products/myra-veda-pure-rose-water-100ml"
           }
         },
         "slide_essential_oils": {
@@ -37,7 +37,7 @@
             "button_label": "Learn More",
             "link": "shopify://collections/essential-oils",
             "secondary_button_label": "Explore Ritual",
-            "secondary_link": ""
+            "secondary_link": "shopify://collections/essential-oils"
           }
         },
         "slide_hair_oil": {
@@ -51,7 +51,7 @@
             "button_label": "Show More",
             "link": "shopify://products/milk-therapy-hair-oil-with-lavender-tea-tree-and-rosemary",
             "secondary_button_label": "Explore Ritual",
-            "secondary_link": ""
+            "secondary_link": "shopify://products/milk-therapy-hair-oil-with-lavender-tea-tree-and-rosemary"
           }
         },
         "slide_gift_hampers": {
@@ -65,7 +65,7 @@
             "button_label": "Shop Now",
             "link": "shopify://collections/gift",
             "secondary_button_label": "Explore Ritual",
-            "secondary_link": ""
+            "secondary_link": "shopify://collections/gift"
           }
         }
       },

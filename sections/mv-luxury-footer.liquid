@@ -11,8 +11,8 @@
 {% endcomment %}
 
 {%- liquid
-  assign brand_logo = section.settings.brand_image
-  assign mobile_brand_logo = section.settings.mobile_brand_image
+  assign brand_logo = section.settings.brand_image | default: settings.logo
+  assign mobile_brand_logo = section.settings.mobile_brand_image | default: settings.logo
   assign brand_tagline = section.settings.brand_tagline
   assign brand_align = section.settings.brand_alignment | default: 'center'
   assign contact_title = section.settings.contact_title | default: 'CONTACT US'

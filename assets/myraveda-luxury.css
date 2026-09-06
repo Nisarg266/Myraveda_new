@@ -3432,8 +3432,28 @@ scroll-hint.cart-drawer__content::part(scrollbar),
   .header-drawer,
   .header-drawer--mobile,
   .menu-drawer-container {
-    z-index: 999999 !important;
+    z-index: 2147483647 !important;
   }
+}
+
+/* Hide announcement bar when mobile drawer is open so drawer header is never cut off */
+body.menu-drawer-open [id*="header_announcements"],
+body.menu-drawer-open .announcement-bar,
+body:has(.menu-drawer-container[open]) [id*="header_announcements"],
+body:has(.menu-drawer-container[open]) .announcement-bar,
+body:has(.menu-open) [id*="header_announcements"],
+body:has(.menu-open) .announcement-bar {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+body.menu-drawer-open #shopify-section-header_section,
+body:has(.menu-drawer-container[open]) #shopify-section-header_section,
+body:has(.menu-open) #shopify-section-header_section {
+  z-index: 2147483647 !important;
+  position: relative !important;
 }
 
 /* 2. Menu Drawer Frame & Backdrop */
@@ -3449,11 +3469,13 @@ scroll-hint.cart-drawer__content::part(scrollbar),
   background: #FAF8F5 !important;
   border-right: 1.5px solid #D4AF37 !important;
   box-shadow: 10px 0 40px rgba(14, 40, 31, 0.22) !important;
-  z-index: 999999 !important;
+  z-index: 2147483647 !important;
   display: flex !important;
   flex-direction: column !important;
   padding: 0 !important;
-  overflow: hidden !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
 }
 
 .menu-drawer__backdrop {
@@ -3465,11 +3487,37 @@ scroll-hint.cart-drawer__content::part(scrollbar),
   background: rgba(14, 40, 31, 0.6) !important;
   backdrop-filter: blur(4px) !important;
   -webkit-backdrop-filter: blur(4px) !important;
-  z-index: 999998 !important;
+  z-index: 2147483646 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  display: none !important;
+  transition: opacity 0.3s ease, visibility 0.3s ease !important;
+}
+
+.menu-open .menu-drawer__backdrop,
+details.menu-open > .menu-drawer__backdrop,
+details[open] .menu-drawer__backdrop,
+body.menu-drawer-open .menu-drawer__backdrop {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+details:not(.menu-open) .menu-drawer__backdrop,
+details:not([open]) .menu-drawer__backdrop {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 /* 3. Luxury Drawer Top Header Bar */
 .menu-drawer__top-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -3485,6 +3533,18 @@ scroll-hint.cart-drawer__content::part(scrollbar),
   align-items: center !important;
   gap: 8px !important;
   text-decoration: none !important;
+  max-width: calc(100% - 50px) !important;
+  height: auto !important;
+}
+
+.menu-drawer__logo-image {
+  height: auto !important;
+  max-height: 38px !important;
+  width: auto !important;
+  max-width: 180px !important;
+  object-fit: contain !important;
+  display: block !important;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .menu-drawer__brand-star {
@@ -3584,76 +3644,9 @@ scroll-hint.cart-drawer__content::part(scrollbar),
   color: #C99E3E;
 }
 
-/* 6. Mid-Section Luxury Concierge Card */
+/* 6. Concierge Card (Removed as requested) */
 .menu-drawer__concierge-card {
-  margin: 18px 20px 14px 20px !important;
-  padding: 14px 16px !important;
-  background: #FFFFFF !important;
-  border: 1px solid rgba(201, 158, 62, 0.3) !important;
-  border-radius: 10px !important;
-  box-shadow: 0 4px 14px rgba(14, 40, 31, 0.04) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 10px !important;
-}
-
-.menu-drawer__concierge-row {
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-}
-
-.menu-drawer__concierge-icon {
-  color: #C99E3E !important;
-  font-size: 1.1rem !important;
-}
-
-.menu-drawer__concierge-info {
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.menu-drawer__concierge-label {
-  font-family: 'Cinzel', serif !important;
-  font-size: 0.64rem !important;
-  letter-spacing: 0.2em !important;
-  color: #9E7429 !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-}
-
-.menu-drawer__concierge-link {
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.85rem !important;
-  font-weight: 700 !important;
-  color: #0E281F !important;
-  text-decoration: none !important;
-  transition: color 0.2s ease !important;
-}
-
-.menu-drawer__concierge-link:hover {
-  color: #C99E3E !important;
-}
-
-.menu-drawer__concierge-pills {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 6px !important;
-  padding-top: 8px !important;
-  border-top: 1px solid rgba(212, 175, 55, 0.15) !important;
-}
-
-.menu-drawer__pill {
-  font-family: 'Cinzel', serif !important;
-  font-size: 0.58rem !important;
-  letter-spacing: 0.08em !important;
-  font-weight: 600 !important;
-  color: #9E7429 !important;
-  background: #FAF8F5 !important;
-  border: 1px solid rgba(201, 158, 62, 0.25) !important;
-  padding: 2px 7px !important;
-  border-radius: 999px !important;
-  text-transform: uppercase !important;
+  display: none !important;
 }
 
 /* 7. Featured Bestsellers Section at the Bottom */

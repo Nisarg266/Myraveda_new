@@ -18,9 +18,35 @@
   assign max_featured_items = 4
   assign image_border_radius = block_settings.image_border_radius
 
+  assign block_menu_handle = ''
+  if block.settings.menu != blank
+    if block.settings.menu.handle != blank
+      assign block_menu_handle = block.settings.menu.handle
+    else
+      assign block_menu_handle = block.settings.menu | strip
+    endif
+  endif
+
+  assign section_menu_handle = ''
+  if section.settings.menu != blank
+    if section.settings.menu.handle != blank
+      assign section_menu_handle = section.settings.menu.handle
+    else
+      assign section_menu_handle = section.settings.menu | strip
+    endif
+  endif
+
   if linklist.links == blank or linklist.links.size == 0
-    if linklists[linklist].links.size > 0
+    if linklist != blank and linklist.handle != blank and linklists[linklist.handle].links.size > 0
+      assign linklist = linklists[linklist.handle]
+    elsif linklist != blank and linklists[linklist].links.size > 0
       assign linklist = linklists[linklist]
+    elsif block_menu_handle != blank and block_menu_handle != 'main-menu' and linklists[block_menu_handle].links.size > 0
+      assign linklist = linklists[block_menu_handle]
+    elsif section_menu_handle != blank and section_menu_handle != 'main-menu' and linklists[section_menu_handle].links.size > 0
+      assign linklist = linklists[section_menu_handle]
+    elsif linklists['mega-menu'] != blank and linklists['mega-menu'].links.size > 0
+      assign linklist = linklists['mega-menu']
     elsif linklists['main-menu'].links.size > 0
       assign linklist = linklists['main-menu']
     endif
@@ -91,8 +117,21 @@
     >
       <div class="menu-drawer__top-header">
         <a href="{{ routes.root_url }}" class="menu-drawer__brand-badge" aria-label="{{ shop.name }}">
-          <span class="menu-drawer__brand-star">✦</span>
-          <span class="menu-drawer__brand-title">MYRA VEDA</span>
+          {%- assign drawer_logo = settings.logo | default: shop.brand.logo -%}
+          {%- if drawer_logo != blank -%}
+            {%- assign drawer_logo_height = settings.logo_height_mobile | default: 34 -%}
+            {%- assign drawer_logo_alt = drawer_logo.alt | default: shop.name | escape -%}
+            {% render 'image',
+              image: drawer_logo,
+              class: 'menu-drawer__logo-image',
+              height: drawer_logo_height,
+              alt_text_fallback: drawer_logo_alt,
+              text_fallback: shop.name
+            %}
+          {%- else -%}
+            <span class="menu-drawer__brand-star">✦</span>
+            <span class="menu-drawer__brand-title">{{ shop.name }}</span>
+          {%- endif -%}
         </a>
         <button
           class="button close-button menu-drawer__close-button focus-inset"
@@ -611,19 +650,7 @@
         class="menu-drawer__utility-links menu-drawer__animated-element"
         style="--menu-drawer-animation-index: {{ linklist.links.size }};"
       >
-        <div class="menu-drawer__concierge-card">
-          <div class="menu-drawer__concierge-row">
-            <span class="menu-drawer__concierge-icon">✦</span>
-            <div class="menu-drawer__concierge-info">
-              <span class="menu-drawer__concierge-label">LUXURY CONCIERGE</span>
-              <a href="tel:+919137254894" class="menu-drawer__concierge-link">+91 9137254894</a>
-            </div>
-          </div>
-          <div class="menu-drawer__concierge-pills">
-            <span class="menu-drawer__pill">✦ 100% VEGETARIAN</span>
-            <span class="menu-drawer__pill">✦ PETA CRUELTY-FREE</span>
-          </div>
-        </div>
+
         {% liquid
           assign show_language = section.settings.show_language
           if localization.available_languages.size <= 1
@@ -949,11 +976,21 @@
     backdrop-filter: brightness(0.75);
     z-index: var(--layer-overlay);
     opacity: 0;
-    transition: opacity var(--drawer-animation-speed) ease;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity var(--drawer-animation-speed) ease, visibility var(--drawer-animation-speed) ease;
 
     .menu-open & {
       opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
     }
+  }
+
+  details:not(.menu-open) .menu-drawer__backdrop,
+  details:not([open]) .menu-drawer__backdrop {
+    display: none !important;
+    pointer-events: none !important;
   }
 
   .menu-drawer,
