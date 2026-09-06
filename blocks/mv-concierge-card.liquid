@@ -1,0 +1,142 @@
+{%- doc -%}
+  Renders a VIP Concierge Consultation Box for product pages.
+{%- enddoc -%}
+
+{%- liquid
+  assign block_settings = block.settings
+  assign phone_clean = block_settings.phone | default: '+91 9137254894' | replace: ' ', '' | replace: '-', ''
+-%}
+
+<div
+  class="mv-product-concierge-card"
+  style="
+    --mv-cc-bg: {{ block_settings.bg_color | default: '#FFFFFF' }};
+    --mv-cc-border: {{ block_settings.border_color | default: 'rgba(201, 158, 62, 0.4)' }};
+    --mv-cc-gold: {{ block_settings.gold_color | default: '#C99E3E' }};
+    margin-top: {{ block_settings.margin_top | default: 16 }}px;
+    margin-bottom: {{ block_settings.margin_bottom | default: 16 }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  <div class="mv-concierge-card-inner">
+    <div class="mv-concierge-icon-col">
+      <span class="mv-concierge-emblem">✦</span>
+    </div>
+    <div class="mv-concierge-text-col">
+      <span class="mv-concierge-eyebrow">{{ block_settings.eyebrow | default: 'RITUAL & GIFTING CONCIERGE' }}</span>
+      <h4 class="mv-concierge-title">{{ block_settings.title | default: 'Personal Ayurvedic Consultation' }}</h4>
+      <p class="mv-concierge-desc">{{ block_settings.desc | default: 'Connect with our ritual advisors for bespoke regimen advice & bespoke gift packaging.' }}</p>
+      
+      <div class="mv-concierge-actions">
+        {%- if block_settings.whatsapp != blank -%}
+          <a
+            href="https://wa.me/{{ block_settings.whatsapp | replace: '+', '' | replace: ' ', '' | replace: '-', '' }}?text={{ 'Hello Myra Veda, I would like consultation on: ' | append: product.title | url_encode }}"
+            class="mv-concierge-action-btn mv-concierge-wa"
+            target="_blank"
+            rel="noopener"
+          >
+            <span>💬 WhatsApp Concierge</span>
+          </a>
+        {%- endif -%}
+
+        {%- if block_settings.phone != blank -%}
+          <a
+            href="tel:{{ phone_clean }}"
+            class="mv-concierge-action-btn mv-concierge-call"
+          >
+            <span>📞 Call {{ block_settings.phone }}</span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if block_settings.hours != blank -%}
+        <span class="mv-concierge-hours">✦ Available: {{ block_settings.hours }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Concierge Card",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "RITUAL & GIFTING CONCIERGE"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Concierge Heading",
+      "default": "Personal Ayurvedic Consultation"
+    },
+    {
+      "type": "textarea",
+      "id": "desc",
+      "label": "Description Text",
+      "default": "Connect with our ritual advisors for bespoke regimen advice & bespoke gift packaging."
+    },
+    {
+      "type": "text",
+      "id": "whatsapp",
+      "label": "WhatsApp Number (with country code)",
+      "default": "+919137254894"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Direct Call Number",
+      "default": "+91 9137254894"
+    },
+    {
+      "type": "text",
+      "id": "hours",
+      "label": "Concierge Hours",
+      "default": "Mon – Sat: 10:00 AM – 7:00 PM IST"
+    },
+    {
+      "type": "header",
+      "content": "Color & Margins"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Card Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Gold Accent Border",
+      "default": "rgba(201, 158, 62, 0.4)"
+    },
+    {
+      "type": "color",
+      "id": "gold_color",
+      "label": "Emblem Gold Accent",
+      "default": "#C99E3E"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Top Margin (px)",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Bottom Margin (px)",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "default": 16
+    }
+  ]
+}
+{% endschema %}

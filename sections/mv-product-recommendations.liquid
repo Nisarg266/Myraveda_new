@@ -1,0 +1,248 @@
+{%- comment -%}
+  MYRA VEDA LUXURY ESSENTIALS - BESPOKE PRODUCT RECOMMENDATIONS
+  "Complete Your Sacred Ritual" - Curated Botanical Pairings
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign scheme_class = 'mv-scheme--' | append: s.color_scheme
+  assign recommendations_product = product | default: closest.product
+-%}
+
+<section
+  id="mv-recommendations-{{ section.id }}"
+  class="mv-product-recommendations-section {{ scheme_class }}"
+  style="
+    --mv-rec-pt: {{ s.padding_block_start | default: 60 }}px;
+    --mv-rec-pb: {{ s.padding_block_end | default: 60 }}px;
+    --mv-rec-pt-mob: {{ s.padding_mobile_top | default: 36 }}px;
+    --mv-rec-pb-mob: {{ s.padding_mobile_bottom | default: 36 }}px;
+    --mv-rec-h-size: {{ s.heading_size_desktop | default: 34 }}px;
+    --mv-rec-h-size-mob: {{ s.heading_size_mobile | default: 24 }}px;
+    --mv-rec-cols-desk: {{ s.columns_desktop | default: 4 }};
+    --mv-rec-cols-mob: {{ s.columns_mobile | default: 2 }};
+    --mv-rec-radius: {{ s.card_border_radius | default: 12 }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="mv-rec-container">
+    <!-- SECTION HEADER -->
+    <div class="mv-rec-header">
+      <div class="mv-rec-emblem-badge">
+        <span class="mv-rec-star">✦</span>
+        <span class="mv-rec-eyebrow">{{ s.eyebrow | default: 'COMPLETE THE VEDIC RITUAL' }}</span>
+      </div>
+      <h2 class="mv-rec-title">{{ s.heading | default: 'Curated Botanical Pairings' }}</h2>
+      {%- if s.subheading != blank -%}
+        <p class="mv-rec-subtitle">{{ s.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- PRODUCT RECOMMENDATIONS GRID -->
+    <div class="mv-rec-grid">
+      {%- assign rec_collection = collections.all -%}
+      {%- if product.collections.first != blank -%}
+        {%- assign rec_collection = product.collections.first -%}
+      {%- endif -%}
+
+      {%- assign count = 0 -%}
+      {%- for rec_product in rec_collection.products -%}
+        {%- if rec_product.id != product.id -%}
+          {%- assign count = count | plus: 1 -%}
+          <div class="mv-rec-card">
+            <a href="{{ rec_product.url }}" class="mv-rec-card-media-wrap">
+              {%- if rec_product.featured_image != blank -%}
+                <img
+                  src="{{ rec_product.featured_image | image_url: width: 600 }}"
+                  srcset="{{ rec_product.featured_image | image_url: width: 300 }} 300w, {{ rec_product.featured_image | image_url: width: 600 }} 600w"
+                  sizes="(min-width: 750px) 25vw, 50vw"
+                  alt="{{ rec_product.featured_image.alt | default: rec_product.title | escape }}"
+                  class="mv-rec-card-img"
+                  loading="lazy"
+                  width="{{ rec_product.featured_image.width }}"
+                  height="{{ rec_product.featured_image.height }}"
+                >
+              {%- endif -%}
+
+              {%- if rec_product.compare_at_price > rec_product.price -%}
+                <span class="mv-rec-badge-sale">✦ RITUAL OFFER</span>
+              {%- endif -%}
+            </a>
+
+            <div class="mv-rec-card-content">
+              <span class="mv-rec-vendor">{{ rec_product.vendor | default: 'Myra Veda' }}</span>
+              <h3 class="mv-rec-card-title">
+                <a href="{{ rec_product.url }}">{{ rec_product.title }}</a>
+              </h3>
+
+              <div class="mv-rec-price-row">
+                <span class="mv-rec-price">{{ rec_product.price | money }}</span>
+                {%- if rec_product.compare_at_price > rec_product.price -%}
+                  <s class="mv-rec-compare-price">{{ rec_product.compare_at_price | money }}</s>
+                {%- endif -%}
+              </div>
+
+              {%- if s.show_quick_add -%}
+                <a href="{{ rec_product.url }}" class="mv-rec-btn-action">
+                  <span>Explore Ritual ✦</span>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+          {%- if count >= s.max_products -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Luxury Recommendations",
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color Scheme Theme",
+      "options": [
+        { "value": "pure_white_gold", "label": "Pure White & Gold" },
+        { "value": "botanical_ivory", "label": "Botanical Warm Ivory" },
+        { "value": "royal_emerald", "label": "Royal Emerald Green" },
+        { "value": "deep_forest", "label": "Deep Forest Velvet" }
+      ],
+      "default": "pure_white_gold"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "COMPLETE THE VEDIC RITUAL"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Curated Botanical Pairings"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading Description",
+      "default": "Harmonious formulations designed to amplify your skin restoration ritual."
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading Size Desktop (px)",
+      "min": 24,
+      "max": 52,
+      "step": 2,
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading Size Mobile (px)",
+      "min": 18,
+      "max": 34,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Grid & Card Settings"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns Desktop",
+      "options": [
+        { "value": "3", "label": "3 Columns" },
+        { "value": "4", "label": "4 Columns" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns Mobile",
+      "options": [
+        { "value": "1", "label": "1 Column" },
+        { "value": "2", "label": "2 Columns" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Maximum Products to Show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card Border Radius (px)",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "Show 'Explore Ritual' Action Button",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Desktop & Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_block_start",
+      "label": "Padding Top Desktop (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_block_end",
+      "label": "Padding Bottom Desktop (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile_top",
+      "label": "Padding Top Mobile (px)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile_bottom",
+      "label": "Padding Bottom Mobile (px)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Recommendations"
+    }
+  ]
+}
+{% endschema %}

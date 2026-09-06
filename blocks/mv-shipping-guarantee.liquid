@@ -1,0 +1,143 @@
+{%- doc -%}
+  Renders an Express Delivery, COD & Authentic Purity Guarantee Strip for product details.
+{%- enddoc -%}
+
+{%- liquid
+  assign block_settings = block.settings
+-%}
+
+<div
+  class="mv-shipping-guarantee-strip"
+  style="
+    --mv-sg-bg: {{ block_settings.bg_color | default: '#FAF8F5' }};
+    --mv-sg-border: {{ block_settings.border_color | default: 'rgba(201, 158, 62, 0.25)' }};
+    --mv-sg-text: {{ block_settings.text_color | default: '#0E281F' }};
+    --mv-sg-gold: {{ block_settings.gold_color | default: '#C99E3E' }};
+    margin-top: {{ block_settings.margin_top | default: 14 }}px;
+    margin-bottom: {{ block_settings.margin_bottom | default: 14 }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  <div class="mv-sg-row">
+    <div class="mv-sg-item">
+      <span class="mv-sg-icon">🚀</span>
+      <div class="mv-sg-info">
+        <strong class="mv-sg-title">{{ block_settings.ship_title | default: 'Express Delivery' }}</strong>
+        <span class="mv-sg-desc">{{ block_settings.ship_desc | default: 'Dispatched within 24 hours' }}</span>
+      </div>
+    </div>
+
+    <div class="mv-sg-item">
+      <span class="mv-sg-icon">🛡️</span>
+      <div class="mv-sg-info">
+        <strong class="mv-sg-title">{{ block_settings.auth_title | default: '100% Authentic Vedic' }}</strong>
+        <span class="mv-sg-desc">{{ block_settings.auth_desc | default: 'Handcrafted in small batches' }}</span>
+      </div>
+    </div>
+
+    <div class="mv-sg-item">
+      <span class="mv-sg-icon">💳</span>
+      <div class="mv-sg-info">
+        <strong class="mv-sg-title">{{ block_settings.pay_title | default: 'COD & Secure Pay' }}</strong>
+        <span class="mv-sg-desc">{{ block_settings.pay_desc | default: 'All cards & UPI accepted' }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shipping & Guarantee",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Delivery Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "ship_title",
+      "label": "Shipping Title",
+      "default": "Express Delivery"
+    },
+    {
+      "type": "text",
+      "id": "ship_desc",
+      "label": "Shipping Description",
+      "default": "Dispatched within 24 hours"
+    },
+    {
+      "type": "header",
+      "content": "Authenticity Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "auth_title",
+      "label": "Authenticity Title",
+      "default": "100% Authentic Vedic"
+    },
+    {
+      "type": "text",
+      "id": "auth_desc",
+      "label": "Authenticity Description",
+      "default": "Handcrafted in small batches"
+    },
+    {
+      "type": "header",
+      "content": "Payment Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "pay_title",
+      "label": "Payment Title",
+      "default": "COD & Secure Pay"
+    },
+    {
+      "type": "text",
+      "id": "pay_desc",
+      "label": "Payment Description",
+      "default": "All cards & UPI accepted"
+    },
+    {
+      "type": "header",
+      "content": "Color & Margins"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FAF8F5"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Gold Accent",
+      "default": "rgba(201, 158, 62, 0.25)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#0E281F"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Top Margin (px)",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Bottom Margin (px)",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "default": 14
+    }
+  ]
+}
+{% endschema %}

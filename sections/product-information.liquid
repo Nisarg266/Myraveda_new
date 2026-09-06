@@ -174,6 +174,22 @@
   {% render 'add-to-cart-button-styles' %}
 {% endif %}
 
+<style>
+  #shopify-section-{{ section.id }} {
+    --mv-prod-title-desk: {{ section.settings.heading_font_size_desktop | default: 34 }}px;
+    --mv-prod-title-mob: {{ section.settings.heading_font_size_mobile | default: 24 }}px;
+    --mv-prod-price-desk: {{ section.settings.price_font_size_desktop | default: 26 }}px;
+    --mv-prod-price-mob: {{ section.settings.price_font_size_mobile | default: 20 }}px;
+    --mv-prod-media-radius: {{ section.settings.media_border_radius | default: 14 }}px;
+  }
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .product-information {
+      padding-top: {{ section.settings.padding_mobile_top | default: 16 }}px !important;
+      padding-bottom: {{ section.settings.padding_mobile_bottom | default: 32 }}px !important;
+    }
+  }
+</style>
+
 {% render 'product-information-content',
   product: closest.product,
   section_id: section.id,
@@ -481,6 +497,77 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Luxury Typography & Media"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_desktop",
+      "label": "Product Title Size Desktop (px)",
+      "min": 24,
+      "max": 54,
+      "step": 2,
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "label": "Product Title Size Mobile (px)",
+      "min": 18,
+      "max": 36,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "price_font_size_desktop",
+      "label": "Price Size Desktop (px)",
+      "min": 18,
+      "max": 38,
+      "step": 2,
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "price_font_size_mobile",
+      "label": "Price Size Mobile (px)",
+      "min": 16,
+      "max": 28,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "media_border_radius",
+      "label": "Media Gallery Corner Radius (px)",
+      "min": 0,
+      "max": 28,
+      "step": 2,
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile_top",
+      "label": "Padding Top Mobile (px)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile_bottom",
+      "label": "Padding Bottom Mobile (px)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 32
     }
   ],
   "presets": []

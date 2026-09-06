@@ -1,0 +1,525 @@
+{%- comment -%}
+  MYRA VEDA LUXURY ESSENTIALS - BESPOKE PRODUCT RITUAL & SACRED INGREDIENTS TABS
+  Haute Luxe Botanical Alchemy & Step-by-Step Usage Guide
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign scheme_class = 'mv-scheme--' | append: s.color_scheme
+-%}
+
+<section
+  id="mv-product-ritual-{{ section.id }}"
+  class="mv-product-ritual-section {{ scheme_class }}"
+  style="
+    --mv-pr-pt: {{ s.padding_block_start | default: 64 }}px;
+    --mv-pr-pb: {{ s.padding_block_end | default: 64 }}px;
+    --mv-pr-pt-mob: {{ s.padding_mobile_top | default: 40 }}px;
+    --mv-pr-pb-mob: {{ s.padding_mobile_bottom | default: 40 }}px;
+    --mv-pr-h-size: {{ s.heading_size_desktop | default: 36 }}px;
+    --mv-pr-h-size-mob: {{ s.heading_size_mobile | default: 26 }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="mv-pr-container">
+    <!-- SECTION HEADER -->
+    <div class="mv-pr-header">
+      <div class="mv-pr-emblem-badge">
+        <span class="mv-pr-star">✦</span>
+        <span class="mv-pr-eyebrow">{{ s.eyebrow | default: 'THE BOTANICAL ALCHEMY' }}</span>
+      </div>
+      <h2 class="mv-pr-title">{{ s.heading | default: 'Sacred Ingredients & Application Ritual' }}</h2>
+      {%- if s.subheading != blank -%}
+        <p class="mv-pr-subtitle">{{ s.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- LUXURY TAB CONTROLS -->
+    <div class="mv-pr-tabs-nav" role="tablist">
+      <button
+        type="button"
+        class="mv-pr-tab-btn active"
+        role="tab"
+        aria-selected="true"
+        data-tab-target="tab-ingredients-{{ section.id }}"
+      >
+        <span class="mv-tab-icon">🍃</span>
+        <span class="mv-tab-text">{{ s.tab_1_title | default: 'Sacred Actives' }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="mv-pr-tab-btn"
+        role="tab"
+        aria-selected="false"
+        data-tab-target="tab-ritual-{{ section.id }}"
+      >
+        <span class="mv-tab-icon">✨</span>
+        <span class="mv-tab-text">{{ s.tab_2_title | default: 'Application Ritual' }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="mv-pr-tab-btn"
+        role="tab"
+        aria-selected="false"
+        data-tab-target="tab-purity-{{ section.id }}"
+      >
+        <span class="mv-tab-icon">🛡️</span>
+        <span class="mv-tab-text">{{ s.tab_3_title | default: 'Clinical Purity' }}</span>
+      </button>
+    </div>
+
+    <!-- TAB PANELS -->
+    <div class="mv-pr-panels-container">
+      <!-- PANEL 1: SACRED ACTIVES -->
+      <div
+        id="tab-ingredients-{{ section.id }}"
+        class="mv-pr-panel active"
+        role="tabpanel"
+      >
+        <div class="mv-pr-ingredients-grid">
+          {%- assign has_ingredient = false -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'ingredient_card' -%}
+              {%- assign has_ingredient = true -%}
+              <div class="mv-ingredient-card" {{ block.shopify_attributes }}>
+                <div class="mv-ing-card-top">
+                  <span class="mv-ing-icon">✦</span>
+                  {%- if block.settings.benefit_pill != blank -%}
+                    <span class="mv-ing-pill">{{ block.settings.benefit_pill }}</span>
+                  {%- endif -%}
+                </div>
+                <h3 class="mv-ing-name">{{ block.settings.title }}</h3>
+                {%- if block.settings.botanical_name != blank -%}
+                  <span class="mv-ing-botanical">{{ block.settings.botanical_name }}</span>
+                {%- endif -%}
+                <p class="mv-ing-desc">{{ block.settings.description }}</p>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if has_ingredient == false -%}
+            <!-- Default Luxury Ingredients for Myra Veda -->
+            <div class="mv-ingredient-card">
+              <div class="mv-ing-card-top">
+                <span class="mv-ing-icon">✦</span>
+                <span class="mv-ing-pill">24K Cellular Radiance</span>
+              </div>
+              <h3 class="mv-ing-name">Kashmiri Saffron (Crocus Sativus)</h3>
+              <span class="mv-ing-botanical">Grade-1 Pure Mongra Pistils</span>
+              <p class="mv-ing-desc">Sourced from the high-altitude valleys of Pampore, hand-harvested at sunrise. Packed with crocin and safranal to naturally brighten and rejuvenate skin elasticity.</p>
+            </div>
+
+            <div class="mv-ingredient-card">
+              <div class="mv-ing-card-top">
+                <span class="mv-ing-icon">✦</span>
+                <span class="mv-ing-pill">Natural Bakuchiol</span>
+              </div>
+              <h3 class="mv-ing-name">Babchi Seeds (Psoralea Corylifolia)</h3>
+              <span class="mv-ing-botanical">Plant Retinol Alternative</span>
+              <p class="mv-ing-desc">Vedic botanical treasure that stimulates collagen synthesis and diminishes fine lines without the dryness, redness, or photosensitivity of synthetic retinol.</p>
+            </div>
+
+            <div class="mv-ingredient-card">
+              <div class="mv-ing-card-top">
+                <span class="mv-ing-icon">✦</span>
+                <span class="mv-ing-pill">Vedic Alchemy</span>
+              </div>
+              <h3 class="mv-ing-name">Authentic Kumkumadi Tailam</h3>
+              <span class="mv-ing-botanical">26 Rare Ayurvedic Herbs & Goat Milk</span>
+              <p class="mv-ing-desc">Simmered in pure copper vessels according to classical Ashtanga Hridaya texts to deeply nourish, repair pigmentation, and infuse skin with an undeniable royal glow.</p>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- PANEL 2: THE APPLICATION RITUAL -->
+      <div
+        id="tab-ritual-{{ section.id }}"
+        class="mv-pr-panel"
+        role="tabpanel"
+      >
+        <div class="mv-pr-ritual-steps">
+          {%- assign has_ritual = false -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'ritual_step' -%}
+              {%- assign has_ritual = true -%}
+              <div class="mv-ritual-step-item" {{ block.shopify_attributes }}>
+                <div class="mv-step-num-badge">
+                  <span>{{ block.settings.step_number | default: forloop.index }}</span>
+                </div>
+                <div class="mv-step-content">
+                  <div class="mv-step-header">
+                    <h3 class="mv-step-title">{{ block.settings.step_title }}</h3>
+                    {%- if block.settings.step_time != blank -%}
+                      <span class="mv-step-time">{{ block.settings.step_time }}</span>
+                    {%- endif -%}
+                  </div>
+                  <p class="mv-step-desc">{{ block.settings.step_desc }}</p>
+                  {%- if block.settings.tip != blank -%}
+                    <div class="mv-step-tip">
+                      <span class="mv-tip-star">✦</span>
+                      <span class="mv-tip-text"><strong>Ritual Tip:</strong> {{ block.settings.tip }}</span>
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if has_ritual == false -%}
+            <!-- Default Luxury Ritual Steps -->
+            <div class="mv-ritual-step-item">
+              <div class="mv-step-num-badge"><span>01</span></div>
+              <div class="mv-step-content">
+                <div class="mv-step-header">
+                  <h3 class="mv-step-title">Awaken & Cleanse</h3>
+                  <span class="mv-step-time">Morning & Evening</span>
+                </div>
+                <p class="mv-step-desc">Begin with a gentle rinse using lukewarm water. Pat skin delicately dry with a clean organic cotton towel, leaving slight moisture on the skin surface.</p>
+                <div class="mv-step-tip">
+                  <span class="mv-tip-star">✦</span>
+                  <span class="mv-tip-text"><strong>Ritual Tip:</strong> Take 3 deep breaths to ground your senses in the therapeutic botanical aroma.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mv-ritual-step-item">
+              <div class="mv-step-num-badge"><span>02</span></div>
+              <div class="mv-step-content">
+                <div class="mv-step-header">
+                  <h3 class="mv-step-title">Warm & Activate</h3>
+                  <span class="mv-step-time">Sacred Application</span>
+                </div>
+                <p class="mv-step-desc">Dispense 3–4 drops or a pea-sized amount onto the palm of your hand. Gently rub your hands together to activate the botanical botanicals with natural body warmth.</p>
+                <div class="mv-step-tip">
+                  <span class="mv-tip-star">✦</span>
+                  <span class="mv-tip-text"><strong>Ritual Tip:</strong> Press, don't rub. Light upward pressing motions encourage cellular lymphatic drainage.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mv-ritual-step-item">
+              <div class="mv-step-num-badge"><span>03</span></div>
+              <div class="mv-step-content">
+                <div class="mv-step-header">
+                  <h3 class="mv-step-title">Seal & Radiate</h3>
+                  <span class="mv-step-time">Nightly Restoration</span>
+                </div>
+                <p class="mv-step-desc">Using your fingertips, gently sweep upwards along the jawline, cheekbones, and forehead toward the temples. Allow 2–3 minutes for complete cellular absorption.</p>
+                <div class="mv-step-tip">
+                  <span class="mv-tip-star">✦</span>
+                  <span class="mv-tip-text"><strong>Ritual Tip:</strong> Follow with a cold Kansa wand massage to lock in deep Ayurvedic moisture.</span>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- PANEL 3: CLINICAL PURITY -->
+      <div
+        id="tab-purity-{{ section.id }}"
+        class="mv-pr-panel"
+        role="tabpanel"
+      >
+        <div class="mv-pr-purity-grid">
+          {%- assign has_purity = false -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'purity_metric' -%}
+              {%- assign has_purity = true -%}
+              <div class="mv-purity-card" {{ block.shopify_attributes }}>
+                <span class="mv-purity-num">{{ block.settings.metric_num }}</span>
+                <h3 class="mv-purity-title">{{ block.settings.metric_title }}</h3>
+                <p class="mv-purity-desc">{{ block.settings.metric_desc }}</p>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if has_purity == false -%}
+            <!-- Default Purity Cards -->
+            <div class="mv-purity-card">
+              <span class="mv-purity-num">0%</span>
+              <h3 class="mv-purity-title">Harmful Chemicals</h3>
+              <p class="mv-purity-desc">Zero sulphates, parabens, silicones, palm oil, mineral oils, or synthetic fragrances.</p>
+            </div>
+
+            <div class="mv-purity-card">
+              <span class="mv-purity-num">100%</span>
+              <h3 class="mv-purity-title">Vegetarian & Cruelty Free</h3>
+              <p class="mv-purity-desc">Certified by PETA. Absolutely zero animal testing at any phase of ingredient or finished product crafting.</p>
+            </div>
+
+            <div class="mv-purity-card">
+              <span class="mv-purity-num">pH 5.5</span>
+              <h3 class="mv-purity-title">Acid-Mantle Balanced</h3>
+              <p class="mv-purity-desc">Calibrated to precisely match healthy human skin pH, protecting your moisture barrier around the clock.</p>
+            </div>
+
+            <div class="mv-purity-card">
+              <span class="mv-purity-num">400+</span>
+              <h3 class="mv-purity-title">Banned Toxins Excluded</h3>
+              <p class="mv-purity-desc">Exceeding strict European Union cosmetic safety directives and Indian Ayush standards.</p>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    const section = document.getElementById('mv-product-ritual-{{ section.id }}');
+    if (!section) return;
+    const tabBtns = section.querySelectorAll('.mv-pr-tab-btn');
+    const panels = section.querySelectorAll('.mv-pr-panel');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-tab-target');
+        tabBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        panels.forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        const targetPanel = section.querySelector('#' + targetId);
+        if (targetPanel) {
+          targetPanel.classList.add('active');
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product Ritual & Actives",
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color Scheme Theme",
+      "options": [
+        { "value": "pure_white_gold", "label": "Pure White & Gold" },
+        { "value": "botanical_ivory", "label": "Botanical Warm Ivory" },
+        { "value": "royal_emerald", "label": "Royal Emerald Green" },
+        { "value": "deep_forest", "label": "Deep Forest Velvet" },
+        { "value": "warm_velvet", "label": "Warm Velvet Rose" }
+      ],
+      "default": "pure_white_gold"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "THE BOTANICAL ALCHEMY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Sacred Ingredients & Application Ritual"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading Description",
+      "default": "Merging sacred Vedic herbs with European dermatological science for profound cellular results."
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading Size Desktop (px)",
+      "min": 24,
+      "max": 56,
+      "step": 2,
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading Size Mobile (px)",
+      "min": 18,
+      "max": 36,
+      "step": 2,
+      "default": 26
+    },
+    {
+      "type": "header",
+      "content": "Tab Titles"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_title",
+      "label": "Tab 1 Title",
+      "default": "Sacred Actives"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_title",
+      "label": "Tab 2 Title",
+      "default": "Application Ritual"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_title",
+      "label": "Tab 3 Title",
+      "default": "Clinical Purity"
+    },
+    {
+      "type": "header",
+      "content": "Desktop & Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_block_start",
+      "label": "Padding Top Desktop (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_block_end",
+      "label": "Padding Bottom Desktop (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile_top",
+      "label": "Padding Top Mobile (px)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile_bottom",
+      "label": "Padding Bottom Mobile (px)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient_card",
+      "name": "Sacred Ingredient",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Ingredient Name",
+          "default": "Kashmiri Saffron"
+        },
+        {
+          "type": "text",
+          "id": "botanical_name",
+          "label": "Botanical / Scientific Name",
+          "default": "Crocus Sativus"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Ingredient Benefits",
+          "default": "Hand-harvested at dawn in Pampore. Infuses deep cellular hydration and natural luminescent glow."
+        },
+        {
+          "type": "text",
+          "id": "benefit_pill",
+          "label": "Benefit Badge / Pill",
+          "default": "24K Cellular Radiance"
+        }
+      ]
+    },
+    {
+      "type": "ritual_step",
+      "name": "Application Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "step_number",
+          "label": "Step Number",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "step_title",
+          "label": "Step Title",
+          "default": "Warm & Activate"
+        },
+        {
+          "type": "text",
+          "id": "step_time",
+          "label": "Time / Frequency",
+          "default": "Morning & Evening"
+        },
+        {
+          "type": "textarea",
+          "id": "step_desc",
+          "label": "Step Instructions",
+          "default": "Dispense 3-4 drops onto your palm and gently warm between hands to activate the botanical botanicals."
+        },
+        {
+          "type": "text",
+          "id": "tip",
+          "label": "Pro Ritual Tip",
+          "default": "Follow with upward pressing motions for lymphatic drainage."
+        }
+      ]
+    },
+    {
+      "type": "purity_metric",
+      "name": "Purity Metric",
+      "settings": [
+        {
+          "type": "text",
+          "id": "metric_num",
+          "label": "Metric / Value",
+          "default": "100%"
+        },
+        {
+          "type": "text",
+          "id": "metric_title",
+          "label": "Metric Title",
+          "default": "Vegetarian & Cruelty-Free"
+        },
+        {
+          "type": "textarea",
+          "id": "metric_desc",
+          "label": "Metric Description",
+          "default": "PETA certified. Absolutely zero animal testing or animal by-products."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Ritual & Actives",
+      "blocks": [
+        { "type": "ingredient_card" },
+        { "type": "ingredient_card" },
+        { "type": "ingredient_card" },
+        { "type": "ritual_step" },
+        { "type": "ritual_step" },
+        { "type": "ritual_step" },
+        { "type": "purity_metric" },
+        { "type": "purity_metric" },
+        { "type": "purity_metric" },
+        { "type": "purity_metric" }
+      ]
+    }
+  ]
+}
+{% endschema %}
