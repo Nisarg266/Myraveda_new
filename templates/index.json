@@ -568,14 +568,6 @@
             "author_title": "Instagram",
             "quote": "<p>“Free from 400 harmful chemicals, 100% vegetarian, and completely cruelty-free!”</p>"
           }
-        },
-        "rev_tweesha": {
-          "type": "testimonial",
-          "settings": {
-            "author_name": "Tweesha Banerjee",
-            "author_title": "Amazon Verified Purchase",
-            "quote": "<p>“If you’re not using Myra Veda products, you’re already late! Natural and made from the best, most exotic ingredients from all around the world.”</p>"
-          }
         }
       },
       "block_order": [
@@ -587,8 +579,7 @@
         "rev_simrat",
         "rev_ria",
         "rev_saloni",
-        "rev_sneha",
-        "rev_tweesha"
+        "rev_sneha"
       ],
       "settings": {
         "badge": "Loved By Connoisseurs",
