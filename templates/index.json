@@ -1,0 +1,462 @@
+{
+  "sections": {
+    "mv_slideshow": {
+      "type": "mv-luxury-slideshow",
+      "blocks": {
+        "slide_rose_water": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/6B_69894d91-10ff-4f95-9833-551c4bb0063b.jpg",
+            "mobile_image": "shopify://shop_images/6A_9ab3a4d7-f370-4521-98e6-e8a9369d9582.jpg",
+            "caption": "Introducing",
+            "title": "Pure Rose Water",
+            "subheading": "Steam-distilled from fresh Kannauj roses to revitalize, soothe, and illuminate your skin.",
+            "link": "shopify://products/myra-veda-pure-rose-water-100ml",
+            "button_label": "Shop Now"
+          }
+        },
+        "slide_essential_oils": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/BANNER_16-9_1_13586ad4-b1b9-447f-8d7f-d8a85bf47e48.jpg",
+            "mobile_image": "shopify://shop_images/BANNER_2-3_1_c9395fdd-72b5-40ab-a14e-9dd33f4baa56.jpg",
+            "caption": "Introducing",
+            "title": "Essential Oils",
+            "subheading": "100% Pure, therapeutic-grade aromatherapeutic elixirs for mindful daily wellness.",
+            "link": "shopify://collections/essential-oils",
+            "button_label": "Learn More"
+          }
+        },
+        "slide_hair_oil": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/5B_1.jpg",
+            "mobile_image": "shopify://shop_images/5A_1.jpg",
+            "caption": "Milk Therapy",
+            "title": "Hair Oil",
+            "subheading": "Deeply nourishing botanical infusion with Lavender, Tea Tree, and Rosemary for lustrous hair.",
+            "link": "shopify://products/milk-therapy-hair-oil-with-lavender-tea-tree-and-rosemary",
+            "button_label": "Show More"
+          }
+        },
+        "slide_gift_hampers": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/rk_hori.jpg",
+            "mobile_image": "shopify://shop_images/0O2A3143.jpg",
+            "caption": "Curated Gifting",
+            "title": "#MYRAkhi Gift Hampers",
+            "subheading": "Spoil your loved ones with an exuberant splurge of sustainable clean-beauty luxuries.",
+            "link": "shopify://collections/gift",
+            "button_label": "Shop Now"
+          }
+        }
+      },
+      "block_order": [
+        "slide_rose_water",
+        "slide_essential_oils",
+        "slide_hair_oil",
+        "slide_gift_hampers"
+      ],
+      "settings": {
+        "desktop_height": 70,
+        "mobile_height": 65,
+        "content_alignment": "left",
+        "overlay_opacity": 30,
+        "autoplay": true,
+        "speed": 6
+      }
+    },
+    "mv_brand_philosophy": {
+      "type": "mv-brand-philosophy",
+      "settings": {
+        "badge": "What Makes Us Special",
+        "title": "Where Global Exotic Rituals Meet Ayurvedic Wisdom",
+        "text": "<p>World's First Sustainable \"<strong>Clean-Beauty</strong>\" brand that combines <strong>Exotic ingredients</strong> used in beauty rituals of different cultures around the world, WITH <strong>Ayurvedic botanicals</strong>.</p>",
+        "image": "shopify://shop_images/display_map.png",
+        "button_label": "Discover Our Story",
+        "button_link": "shopify://pages/about-us"
+      }
+    },
+    "mv_promotion_cards": {
+      "type": "mv-promotion-cards",
+      "blocks": {
+        "card_hair": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_22.png",
+            "caption": "HAIRCARE",
+            "title": "Healthy, Lustrous Hair",
+            "button_label": "TRY THEM",
+            "button_link": "shopify://collections/hair-care"
+          }
+        },
+        "card_skin": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_21.png",
+            "caption": "SKINCARE",
+            "title": "Healthy, Radiant Skin",
+            "button_label": "TRY THEM",
+            "button_link": "shopify://collections/scraft-123"
+          }
+        },
+        "card_body": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_23.png",
+            "caption": "BODY CARE",
+            "title": "Nourished & Hydrated Skin",
+            "button_label": "TRY THEM",
+            "button_link": "shopify://collections/body-care"
+          }
+        }
+      },
+      "block_order": [
+        "card_hair",
+        "card_skin",
+        "card_body"
+      ],
+      "settings": {
+        "badge": "Curated Collections",
+        "heading": "Feel Good, Look Great",
+        "subheading": "Take solace in our wide RANGE of #CleanBeauty selection of cruelty-free skincare & haircare"
+      }
+    },
+    "mv_trust_badges": {
+      "type": "mv-trust-badges",
+      "blocks": {
+        "usp_ayurvedic": {
+          "type": "usp",
+          "settings": {
+            "image": "shopify://shop_images/Ayurvedic_Botanicals_Exotic_Ingredients_1_133x_ab35f924-f01d-4928-8086-7d7cd6a3d312.webp",
+            "title": "Ayurvedic + Exotic Ingredients",
+            "caption": "We use a culmination of exotic ingredients, used in different parts of the world; with Ayurvedic Botanicals from different regions of India."
+          }
+        },
+        "usp_no_chemicals": {
+          "type": "usp",
+          "settings": {
+            "image": "shopify://shop_images/No_Harmful_Chemicals_and_Toxins_133x_29636aba-a443-4195-8b7d-368cb3662c57.webp",
+            "title": "No Harmful Chemicals",
+            "caption": "Each Myra Veda product is FREE from Sulphates, Parabens, Silicones, Palm Oil, Plasticizers, Mineral oil & OVER 400 typically used harmful chemicals."
+          }
+        },
+        "usp_clean_beauty": {
+          "type": "usp",
+          "settings": {
+            "image": "shopify://shop_images/Clean_Beauty_133x_b63047cf-8cf2-4a42-badb-893345b69db1.webp",
+            "title": "Clean Beauty",
+            "caption": "Each product is not only free from harmful chemicals, but also contains WHOLESOME, mindful ingredients; good for you & for the environment."
+          }
+        },
+        "usp_girl_education": {
+          "type": "usp",
+          "settings": {
+            "image": "shopify://shop_images/Girl_Child_Education_133x_1f2022e5-65bc-40e7-ac19-ba24e4fd6f1e.webp",
+            "title": "Girl Child Education",
+            "caption": "We believe that EDUCATION IS EMPOWERMENT and that's why we work with Nanhi Kali & Shaktii Foundation to raise funds for the education of girls in India."
+          }
+        },
+        "usp_cruelty_free": {
+          "type": "usp",
+          "settings": {
+            "image": "shopify://shop_images/Against_Animal_Cruelty_133x_d2e0e4d3-5e02-48c3-a071-ef85fd88c26a.webp",
+            "title": "Cruelty-Free",
+            "caption": "We condemn the use of animals for testing products & ingredients. All of Myra Veda's products are not only cruelty free, but are also 100% vegetarian."
+          }
+        },
+        "usp_green_goddess": {
+          "type": "usp",
+          "settings": {
+            "image": "shopify://shop_images/Green_Goddess_Initiative_133x_7187374f-17b6-4880-8eef-cadf86ed9c62.webp",
+            "title": "Green Goddess Initiative",
+            "caption": "It's not enough to provide empty claims about being sustainable, which is why we started the Green Goddess Initiative. Our packaging is 100% recyclable."
+          }
+        }
+      },
+      "block_order": [
+        "usp_ayurvedic",
+        "usp_no_chemicals",
+        "usp_clean_beauty",
+        "usp_girl_education",
+        "usp_cruelty_free",
+        "usp_green_goddess"
+      ],
+      "settings": {
+        "badge": "Our Sacred Commitments",
+        "heading": "Love it, or it’s on us",
+        "subheading": "More than 2000 happy customers worldwide."
+      }
+    },
+    "mv_featured_collection": {
+      "type": "mv-featured-collection",
+      "settings": {
+        "badge": "Best Sellers",
+        "heading": "Customer Favorites",
+        "subheading": "Our best-sellers are categorized by high demands and stellar reviews.",
+        "collection": "best-seller",
+        "products_to_show": 4,
+        "show_view_all": true
+      }
+    },
+    "mv_category_slider": {
+      "type": "mv-category-slider",
+      "blocks": {
+        "cat_scraft": {
+          "type": "collection",
+          "settings": {
+            "collection": "scraft-123",
+            "title": "Skincare Formulations"
+          }
+        },
+        "cat_body": {
+          "type": "collection",
+          "settings": {
+            "collection": "body-care",
+            "title": "Body Wellness"
+          }
+        },
+        "cat_hair": {
+          "type": "collection",
+          "settings": {
+            "collection": "hair-care",
+            "title": "Hair Therapies"
+          }
+        },
+        "cat_aromatherapy": {
+          "type": "collection",
+          "settings": {
+            "collection": "aromatherapy",
+            "image": "shopify://shop_images/Reed_diffuser_style1.jpg",
+            "title": "Aromatherapy"
+          }
+        },
+        "cat_bath": {
+          "type": "collection",
+          "settings": {
+            "collection": "bath-essentials",
+            "title": "Bath Essentials"
+          }
+        },
+        "cat_gift": {
+          "type": "collection",
+          "settings": {
+            "collection": "gift",
+            "title": "Luxury Gifting"
+          }
+        },
+        "cat_accessories": {
+          "type": "collection",
+          "settings": {
+            "collection": "accessories",
+            "title": "Accessories"
+          }
+        }
+      },
+      "block_order": [
+        "cat_body",
+        "cat_hair",
+        "cat_aromatherapy",
+        "cat_bath",
+        "cat_accessories",
+        "cat_scraft",
+        "cat_gift"
+      ],
+      "settings": {
+        "badge": "Shop By Need",
+        "heading": "Our Categories",
+        "subheading": "Explore our curated range of clean luxury beauty rituals"
+      }
+    },
+    "mv_brand_video": {
+      "type": "mv-brand-video",
+      "settings": {
+        "badge": "Behind The Formulations",
+        "heading": "What Our Brand Stands For",
+        "subheading": "Watch how our passion for clean beauty and ancient botanical heritage unfolds",
+        "image": "shopify://shop_images/crushed-makeup-in-brown-and-purple.jpg",
+        "video_title": "Watch Our Story",
+        "video_url": "https://youtu.be/OqAXQOmucX4"
+      }
+    },
+    "mv_featured_product": {
+      "type": "mv-featured-product",
+      "settings": {
+        "badge": "Signature Formulation",
+        "heading": "Mask Like Never Before!",
+        "subheading": "One of our best sellers ever!",
+        "product": "amazonian-clay-from-egypt",
+        "cross_sell_product": "myra-veda-pure-rose-water-100ml"
+      }
+    },
+    "mv_testimonials": {
+      "type": "mv-testimonials",
+      "blocks": {
+        "rev_shabana": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Shabana_Azmi_-_Eesha_2.jpg",
+            "author_name": "Shabana Azmi",
+            "author_title": "Acclaimed Actress",
+            "quote": "<p>“Extremely beautiful packaging and extraordinary formulation.”</p>"
+          }
+        },
+        "rev_simran": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Simran___simranluthria.jpg",
+            "author_name": "Simran Luthria",
+            "author_title": "@simranluthria",
+            "quote": "<p>“My skin is super sensitive and hence I need to take care of it all the time. These products are organic, sustainable and inspired by Ayurveda making sure my skin is at its best at all times.”</p>"
+          }
+        },
+        "rev_neelakshi": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Neelakshi___plumptopretty.jpg",
+            "author_name": "Neelakshi",
+            "author_title": "@plumtopretty",
+            "quote": "<p>“Feels like I’m taking a walk through a tropical island. My little escape during the pandemic.”</p>"
+          }
+        },
+        "rev_tanya": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Tanya_Vatsa___mommydiaries.jpg",
+            "author_name": "Tanya Khubchandani Vatsa",
+            "author_title": "@mommydiaries",
+            "quote": "<p>“Soft and nourishing fragrance that keeps my skin hydrated and radiant for up to 16 hours.”</p>"
+          }
+        },
+        "rev_shivangi": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/My_Two_Little_Feet___shivangigoel.jpg",
+            "author_name": "Shivangi Goel",
+            "author_title": "@shivangigoel___",
+            "quote": "<p>“I am deeply touched by the ethical practices, exotic feels, and pure authentic quality of this brand.”</p>"
+          }
+        },
+        "rev_simrat": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Simrat___newvibeincity_Medium_2031bf56-7973-4bf6-a86b-41018e5542d7.jpg",
+            "author_name": "Simrat",
+            "author_title": "@newvibeincity",
+            "quote": "<p>“A very special, unforgettable gift for my mom for Mother's Day. She absolutely adores it!”</p>"
+          }
+        },
+        "rev_ria": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Riya_Lekhadia___ria_aarel.jpg",
+            "author_name": "Ria Lekhadia",
+            "author_title": "Verified Customer",
+            "quote": "<p>“Love the scrub, because it helps in preventing fine lines and wrinkles by actively fighting free radicals.”</p>"
+          }
+        },
+        "rev_saloni": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Saloni___salonitotla.jpg",
+            "author_name": "Saloni Totala",
+            "author_title": "Verified Customer",
+            "quote": "<p>“A mask and a scrub that buffs away dead skin cells leaving skin noticeably soft and glowing.”</p>"
+          }
+        },
+        "rev_sneha": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Sneha_Ramchandran___sneharamchandran.jpg",
+            "author_name": "Sneha Ramachandran",
+            "author_title": "Instagram",
+            "quote": "<p>“Free from 400 harmful chemicals, 100% vegetarian, and completely cruelty-free!”</p>"
+          }
+        },
+        "rev_tweesha": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Tweesha Banerjee",
+            "author_title": "Amazon Verified Purchase",
+            "quote": "<p>“If you’re not using Myra Veda products, you’re already late! Natural and made from the best, most exotic ingredients from all around the world.”</p>"
+          }
+        }
+      },
+      "block_order": [
+        "rev_shabana",
+        "rev_simran",
+        "rev_neelakshi",
+        "rev_tanya",
+        "rev_shivangi",
+        "rev_simrat",
+        "rev_ria",
+        "rev_saloni",
+        "rev_sneha",
+        "rev_tweesha"
+      ],
+      "settings": {
+        "badge": "Loved By Connoisseurs",
+        "heading": "Loved by Connoisseurs",
+        "subheading": "What discerning patrons and beauty icons cherish about our clean Ayurvedic formulations"
+      }
+    },
+    "mv_marquee": {
+      "type": "mv-marquee",
+      "blocks": {
+        "m_soil_to_soul": {
+          "type": "ticker_item",
+          "settings": {
+            "marquee_text": "World's Finest Ingredients From Soil To Soul®"
+          }
+        },
+        "m_wiser": {
+          "type": "ticker_item",
+          "settings": {
+            "marquee_text": "#WiserTogether"
+          }
+        },
+        "m_informed": {
+          "type": "ticker_item",
+          "settings": {
+            "marquee_text": "#InformedChoice"
+          }
+        },
+        "m_vegetarian": {
+          "type": "ticker_item",
+          "settings": {
+            "marquee_text": "100% Vegetarian & Cruelty-Free"
+          }
+        },
+        "m_toxin_free": {
+          "type": "ticker_item",
+          "settings": {
+            "marquee_text": "Free from 400+ Harsh Chemicals"
+          }
+        }
+      },
+      "block_order": [
+        "m_soil_to_soul",
+        "m_wiser",
+        "m_informed",
+        "m_vegetarian",
+        "m_toxin_free"
+      ],
+      "settings": {
+        "speed": 28
+      }
+    }
+  },
+  "order": [
+    "mv_slideshow",
+    "mv_marquee",
+    "mv_brand_philosophy",
+    "mv_promotion_cards",
+    "mv_trust_badges",
+    "mv_featured_collection",
+    "mv_category_slider",
+    "mv_brand_video",
+    "mv_featured_product",
+    "mv_testimonials"
+  ]
+}

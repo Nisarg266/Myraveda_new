@@ -1,0 +1,373 @@
+<div class="mv-category-section" id="mv-category-{{ section.id }}">
+  <div class="mv-container">
+    <div class="mv-section-header-row">
+      <div>
+        {%- if section.settings.badge != blank -%}
+          <span class="mv-section-badge">{{ section.settings.badge | escape }}</span>
+        {%- endif -%}
+        <h2 class="mv-section-title">{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.subheading != blank -%}
+          <p class="mv-section-subtitle" style="margin: 0;">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="mv-slider-nav">
+        <button class="mv-cat-arrow mv-cat-prev" aria-label="Previous Categories">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="mv-cat-arrow mv-cat-next" aria-label="Next Categories">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="mv-cat-track-container mv-hide-scrollbar">
+      <div class="mv-cat-track">
+        {%- for block in section.blocks -%}
+          {%- assign col = collections[block.settings.collection] -%}
+          <div class="mv-cat-item" {{ block.shopify_attributes }}>
+            <a href="{{ col.url | default: '#' }}" class="mv-cat-card">
+              <div class="mv-cat-media">
+                {%- if block.settings.image != blank -%}
+                  <img
+                    src="{{ block.settings.image | image_url: width: 600 }}"
+                    srcset="{{ block.settings.image | image_url: width: 350 }} 350w, {{ block.settings.image | image_url: width: 600 }} 600w"
+                    sizes="300px"
+                    alt="{{ block.settings.title | default: col.title | escape }}"
+                    loading="lazy"
+                    class="mv-cat-img"
+                  >
+                {%- elsif col.image != blank -%}
+                  <img
+                    src="{{ col.image | image_url: width: 600 }}"
+                    alt="{{ col.title | escape }}"
+                    loading="lazy"
+                    class="mv-cat-img"
+                  >
+                {%- else -%}
+                  {{ 'collection-2' | placeholder_svg_tag: 'mv-cat-placeholder' }}
+                {%- endif -%}
+                <div class="mv-cat-overlay"></div>
+              </div>
+
+              <div class="mv-cat-info">
+                <span class="mv-cat-eyebrow">Curated Collection</span>
+                <h3 class="mv-cat-name">
+                  {%- if block.settings.title != blank -%}
+                    {{ block.settings.title | escape }}
+                  {%- elsif col != blank -%}
+                    {{ col.title | escape }}
+                  {%- else -%}
+                    Category {{ forloop.index }}
+                  {%- endif -%}
+                </h3>
+                <span class="mv-cat-link-text">
+                  Shop Collection
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #mv-category-{{ section.id }} {
+    padding: clamp(42px, 5vw, 62px) 24px;
+    background: #FFFFFF;
+    border-top: 1px solid rgba(201, 158, 62, 0.2);
+    border-bottom: 1px solid rgba(201, 158, 62, 0.2);
+  }
+
+  .mv-section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 30px;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .mv-slider-nav {
+    display: flex;
+    gap: 12px;
+  }
+
+  .mv-cat-arrow {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #0E281F;
+    border: 1.5px solid #C99E3E;
+    color: #F5E8C7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(14, 40, 31, 0.15);
+  }
+
+  .mv-cat-arrow:hover {
+    background: var(--mv-gold-gradient);
+    color: #FFFFFF;
+    border-color: #DFB76C;
+    box-shadow: 0 8px 22px rgba(201, 158, 62, 0.4);
+    transform: scale(1.08);
+  }
+
+  .mv-cat-track-container {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 24px;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .mv-cat-track {
+    display: flex;
+    gap: 26px;
+    width: max-content;
+    padding: 6px 0;
+  }
+
+  .mv-cat-item {
+    width: 295px;
+    flex-shrink: 0;
+  }
+
+  .mv-cat-card {
+    display: block;
+    position: relative;
+    border-radius: 80px 80px 24px 24px;
+    overflow: hidden;
+    height: 420px;
+    text-decoration: none;
+    border: 1.5px solid rgba(201, 158, 62, 0.32);
+    box-shadow: 0 10px 28px rgba(14, 40, 31, 0.07);
+    transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #0E281F;
+  }
+
+  .mv-cat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 22px 50px rgba(14, 40, 31, 0.16), 0 0 0 1px #C99E3E;
+    border-color: #C99E3E;
+  }
+
+  .mv-cat-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .mv-cat-img,
+  .mv-cat-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    display: block;
+  }
+
+  .mv-cat-card:hover .mv-cat-img {
+    transform: scale(1.08);
+  }
+
+  .mv-cat-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(14, 40, 31, 0.05) 0%, rgba(14, 40, 31, 0.35) 45%, rgba(7, 25, 19, 0.92) 100%);
+    transition: background 0.4s ease;
+  }
+
+  .mv-cat-card:hover .mv-cat-overlay {
+    background: linear-gradient(180deg, rgba(14, 40, 31, 0.1) 0%, rgba(14, 40, 31, 0.4) 40%, rgba(7, 25, 19, 0.95) 100%);
+  }
+
+  .mv-cat-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 26px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .mv-cat-eyebrow {
+    color: #F5E8C7;
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    margin-bottom: 6px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  .mv-cat-name {
+    color: #FFFFFF;
+    font-family: 'Marcellus', 'Playfair Display', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin: 0 0 14px;
+    line-height: 1.2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .mv-cat-link-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #F5E8C7;
+    font-family: 'Cinzel', serif;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .mv-cat-card:hover .mv-cat-link-text {
+    color: #FFFFFF;
+    transform: translateX(5px);
+  }
+
+  @media (max-width: 640px) {
+    #mv-category-{{ section.id }} {
+      padding: 34px 18px;
+    }
+    .mv-section-header-row {
+      margin-bottom: 22px;
+    }
+    .mv-cat-item {
+      width: 240px;
+    }
+    .mv-cat-card {
+      height: 360px;
+      border-radius: 60px 60px 20px 20px;
+    }
+    .mv-cat-info {
+      padding: 22px 20px;
+    }
+    .mv-cat-name {
+      font-size: 1.35rem;
+    }
+    .mv-cat-arrow {
+      width: 42px;
+      height: 42px;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    function initCatSlider() {
+      const wrap = document.getElementById('mv-category-{{ section.id }}');
+      if (!wrap) return;
+
+      const trackContainer = wrap.querySelector('.mv-cat-track-container');
+      const prevBtn = wrap.querySelector('.mv-cat-prev');
+      const nextBtn = wrap.querySelector('.mv-cat-next');
+
+      if (prevBtn && trackContainer) {
+        prevBtn.onclick = function(e) {
+          e.preventDefault();
+          trackContainer.scrollBy({ left: -320, behavior: 'smooth' });
+        };
+      }
+
+      if (nextBtn && trackContainer) {
+        nextBtn.onclick = function(e) {
+          e.preventDefault();
+          trackContainer.scrollBy({ left: 320, behavior: 'smooth' });
+        };
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCatSlider);
+    } else {
+      initCatSlider();
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.target && e.target.querySelector('#mv-category-{{ section.id }}')) {
+        initCatSlider();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "MV Category Slider",
+  "tag": "section",
+  "class": "mv-category-slider-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "Shop By Need"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Categories"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Explore our curated rituals across luxury hair, skin, and body wellness"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Image (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom Title (Optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MV Category Slider",
+      "blocks": [
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" }
+      ]
+    }
+  ]
+}
+{% endschema %}

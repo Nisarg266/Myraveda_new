@@ -1,0 +1,562 @@
+<!doctype html>
+<html
+  {% if request.design_mode %}
+    class="shopify-design-mode"
+  {% endif %}
+  lang="{{ request.locale.iso_code }}"
+>
+  <head>
+    {%- if settings.favicon != blank -%}
+      <link
+        rel="icon"
+        type="image/png"
+        href="{{ settings.favicon | image_url: width: 32, height: 32 }}"
+      >
+    {%- endif -%}
+
+    {%- render 'view-transition-opt-in' -%}
+
+    {%- render 'meta-tags' -%}
+    {%- render 'stylesheets' -%}
+    {%- render 'card-hover-effect-styles' -%}
+    {%- render 'fonts' -%}
+    {%- render 'scripts' -%}
+    {%- render 'theme-styles-variables' -%}
+    {%- render 'color-palette' -%}
+
+    {% if request.design_mode %}
+      {%- render 'theme-editor' -%}
+    {% endif %}
+
+    {{ content_for_header }}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Marcellus&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    {{ 'myraveda-luxury.css' | asset_url | stylesheet_tag }}
+    <style id="myraveda-critical-luxury">
+      /* Immediate high-priority luxury header and announcement overrides */
+      .announcement-bar {
+        background: #0E281F !important;
+        color: #F5E8C7 !important;
+        border-bottom: 1.5px solid #D4AF37 !important;
+      }
+      .announcement-bar__slides {
+        max-width: 1200px !important;
+        width: 100% !important;
+        justify-content: center !important;
+      }
+      .announcement-bar__slide p,
+      .announcement-bar p {
+        color: #F5E8C7 !important;
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+        font-size: 0.72rem !important;
+        letter-spacing: 0.18em !important;
+        text-transform: uppercase !important;
+        white-space: nowrap !important;
+      }
+      .header,
+      #header-component {
+        background: #FAF8F5 !important;
+        border-bottom: 1.5px solid #D4AF37 !important;
+      }
+      .header-menu .menu-list__link,
+      nav.menu-list a.menu-list__link,
+      .menu-list__link {
+        color: #0E281F !important;
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+        font-size: 0.78rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.18em !important;
+        text-transform: uppercase !important;
+      }
+      .header-menu .menu-list__link:hover,
+      .menu-list__link:hover {
+        color: #C99E3E !important;
+      }
+      .header-actions .header-actions__action {
+        color: #0E281F !important;
+      }
+      .header-actions .cart-bubble {
+        background: #0E281F !important;
+        color: #F5E8C7 !important;
+        border: 1.5px solid #C99E3E !important;
+      }
+      /* Critical Search Modal Box Expansion & Zero Horizontal Overflow */
+      dialog.search-modal__content,
+      .search-modal__content,
+      .dialog-modal.search-modal__content {
+        width: min(1260px, 95vw) !important;
+        max-width: min(1260px, 95vw) !important;
+        overflow-x: hidden !important;
+      }
+      .search-modal .predictive-search-form__content,
+      .search-modal .predictive-search-results__inner,
+      .search-modal .predictive-search-results__wrapper-products {
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+    </style>
+  </head>
+
+  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+    {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+
+    {% render 'chat-drawer' %}
+
+    <div class="page-wrapper">
+      <div id="header-group">
+        {% sections 'header-group' %}
+      </div>
+
+      <script>
+        /**
+         * Sets `--header-height` and `--header-group-height` to measured values before first paint.
+         *
+         * A few CSS rules position content relative to the header at first paint — a hero sized to
+         * the remaining viewport, a transparent header's negative margin. Without a measured value
+         * those rules use the `60px` fallback from `sections/header.liquid`, and the content visibly
+         * jumps once `header.js` corrects the values after load.
+         *
+         * Measuring forces layout mid-parse, so it only runs where a consuming rule exists.
+         * Callers opt in: the transparent-header branch below, or `snippets/measure-header-heights.liquid`,
+         * which any new first-paint consumer must render too.
+         *
+         * Measures once per page; after load, header.js's ResizeObservers keep the values fresh.
+         * The group-height walk mimics calculateHeaderGroupHeight() in utilities.js — keep them
+         * in sync.
+         */
+        window.measureHeaderHeights = (function () {
+          let measured = false;
+
+          return function measureHeaderHeights() {
+            if (measured) return;
+
+            const header = document.querySelector('#header-component');
+            const headerGroup = document.querySelector('#header-group');
+
+            if (!header || !headerGroup) return;
+            measured = true;
+
+            const headerHeight = header.offsetHeight;
+
+            let headerGroupHeight = 0;
+            for (const element of headerGroup.children) {
+              if (element instanceof HTMLElement) headerGroupHeight += element.offsetHeight;
+            }
+
+            /**
+             * A transparent header is absolutely positioned, so the loop above counts its section
+             * wrapper as 0px. When a section follows it in the group, header.liquid pushes that
+             * section down by the header's height using a margin, which offsetHeight also
+             * excludes — so the header's height has to be added back manually.
+             */
+            if (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling) {
+              headerGroupHeight += headerHeight;
+            }
+
+            document.body.style.setProperty('--header-height', `${headerHeight}px`);
+            document.body.style.setProperty('--header-group-height', `${headerGroupHeight}px`);
+          };
+        })();
+
+        /**
+         * Transparent-header rules consume the measured heights at first paint on every
+         * template, so the transparent case opts in globally here instead of per-section.
+         */
+        if (document.querySelector('#header-component')?.hasAttribute('transparent')) {
+          measureHeaderHeights();
+        }
+
+        /**
+         * Sets `--top-row-height`, consumed by the header underlays and submenus. Deferred to a
+         * rAF so the height read doesn't force layout mid-parse, and scoped to the
+         * header, where all consumers live, so the write only invalidates the header subtree.
+         * Mimics the `--top-row-height` write in updateHeaderHeights() in utilities.js
+         */
+        (function setTopRowHeight() {
+          const header = document.querySelector('#header-component');
+          const headerTopRow = header?.querySelector('.header__row--top');
+          if (!headerTopRow) return;
+
+          window.requestAnimationFrame(function () {
+            header.style.setProperty('--top-row-height', `${headerTopRow.getBoundingClientRect().height}px`);
+          });
+        })();
+
+        /**
+         * Sets `--transparent-header-offset-boolean` when the first section must offset itself
+         * under a transparent header. The non-offset case relies on the `0` default declared in
+         * sections/header.liquid — unlike updateTransparentHeaderOffset() in utilities.js, which
+         * re-runs on editor changes and must write '0' to reset a previously written '1'.
+         */
+        (function updateTransparentHeaderOffset() {
+          const header = document.querySelector('#header-component');
+          const headerSection = document.querySelector('#header-group .header-section');
+          if (!headerSection || !header?.hasAttribute('transparent')) return;
+
+          const hasImmediateSection = headerSection.nextElementSibling?.classList.contains('shopify-section');
+          if (!hasImmediateSection) {
+            document.body.style.setProperty('--transparent-header-offset-boolean', '1');
+          }
+        })();
+
+        /**
+         * Sets the initial menu style (inline menu vs. drawer) on the header component.
+         * Mimics setHeaderMenuStyle() in utilities.js
+         */
+        (function setHeaderMenuStyle() {
+          const headerComponent = document.querySelector('#header-component');
+          if (headerComponent) {
+            const isTouchDevice = 'ontouchstart' in window && navigator.maxTouchPoints > 0;
+            const overflowList = headerComponent.querySelector('overflow-list');
+            const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
+            headerComponent.dataset.menuStyle = isTouchDevice || hasReachedMinimum ? 'drawer' : 'menu';
+          }
+        })();
+      </script>
+
+      <main
+        id="MainContent"
+        class="content-for-layout"
+        role="main"
+        data-page-transition-enabled="{{ settings.page_transition_enabled }}"
+        data-product-transition="{{ settings.transition_to_main_product }}"
+        data-template="{{ template }}"
+      >
+        {{ content_for_layout }}
+      </main>
+
+      <footer>
+        {% sections 'footer-group' %}
+      </footer>
+    </div>
+
+    {% render 'cart-drawer', render_wrapper: true %}
+    {% render 'theme-drawer' %}
+
+    {% render 'search-modal' %}
+
+    {% if settings.quick_add or settings.mobile_quick_add %}
+      {% render 'quick-add-modal' %}
+    {% endif %}
+
+    <!-- HAUTE LUXE EDITORIAL SCROLL REVEAL ENGINE -->
+    <script id="myraveda-scroll-reveal-engine">
+      (function() {
+        function initScrollReveals() {
+          if (!('IntersectionObserver' in window)) {
+            document.querySelectorAll('.mv-scroll-reveal, .mv-scroll-reveal-stagger > *').forEach(function(el) {
+              el.classList.add('mv-in-view');
+            });
+            return;
+          }
+
+          var observer = new IntersectionObserver(function(entries, obs) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('mv-in-view');
+                obs.unobserve(entry.target);
+              }
+            });
+          }, {
+            root: null,
+            rootMargin: '0px 0px -35px 0px',
+            threshold: 0.08
+          });
+
+          var sectionSelectors = [
+            '.mv-section-header',
+            '.mv-map-showcase',
+            '.mv-philosophy-manifesto',
+            '.mv-philosophy-pillars-grid',
+            '.mv-promo-grid',
+            '.mv-trust-header-row',
+            '.mv-trust-track-container',
+            '.mv-product-grid',
+            '.mv-cat-slider-track-container',
+            '.mv-video-card',
+            '.mv-feature-card',
+            '.mv-test-header-row',
+            '.mv-testimonials-track-container',
+            '.mv-footer-trust-strip',
+            '.mv-footer-grid',
+            '.mv-collection-banner',
+            '.main-collection-grid'
+          ];
+
+          document.querySelectorAll(sectionSelectors.join(', ')).forEach(function(el) {
+            el.classList.add('mv-scroll-reveal');
+            observer.observe(el);
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initScrollReveals);
+        } else {
+          initScrollReveals();
+        }
+
+        document.addEventListener('shopify:section:load', function() {
+          setTimeout(initScrollReveals, 100);
+        });
+
+        /* Global Haute Luxe Search Modal Trigger */
+        document.addEventListener('click', function(e) {
+          var searchBtn = e.target.closest('.mv-search-open-btn, .search-action button, [aria-label="Search"], [aria-label="search"], button[on\\:click*="search-modal"]');
+          if (searchBtn) {
+            e.preventDefault();
+            var modal = document.getElementById('search-modal');
+            if (modal) {
+              if (typeof modal.showDialog === 'function') {
+                modal.showDialog();
+              } else {
+                var dlg = modal.querySelector('dialog');
+                if (dlg && typeof dlg.showModal === 'function') {
+                  dlg.showModal();
+                }
+              }
+              setTimeout(function() {
+                var inp = modal.querySelector('input[type="search"]');
+                if (inp) {
+                  inp.focus();
+                  inp.select();
+                }
+              }, 120);
+            }
+          }
+        });
+
+        /* ==========================================================================
+           HAUTE LUXE FLY-TO-CART & SLIDE CART DRAWER ENGINE
+           ========================================================================== */
+
+        function mvFlyToCart(sourceEl, imgUrl) {
+          if (!sourceEl) return;
+          var cartIcon = document.querySelector('.header-actions__cart-icon') ||
+                         document.querySelector('[data-testid="cart-drawer-trigger"]') ||
+                         document.querySelector('.action__cart') ||
+                         document.querySelector('cart-icon');
+          if (!cartIcon) return;
+
+          var sRect = sourceEl.getBoundingClientRect();
+          var dRect = cartIcon.getBoundingClientRect();
+
+          if (sRect.width === 0 && sRect.height === 0) return;
+
+          var token = document.createElement('div');
+          token.className = 'mv-flying-cart-token';
+          if (imgUrl) {
+            token.style.backgroundImage = 'url("' + imgUrl + '")';
+          }
+          token.style.left = (sRect.left + sRect.width / 2 - 29) + 'px';
+          token.style.top = (sRect.top + sRect.height / 2 - 29) + 'px';
+          token.style.transition = 'all 0.68s cubic-bezier(0.18, 0.89, 0.32, 1.15)';
+          token.style.opacity = '1';
+          token.style.transform = 'scale(1)';
+          document.body.appendChild(token);
+
+          // Force reflow
+          void token.offsetWidth;
+
+          var targetX = dRect.left + (dRect.width || 32) / 2 - 29;
+          var targetY = dRect.top + (dRect.height || 32) / 2 - 29;
+          token.style.left = targetX + 'px';
+          token.style.top = targetY + 'px';
+          token.style.transform = 'scale(0.32)';
+          token.style.opacity = '0.92';
+
+          setTimeout(function() {
+            token.remove();
+            cartIcon.classList.remove('mv-cart-pulse');
+            void cartIcon.offsetWidth;
+            cartIcon.classList.add('mv-cart-pulse');
+          }, 680);
+        }
+
+        function mvOpenCartDrawer() {
+          var drawer = document.getElementById('cart-drawer');
+          if (drawer && typeof drawer.open === 'function') {
+            drawer.open();
+            return;
+          }
+          var drawerTrigger = document.querySelector('[data-testid="cart-drawer-trigger"]') ||
+                              document.querySelector('[aria-controls="cart-drawer"]') ||
+                              document.querySelector('.header-actions__action');
+          if (drawerTrigger) {
+            drawerTrigger.click();
+          } else if (drawer) {
+            var dlg = drawer.querySelector('dialog');
+            if (dlg && typeof dlg.showModal === 'function') {
+              dlg.showModal();
+              drawer.setAttribute('open', '');
+            }
+          }
+        }
+
+        function mvRefreshCartDrawerAndOpen(sections) {
+          // 1. Update Cart Count in Header
+          fetch('/cart.js', { headers: { 'Accept': 'application/json' } })
+            .then(function(res) { return res.json(); })
+            .then(function(cart) {
+              if (cart && typeof cart.item_count !== 'undefined') {
+                document.querySelectorAll('.cart-bubble span, [data-maintain-ratio], .theme-drawer__badge, cart-icon .visually-hidden').forEach(function(el) {
+                  if (el.textContent && !isNaN(parseInt(el.textContent))) {
+                    el.textContent = cart.item_count;
+                  }
+                });
+                var cartBubble = document.querySelector('.cart-bubble');
+                if (cartBubble) cartBubble.classList.remove('visually-hidden');
+              }
+            })
+            .catch(function(e) { console.warn('Cart count fetch:', e); });
+
+          // 2. Inject Updated Drawer Content
+          if (sections && sections['cart-drawer-section']) {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(sections['cart-drawer-section'], 'text/html');
+            var newDrawerInner = doc.querySelector('.cart-drawer__inner');
+            var currentDrawerInner = document.querySelector('.cart-drawer__inner');
+            if (newDrawerInner && currentDrawerInner) {
+              currentDrawerInner.innerHTML = newDrawerInner.innerHTML;
+              currentDrawerInner.className = newDrawerInner.className;
+            }
+            setTimeout(mvOpenCartDrawer, 120);
+          } else {
+            // Fallback Section Rendering
+            fetch('/?sections=cart-drawer-section')
+              .then(function(res) { return res.json(); })
+              .then(function(data) {
+                if (data && data['cart-drawer-section']) {
+                  var parser = new DOMParser();
+                  var doc = parser.parseFromString(data['cart-drawer-section'], 'text/html');
+                  var newDrawerInner = doc.querySelector('.cart-drawer__inner');
+                  var currentDrawerInner = document.querySelector('.cart-drawer__inner');
+                  if (newDrawerInner && currentDrawerInner) {
+                    currentDrawerInner.innerHTML = newDrawerInner.innerHTML;
+                    currentDrawerInner.className = newDrawerInner.className;
+                  }
+                }
+                setTimeout(mvOpenCartDrawer, 120);
+              })
+              .catch(function() {
+                setTimeout(mvOpenCartDrawer, 120);
+              });
+          }
+        }
+
+        /* Intercept Card Add-to-Bag Forms with Fly-to-Cart & Drawer Opening */
+        document.addEventListener('submit', function(e) {
+          var form = e.target.closest('.mv-cart-add-form');
+          if (!form) return;
+          e.preventDefault();
+
+          var btn = form.querySelector('.mv-btn-add');
+          var originalHtml = btn ? btn.innerHTML : '';
+          if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<span>Adding...</span>';
+          }
+
+          var img = form.dataset.productImg ||
+                    form.closest('.mv-card-inner')?.querySelector('.mv-product-img')?.src || '';
+
+          mvFlyToCart(btn || form, img);
+
+          var formData = new FormData(form);
+          formData.append('sections', 'cart-drawer-section');
+
+          fetch('/cart/add.js', {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          })
+          .then(function(res) {
+            if (!res.ok) throw new Error('Cart add failed');
+            return res.json();
+          })
+          .then(function(data) {
+            if (btn) {
+              btn.innerHTML = '<span>Added ✦</span>';
+              btn.style.background = 'var(--mv-gold-gradient)';
+              btn.style.color = '#0E281F';
+            }
+            mvRefreshCartDrawerAndOpen(data ? data.sections : null);
+            setTimeout(function() {
+              if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+                btn.style.background = '';
+                btn.style.color = '';
+              }
+            }, 2400);
+          })
+          .catch(function(err) {
+            console.error('AJAX add to bag failed, falling back:', err);
+            form.submit();
+          });
+        });
+
+        /* Main Product Page Add to Cart Fly Animation Listener */
+        document.addEventListener('click', function(e) {
+          var atcBtn = e.target.closest('button[name="add"], .product-form__submit, add-to-cart-component button');
+          if (!atcBtn) return;
+          var mainImg = document.querySelector('.product-gallery__featured-media img, .media-gallery img, .product__media img, .product__media-item img');
+          var imgUrl = (mainImg && mainImg.src) ? mainImg.src : '';
+          mvFlyToCart(atcBtn, imgUrl);
+        });
+
+        /* Universal Back-To-Top Button Handler (Handles .page-wrapper & window) */
+        document.addEventListener('click', function(e) {
+          var topBtn = e.target.closest('#mvBackToTopBtn, .mv-back-to-top-btn, [data-action="scroll-to-top"]');
+          if (!topBtn) return;
+          e.preventDefault();
+
+          var pw = document.querySelector('.page-wrapper');
+          if (pw) {
+            pw.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          if (document.documentElement) {
+            document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+          if (document.body) {
+            document.body.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+
+          var topEl = document.querySelector('#header-group, #header-component, #MainContent, body');
+          if (topEl && typeof topEl.scrollIntoView === 'function') {
+            topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+
+        /* Universal Luxury Scroll Reveal Observer */
+        if ('IntersectionObserver' in window) {
+          var scrollObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                scrollObserver.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+          function observeScrollElements() {
+            document.querySelectorAll('.mv-scroll-reveal:not(.is-visible)').forEach(function(el) {
+              scrollObserver.observe(el);
+            });
+          }
+          observeScrollElements();
+          document.addEventListener('DOMContentLoaded', observeScrollElements);
+          window.addEventListener('scroll', observeScrollElements, { passive: true });
+        } else {
+          document.querySelectorAll('.mv-scroll-reveal').forEach(function(el) {
+            el.classList.add('is-visible');
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

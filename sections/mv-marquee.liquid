@@ -1,0 +1,159 @@
+<div class="mv-marquee-section" id="mv-marquee-{{ section.id }}">
+  <div class="mv-marquee-ticker" style="--speed: {{ section.settings.speed | default: 28 }}s;">
+    <div class="mv-marquee-content">
+      {%- for i in (1..3) -%}
+        {%- for block in section.blocks -%}
+          <div class="mv-marquee-item" {{ block.shopify_attributes }}>
+            <span class="mv-marquee-star">✦</span>
+            <span class="mv-marquee-text">{{ block.settings.marquee_text | escape }}</span>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+    <div class="mv-marquee-content" aria-hidden="true">
+      {%- for i in (1..3) -%}
+        {%- for block in section.blocks -%}
+          <div class="mv-marquee-item">
+            <span class="mv-marquee-star">✦</span>
+            <span class="mv-marquee-text">{{ block.settings.marquee_text | escape }}</span>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  #mv-marquee-{{ section.id }} {
+    background: linear-gradient(90deg, #071A14 0%, #0E281F 50%, #071A14 100%);
+    height: 48px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    border-top: 1.5px solid #C99E3E;
+    border-bottom: 1.5px solid #C99E3E;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(201, 158, 62, 0.35);
+    z-index: 5;
+  }
+
+  .mv-marquee-ticker {
+    display: flex;
+    width: max-content;
+    animation: mvMarqueeScroll var(--speed) linear infinite;
+    will-change: transform;
+  }
+
+  #mv-marquee-{{ section.id }}:hover .mv-marquee-ticker {
+    animation-play-state: paused;
+  }
+
+  .mv-marquee-content {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    padding-right: 48px;
+    flex-shrink: 0;
+  }
+
+  .mv-marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    line-height: 1.2;
+  }
+
+  .mv-marquee-star {
+    color: #DFB76C;
+    font-size: 1.05rem;
+    filter: drop-shadow(0 0 8px rgba(223, 183, 108, 0.8));
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .mv-marquee-text {
+    font-family: var(--mv-font-serif, 'Marcellus', serif);
+    font-size: clamp(0.95rem, 1.25vw, 1.18rem);
+    color: #FFFDF7;
+    letter-spacing: 0.16em;
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+  }
+
+  @keyframes mvMarqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 749px) {
+    #mv-marquee-{{ section.id }} {
+      height: 40px;
+    }
+
+    .mv-marquee-content {
+      gap: 28px;
+      padding-right: 28px;
+    }
+
+    .mv-marquee-item {
+      gap: 12px;
+    }
+
+    .mv-marquee-star {
+      font-size: 0.88rem;
+    }
+
+    .mv-marquee-text {
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "MV Marquee Ticker",
+  "tag": "section",
+  "class": "mv-marquee-section-wrapper",
+  "settings": [
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "s",
+      "label": "Scroll Duration",
+      "default": 30
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ticker_item",
+      "name": "Marquee Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "marquee_text",
+          "label": "Text",
+          "default": "World's Finest Ingredients From Soil To Soul®"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MV Marquee Ticker",
+      "blocks": [
+        { "type": "ticker_item", "settings": { "marquee_text": "World's Finest Ingredients From Soil To Soul®" } },
+        { "type": "ticker_item", "settings": { "marquee_text": "#WiserTogether" } },
+        { "type": "ticker_item", "settings": { "marquee_text": "#InformedChoice" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

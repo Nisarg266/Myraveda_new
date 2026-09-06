@@ -1,0 +1,74 @@
+{%- doc -%}
+  Haute Luxe bespoke search product card for Myra Veda Luxury Essentials
+  @param {object} product - Shopify product object
+{%- enddoc -%}
+
+{%- if product != blank and product.title != blank -%}
+  {%- liquid
+    assign on_sale = false
+    if product.compare_at_price > product.price
+      assign on_sale = true
+      assign save_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round
+    endif
+  -%}
+
+  <div class="mv-search-card">
+    <a href="{{ product.url }}" class="mv-search-card-link" aria-label="{{ product.title | escape }}"></a>
+
+    <div class="mv-search-media-wrap">
+      {%- if product.featured_media != blank -%}
+        <img
+          src="{{ product.featured_media | image_url: width: 360 }}"
+          alt="{{ product.title | escape }}"
+          loading="lazy"
+          class="mv-search-img primary"
+          width="360"
+          height="360"
+        >
+        {%- if product.media[1] != blank -%}
+          <img
+            src="{{ product.media[1] | image_url: width: 360 }}"
+            alt="{{ product.title | escape }}"
+            loading="lazy"
+            class="mv-search-img secondary"
+            width="360"
+            height="360"
+          >
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'mv-search-placeholder' }}
+      {%- endif -%}
+
+      <div class="mv-search-badges-row">
+        {%- if on_sale -%}
+          <span class="mv-search-badge mv-badge-sale">✦ {{ save_pct }}% OFF</span>
+        {%- else -%}
+          <span class="mv-search-badge mv-badge-luxe">✦ PURE AYURVEDA</span>
+        {%- endif -%}
+        <span class="mv-search-rating">★ 4.9</span>
+      </div>
+    </div>
+
+    <div class="mv-search-card-body">
+      <span class="mv-search-tag">Ayurvedic Formulation</span>
+      
+      <h5 class="mv-search-title" title="{{ product.title | escape }}">
+        {{ product.title | escape }}
+      </h5>
+
+      <div class="mv-search-price-row">
+        <span class="mv-search-curr-price">{{ product.price | money }}</span>
+        {%- if on_sale -%}
+          <span class="mv-search-comp-price">{{ product.compare_at_price | money }}</span>
+        {%- endif -%}
+      </div>
+
+      <div class="mv-search-btn-wrap">
+        <span class="mv-search-action-btn">
+          <span>Explore Ritual</span>
+          <span class="mv-btn-arrow">→</span>
+        </span>
+      </div>
+    </div>
+  </div>
+{%- endif -%}

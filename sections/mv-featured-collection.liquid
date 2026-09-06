@@ -1,0 +1,495 @@
+<div class="mv-collection-section" id="mv-collection-{{ section.id }}">
+  <div class="mv-container">
+    <div class="mv-section-header">
+      {%- if section.settings.badge != blank -%}
+        <span class="mv-section-badge">{{ section.settings.badge | escape }}</span>
+      {%- endif -%}
+      <h2 class="mv-section-title">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="mv-section-subtitle">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+      <div class="mv-divider-accent"></div>
+    </div>
+
+    {%- assign target_collection = collections[section.settings.collection] -%}
+
+    <div class="mv-product-grid">
+      {%- if target_collection != blank and target_collection.products_count > 0 -%}
+        {%- for product in target_collection.products limit: section.settings.products_to_show -%}
+          <div class="mv-product-card">
+            <a href="{{ product.url }}" class="mv-product-media-wrap">
+              {%- if product.featured_media != blank -%}
+                <img
+                  src="{{ product.featured_media | image_url: width: 600 }}"
+                  srcset="{{ product.featured_media | image_url: width: 350 }} 350w, {{ product.featured_media | image_url: width: 600 }} 600w"
+                  sizes="(max-width: 749px) 50vw, (max-width: 1024px) 33vw, 280px"
+                  alt="{{ product.title | escape }}"
+                  loading="lazy"
+                  class="mv-product-img primary"
+                >
+                {%- if product.media[1] != blank -%}
+                  <img
+                    src="{{ product.media[1] | image_url: width: 600 }}"
+                    alt="{{ product.title | escape }}"
+                    loading="lazy"
+                    class="mv-product-img secondary"
+                  >
+                {%- endif -%}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'mv-product-placeholder' }}
+              {%- endif -%}
+
+              {%- if product.compare_at_price > product.price -%}
+                <span class="mv-product-badge mv-badge-sale">✦ SALE</span>
+              {%- else -%}
+                <span class="mv-product-badge mv-badge-best">✦ BESTSELLER</span>
+              {%- endif -%}
+            </a>
+
+            <div class="mv-product-info">
+              <div class="mv-prod-meta-row">
+                <span class="mv-prod-tag">Ayurvedic Luxury</span>
+                <div class="mv-rating-stars">
+                  <span>★★★★★</span>
+                  <span class="mv-rating-num">4.9</span>
+                </div>
+              </div>
+
+              <h3 class="mv-product-title">
+                <a href="{{ product.url }}">{{ product.title | escape }}</a>
+              </h3>
+
+              <div class="mv-product-price">
+                <span class="mv-current-price">{{ product.price | money }}</span>
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="mv-compare-price">{{ product.compare_at_price | money }}</span>
+                  {%- assign save_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                  <span class="mv-save-pill">Save {{ save_pct }}%</span>
+                {%- endif -%}
+              </div>
+
+              <div class="mv-product-action">
+                {%- if product.available -%}
+                  <form method="post" action="/cart/add">
+                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                    <button type="submit" class="mv-btn-add">
+                      <span>Add to Bag</span>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    </button>
+                  </form>
+                {%- else -%}
+                  <button class="mv-btn-add mv-btn-soldout" disabled>Sold Out</button>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign demo_titles = "Milk Therapy Hair Oil with Lavender & Rosemary,Pure Steam-Distilled Kannauj Rose Water,The Greek Goddess Shea & Zinc Scrub Mask,Japanese Matcha Tea & Camellia Shampoo" | split: "," -%}
+        {%- assign demo_prices = "₹899.00,₹539.00,₹599.00,₹325.00" | split: "," -%}
+        {%- for i in (0..3) -%}
+          <div class="mv-product-card">
+            <div class="mv-product-media-wrap">
+              {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'mv-product-placeholder' }}
+              <span class="mv-product-badge mv-badge-best">✦ BESTSELLER</span>
+            </div>
+            <div class="mv-product-info">
+              <div class="mv-prod-meta-row">
+                <span class="mv-prod-tag">Ayurvedic Luxury</span>
+                <div class="mv-rating-stars">
+                  <span>★★★★★</span>
+                  <span class="mv-rating-num">5.0</span>
+                </div>
+              </div>
+              <h3 class="mv-product-title">
+                <a href="#">{{ demo_titles[i] }}</a>
+              </h3>
+              <div class="mv-product-price">
+                <span class="mv-current-price">{{ demo_prices[i] }}</span>
+              </div>
+              <div class="mv-product-action">
+                <a href="/collections/all" class="mv-btn-add">Explore Formula</a>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_view_all -%}
+      <div class="mv-collection-footer">
+        <a href="{{ target_collection.url | default: '/collections/all' }}" class="mv-btn-gold">
+          <span>Explore All Best-Sellers</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  #mv-collection-{{ section.id }} {
+    padding: clamp(42px, 5vw, 62px) 24px;
+    background: #FAF8F5;
+  }
+
+  #mv-collection-{{ section.id }} .mv-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 3.2vw, 40px);
+    box-sizing: border-box;
+  }
+
+  .mv-product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mv-product-card {
+    background: transparent;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1.5px solid rgba(201, 158, 62, 0.30);
+    box-shadow: 0 6px 18px rgba(14, 40, 31, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .mv-product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(201, 158, 62, 0.20), 0 0 0 1px #C99E3E;
+    border-color: #C99E3E;
+  }
+
+  .mv-product-media-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1.08 / 1;
+    max-height: 250px;
+    overflow: hidden;
+    background: transparent;
+    display: block;
+    padding: 0;
+    border-bottom: 1px solid rgba(201, 158, 62, 0.16);
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+
+  .mv-product-img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: none;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+    display: block;
+    margin: 0;
+  }
+
+  .mv-product-card:hover .mv-product-img.primary {
+    transform: scale(1.06);
+  }
+
+  .mv-product-img.secondary {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: none;
+    object-fit: cover;
+    object-position: center;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mv-product-card:hover .mv-product-img.secondary {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+
+  .mv-product-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .mv-product-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    padding: 5px 14px;
+    border-radius: var(--mv-radius-pill);
+    z-index: 2;
+    text-transform: uppercase;
+  }
+
+  .mv-badge-best {
+    background: linear-gradient(135deg, #0E281F 0%, #163E30 100%);
+    color: #F5E8C7;
+    border: 1px solid #C99E3E;
+    box-shadow: 0 4px 14px rgba(14, 40, 31, 0.35);
+  }
+
+  .mv-badge-sale {
+    background: linear-gradient(135deg, #DFB76C 0%, #C59B45 42%, #9E7429 100%);
+    color: #FFFFFF;
+    border: 1px solid #DFB76C;
+    box-shadow: 0 4px 14px rgba(201, 158, 62, 0.4);
+  }
+
+  .mv-product-info {
+    padding: 13px 15px 13px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background: transparent;
+  }
+
+  .mv-prod-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .mv-prod-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #8C651E;
+    text-transform: uppercase;
+  }
+
+  .mv-rating-stars {
+    color: #C99E3E;
+    font-size: 0.82rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .mv-rating-num {
+    font-size: 0.74rem;
+    color: #0E281F;
+    font-family: var(--mv-font-sans);
+    font-weight: 700;
+  }
+
+  .mv-product-title {
+    font-family: 'Marcellus', 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.32;
+    margin: 2px 0 6px;
+    font-weight: 500;
+    min-height: 2.64em;
+  }
+
+  .mv-product-title a {
+    color: #0E281F;
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+
+  .mv-product-title a:hover {
+    color: #C99E3E;
+  }
+
+  .mv-product-price {
+    margin-bottom: 9px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .mv-current-price {
+    font-family: var(--mv-font-sans);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0E281F;
+    letter-spacing: -0.01em;
+  }
+
+  .mv-compare-price {
+    font-family: var(--mv-font-sans);
+    font-size: 0.86rem;
+    color: #9C958D;
+    text-decoration: line-through;
+  }
+
+  .mv-save-pill {
+    font-family: var(--mv-font-sans);
+    font-size: 0.64rem;
+    font-weight: 700;
+    color: #8C651E;
+    background: rgba(201, 158, 62, 0.14);
+    border: 1px solid rgba(201, 158, 62, 0.35);
+    padding: 2px 7px;
+    border-radius: var(--mv-radius-pill);
+    letter-spacing: 0.04em;
+  }
+
+  .mv-product-action {
+    margin-top: auto;
+  }
+
+  .mv-btn-add {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 9px 12px;
+    background: #0E281F;
+    border: 1.5px solid #C99E3E;
+    border-radius: var(--mv-radius-pill);
+    color: #FFFFFF;
+    font-family: 'Cinzel', serif;
+    font-size: 0.70rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(14, 40, 31, 0.18);
+  }
+
+  .mv-btn-add:hover {
+    background: var(--mv-gold-gradient);
+    color: #0E281F;
+    border-color: #DFB76C;
+    box-shadow: 0 8px 24px rgba(201, 158, 62, 0.45);
+    transform: translateY(-2px);
+  }
+
+  .mv-btn-soldout {
+    background: #EFECE6;
+    color: #A0988F;
+    border-color: #DCD6CD;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .mv-btn-soldout:hover {
+    background: #EFECE6;
+    color: #A0988F;
+    border-color: #DCD6CD;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .mv-collection-footer {
+    margin-top: 36px;
+    text-align: center;
+  }
+
+  @media (max-width: 1024px) {
+    .mv-product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    #mv-collection-{{ section.id }} {
+      padding: 34px 18px;
+    }
+    .mv-product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .mv-product-media-wrap {
+      padding: 0;
+    }
+    .mv-product-img {
+      max-height: none;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+    .mv-product-info {
+      padding: 14px 12px;
+    }
+    .mv-product-title {
+      font-size: 1.05rem;
+      min-height: auto;
+    }
+    .mv-current-price {
+      font-size: 1.02rem;
+    }
+    .mv-btn-add {
+      padding: 10px 10px;
+      font-size: 0.68rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "MV Featured Collection",
+  "tag": "section",
+  "class": "mv-featured-collection-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer Favorites"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our best-sellers are categorized by high demands and stellar reviews."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 2,
+      "label": "Number of Products",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' Button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "MV Featured Collection"
+    }
+  ]
+}
+{% endschema %}

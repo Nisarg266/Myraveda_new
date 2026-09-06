@@ -1,0 +1,767 @@
+{% comment %}
+  =============================================================================
+  MYRA VEDA LUXURY ESSENTIALS - HAUTE LUXE EDITORIAL TESTIMONIALS
+  Inspired by Royal Vedic Heritage & High-Society Beauty Connoisseurs
+  Palette: Warm Silk Alabaster, Royal Botanical Emerald (#0E281F), 24K Liquid Gold (#C99E3E)
+  Typography: Marcellus (Vedic Headings & Names), Playfair Display (Quotes), Cinzel (Badges)
+  =============================================================================
+{% endcomment %}
+
+<div class="mv-testimonials-section" id="mv-testimonials-{{ section.id }}">
+  <div class="mv-testimonials-ambient-glow"></div>
+  
+  <div class="mv-test-container">
+    
+    <!-- SECTION HEADER WITH LUXURY CAMEO CONTROLS -->
+    <div class="mv-test-header-row">
+      <div class="mv-test-title-col">
+        {%- if section.settings.badge != blank -%}
+          <div class="mv-test-badge-wrap">
+            <span class="mv-test-badge">✦ {{ section.settings.badge | escape }} ✦</span>
+          </div>
+        {%- endif -%}
+        
+        <h2 class="mv-test-main-heading">
+          {{ section.settings.heading | escape }}
+        </h2>
+        
+        {%- if section.settings.subheading != blank -%}
+          <p class="mv-test-subtitle">
+            {{ section.settings.subheading | escape }}
+          </p>
+        {%- endif -%}
+      </div>
+
+      <!-- 24K GOLD WIREFRAME CAMEO ARROWS -->
+      <div class="mv-test-slider-nav">
+        <button type="button" class="mv-test-arrow mv-test-prev" aria-label="Previous Testimonials" title="Previous Review">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button type="button" class="mv-test-arrow mv-test-next" aria-label="Next Testimonials" title="Next Review">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS SLIDER TRACK -->
+    <div class="mv-testimonials-track-container mv-hide-scrollbar">
+      <div class="mv-testimonials-track">
+        {%- for block in section.blocks -%}
+          <div class="mv-testimonial-card" {{ block.shopify_attributes }}>
+            
+            <!-- GOLD TOP ACCENT LINE -->
+            <div class="mv-card-gold-crest"></div>
+
+            <!-- TOP META ROW: JEWELRY STARS + METALLIC QUOTE ICON -->
+            <div class="mv-card-top-row">
+              <div class="mv-test-stars-wrap">
+                <span class="mv-star-icon">★</span>
+                <span class="mv-star-icon">★</span>
+                <span class="mv-star-icon">★</span>
+                <span class="mv-star-icon">★</span>
+                <span class="mv-star-icon">★</span>
+              </div>
+              <div class="mv-card-quote-mark">“</div>
+            </div>
+
+            <!-- EDITORIAL ENDORSEMENT EYEBROW -->
+            <div class="mv-editorial-tag">
+              <span class="mv-tag-bullet">✦</span>
+              <span class="mv-tag-text">AUTHENTIC PATRON REVIEW</span>
+            </div>
+
+            <!-- QUOTE CONTENT WITH BALANCED PROPORTIONS (NO HOLLOW VOID) -->
+            <div class="mv-test-quote-wrap">
+              <div class="mv-test-quote">
+                {{ block.settings.quote }}
+              </div>
+            </div>
+
+            <!-- AUTHOR INFORMATION ROW WITH GILDED CAMEO RING -->
+            <div class="mv-test-author-row">
+              {%- if block.settings.image != blank -%}
+                <div class="mv-test-avatar-ring">
+                  <img
+                    src="{{ block.settings.image | image_url: width: 160 }}"
+                    alt="{{ block.settings.author_name | escape }}"
+                    loading="lazy"
+                    class="mv-test-avatar"
+                    width="52"
+                    height="52"
+                  >
+                </div>
+              {%- else -%}
+                <div class="mv-test-avatar-ring mv-avatar-letter">
+                  <span>{{ block.settings.author_name | slice: 0, 1 }}</span>
+                </div>
+              {%- endif -%}
+
+              <div class="mv-test-author-info">
+                <span class="mv-author-name">{{ block.settings.author_name | escape }}</span>
+                {%- if block.settings.author_title != blank -%}
+                  <span class="mv-author-title">{{ block.settings.author_title | escape }}</span>
+                {%- endif -%}
+              </div>
+
+              <div class="mv-verified-pill" title="Verified Customer Review">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="#C99E3E">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                <span>VERIFIED</span>
+              </div>
+            </div>
+
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* ==========================================================================
+     MYRA VEDA HAUTE LUXE EDITORIAL TESTIMONIALS STYLES
+     ========================================================================== */
+  
+  .mv-testimonials-section {
+    padding: clamp(46px, 5.5vw, 68px) 0;
+    background: #FAF8F5;
+    position: relative;
+    overflow: hidden;
+    border-top: 1.5px solid rgba(201, 158, 62, 0.28);
+    border-bottom: 1.5px solid rgba(201, 158, 62, 0.28);
+  }
+
+  /* Radiant ambient warmth */
+  .mv-testimonials-ambient-glow {
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 380px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(201, 158, 62, 0.1) 0%, rgba(201, 158, 62, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .mv-test-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+  }
+
+  /* 1. SECTION HEADER ROW */
+  .mv-test-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: clamp(24px, 3.5vw, 36px);
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .mv-test-title-col {
+    max-width: 720px;
+  }
+
+  .mv-test-badge-wrap {
+    margin-bottom: 8px;
+  }
+
+  .mv-test-badge {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #8C651E;
+    background: rgba(201, 158, 62, 0.1);
+    border: 1px solid rgba(201, 158, 62, 0.4);
+    padding: 4px 14px;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+
+  .mv-test-main-heading {
+    font-family: 'Marcellus', 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.1rem, 3.6vw, 2.9rem);
+    line-height: 1.15;
+    letter-spacing: 0.03em;
+    color: #0E281F;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+  }
+
+  .mv-test-subtitle {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(0.88rem, 1.2vw, 0.98rem);
+    color: #696054;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* 2. 24K GOLD WIREFRAME NAVIGATION BUTTONS */
+  .mv-test-slider-nav {
+    display: flex;
+    gap: 12px;
+  }
+
+  .mv-test-arrow {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1.5px solid #C99E3E;
+    color: #0E281F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(14, 40, 31, 0.06);
+    outline: none;
+  }
+
+  .mv-test-arrow:hover {
+    background: linear-gradient(135deg, #DFB76C 0%, #C59B45 50%, #9E7429 100%);
+    color: #FFFFFF;
+    border-color: #F5E8C7;
+    box-shadow: 0 8px 24px rgba(201, 158, 62, 0.4);
+    transform: scale(1.08);
+  }
+
+  .mv-test-arrow:active {
+    transform: scale(0.96);
+  }
+
+  /* 3. TRACK & HORIZONTAL SCROLL */
+  .mv-testimonials-track-container {
+    overflow: hidden;
+    margin: 0;
+    padding: 12px 0 28px 0;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mv-hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .mv-hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .mv-testimonials-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+  }
+
+  /* 4. HAUTE LUXE EDITORIAL CARD ARCHITECTURE - 4 CARDS DESKTOP */
+  .mv-testimonial-card {
+    flex: 0 0 calc((100% - 60px) / 4);
+    width: calc((100% - 60px) / 4);
+    background: linear-gradient(180deg, #FFFFFF 0%, #FCFAF7 100%);
+    border-radius: 20px;
+    padding: 22px 20px 18px 20px;
+    border: 1.5px solid rgba(201, 158, 62, 0.35);
+    box-shadow: 0 10px 28px rgba(14, 40, 31, 0.05), 0 2px 6px rgba(201, 158, 62, 0.05);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+  }
+
+  .mv-testimonial-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 22px 50px rgba(14, 40, 31, 0.1), 0 0 0 1px #C99E3E;
+    border-color: #C99E3E;
+  }
+
+  /* Gold Crest Top Accent */
+  .mv-card-gold-crest {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65%;
+    height: 2.5px;
+    background: linear-gradient(90deg, transparent 0%, #C99E3E 50%, transparent 100%);
+    border-radius: 999px;
+  }
+
+  /* TOP ROW: STARS & QUOTE ICON */
+  .mv-card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .mv-test-stars-wrap {
+    display: inline-flex;
+    gap: 4px;
+  }
+
+  .mv-star-icon {
+    color: #C99E3E;
+    font-size: 1.1rem;
+    filter: drop-shadow(0 1px 3px rgba(201, 158, 62, 0.3));
+    transition: transform 0.2s ease;
+  }
+
+  .mv-testimonial-card:hover .mv-star-icon {
+    transform: scale(1.1);
+  }
+
+  .mv-card-quote-mark {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.8rem;
+    line-height: 0.8;
+    color: rgba(201, 158, 62, 0.4);
+    font-weight: 700;
+  }
+
+  /* EDITORIAL ENDORSEMENT TAG */
+  .mv-editorial-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #8C651E;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .mv-tag-bullet {
+    color: #C99E3E;
+    font-size: 0.6rem;
+  }
+
+  /* QUOTE CONTENT (SNUG PROPORTIONS - ELIMINATES HOLLOW GAP) */
+  .mv-test-quote-wrap {
+    min-height: 96px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .mv-test-quote {
+    font-family: 'Playfair Display', 'Marcellus', Georgia, serif;
+    font-size: clamp(0.95rem, 1.05vw, 1.05rem);
+    line-height: 1.55;
+    color: #0E281F;
+    font-style: italic;
+    margin: 0;
+  }
+
+  .mv-test-quote p {
+    margin: 0;
+  }
+
+  /* AUTHOR ROW WITH 24K GOLD CAMEO RING */
+  .mv-test-author-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(201, 158, 62, 0.2);
+    margin-top: auto;
+  }
+
+  .mv-test-avatar-ring {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 2px solid #C99E3E;
+    outline: 2px solid rgba(201, 158, 62, 0.2);
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(201, 158, 62, 0.22);
+    transition: all 0.35s ease;
+  }
+
+  .mv-testimonial-card:hover .mv-test-avatar-ring {
+    transform: scale(1.06);
+    border-color: #DFB76C;
+  }
+
+  .mv-test-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .mv-avatar-letter {
+    background: radial-gradient(circle, #FFFDF8 40%, #FAF1DF 100%);
+    color: #8C651E;
+    font-family: 'Marcellus', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mv-test-author-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+  }
+
+  .mv-author-name {
+    font-family: 'Marcellus', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0E281F;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mv-author-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    color: #8C651E;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* VERIFIED PATRON BADGE */
+  .mv-verified-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(201, 158, 62, 0.1);
+    border: 1px solid rgba(201, 158, 62, 0.35);
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #8C651E;
+    flex-shrink: 0;
+  }
+
+  /* ==========================================================================
+     MOBILE RESPONSIVENESS (PERFECT TOUCH & VISUAL BALANCE)
+     ========================================================================== */
+  @media (max-width: 767px) {
+    .mv-testimonials-section {
+      padding: 34px 0 38px 0;
+    }
+
+    .mv-test-container {
+      padding: 0 16px;
+    }
+
+    .mv-test-header-row {
+      margin-bottom: 18px;
+      gap: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .mv-test-title-col {
+      max-width: calc(100% - 94px);
+    }
+
+    .mv-test-badge {
+      font-size: 0.62rem;
+      padding: 3px 10px;
+      letter-spacing: 0.16em;
+    }
+
+    .mv-test-main-heading {
+      font-size: clamp(1.65rem, 5.8vw, 2.1rem);
+      margin-bottom: 6px;
+      line-height: 1.15;
+    }
+
+    .mv-test-subtitle {
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .mv-test-slider-nav {
+      gap: 8px;
+    }
+
+    .mv-test-arrow {
+      width: 38px;
+      height: 38px;
+    }
+
+    .mv-test-arrow svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .mv-testimonials-track-container {
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      margin: 0 -16px;
+      padding: 8px 16px 22px 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mv-testimonials-track {
+      gap: 14px !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+
+    .mv-testimonial-card {
+      flex: 0 0 84vw !important;
+      width: 84vw !important;
+      max-width: 318px !important;
+      min-width: 275px !important;
+      padding: 20px 18px 16px 18px !important;
+      border-radius: 18px !important;
+      scroll-snap-align: center !important;
+    }
+
+    .mv-card-quote-mark {
+      font-size: 2.2rem;
+    }
+
+    .mv-editorial-tag {
+      font-size: 0.58rem;
+      margin-bottom: 10px;
+    }
+
+    .mv-test-quote {
+      font-size: 0.98rem;
+      line-height: 1.52;
+    }
+
+    .mv-test-quote-wrap {
+      min-height: 84px;
+      margin-bottom: 14px;
+    }
+
+    .mv-test-author-row {
+      padding-top: 12px;
+      gap: 10px;
+    }
+
+    .mv-test-avatar-ring {
+      width: 42px;
+      height: 42px;
+    }
+
+    .mv-author-name {
+      font-size: 0.92rem;
+    }
+
+    .mv-author-title {
+      font-size: 0.68rem;
+    }
+
+    .mv-verified-pill {
+      font-size: 0.56rem;
+      padding: 3px 7px;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const wrap = document.getElementById('mv-testimonials-{{ section.id }}');
+    if (!wrap) return;
+
+    const trackContainer = wrap.querySelector('.mv-testimonials-track-container');
+    const track = wrap.querySelector('.mv-testimonials-track');
+    const cards = wrap.querySelectorAll('.mv-testimonial-card');
+    const prevBtn = wrap.querySelector('.mv-test-prev');
+    const nextBtn = wrap.querySelector('.mv-test-next');
+
+    let currentIndex = 0;
+
+    function getVisibleCount() {
+      const w = window.innerWidth;
+      if (w <= 767) return 1;
+      if (w < 1024) return 2;
+      return 4; // Exactly 4 whole cards on desktop
+    }
+
+    function getGap() {
+      const w = window.innerWidth;
+      if (w <= 767) return 14;
+      if (w < 1024) return 16;
+      return 20;
+    }
+
+    function updateSlider() {
+      if (!trackContainer || !cards.length) return;
+      const w = window.innerWidth;
+
+      if (w <= 767) {
+        // Mobile phone mode: native horizontal touch snap
+        if (track) {
+          track.style.transform = 'none';
+          track.style.gap = '14px';
+        }
+        cards.forEach(c => {
+          c.style.removeProperty('width');
+          c.style.removeProperty('flex');
+          c.style.removeProperty('max-width');
+          c.style.removeProperty('min-width');
+        });
+        return;
+      }
+
+      // Desktop & Tablet: Exactly visibleCount cards fill 100% of container width
+      const visibleCount = getVisibleCount();
+      const gap = getGap();
+      const containerWidth = trackContainer.getBoundingClientRect().width;
+      const totalGaps = gap * (visibleCount - 1);
+      const cardWidth = (containerWidth - totalGaps) / visibleCount;
+
+      cards.forEach(c => {
+        const wPx = cardWidth.toFixed(2) + 'px';
+        c.style.width = wPx;
+        c.style.flex = '0 0 ' + wPx;
+        c.style.maxWidth = wPx;
+        c.style.minWidth = wPx;
+      });
+
+      if (track) {
+        track.style.gap = gap + 'px';
+        const maxIndex = Math.max(0, cards.length - visibleCount);
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
+        const offset = currentIndex * (cardWidth + gap);
+        track.style.transform = `translateX(-${offset.toFixed(2)}px)`;
+      }
+    }
+
+    updateSlider();
+    window.addEventListener('resize', updateSlider, { passive: true });
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        const w = window.innerWidth;
+        if (w <= 767) {
+          const card = trackContainer.querySelector('.mv-testimonial-card');
+          const step = card ? card.offsetWidth + 14 : 300;
+          trackContainer.scrollBy({ left: -step, behavior: 'smooth' });
+        } else {
+          const visibleCount = getVisibleCount();
+          const maxIndex = Math.max(0, cards.length - visibleCount);
+          currentIndex = (currentIndex <= 0) ? maxIndex : (currentIndex - 1);
+          updateSlider();
+        }
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        const w = window.innerWidth;
+        if (w <= 767) {
+          const card = trackContainer.querySelector('.mv-testimonial-card');
+          const step = card ? card.offsetWidth + 14 : 300;
+          trackContainer.scrollBy({ left: step, behavior: 'smooth' });
+        } else {
+          const visibleCount = getVisibleCount();
+          const maxIndex = Math.max(0, cards.length - visibleCount);
+          currentIndex = (currentIndex >= maxIndex) ? 0 : (currentIndex + 1);
+          updateSlider();
+        }
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "MV Testimonials",
+  "tag": "section",
+  "class": "mv-testimonials-section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "Loved By Connoisseurs"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by Connoisseurs"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "What our customers think about our clean luxury formulations"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Customer Review",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer Photo"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Name",
+          "default": "Customer Name"
+        },
+        {
+          "type": "text",
+          "id": "author_title",
+          "label": "Title / Social Handle",
+          "default": "Verified Customer"
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "default": "<p>“Extremely beautiful packaging and extraordinary formulation.”</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MV Testimonials",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ]
+}
+{% endschema %}

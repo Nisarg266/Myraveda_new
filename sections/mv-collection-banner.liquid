@@ -1,0 +1,263 @@
+<div class="mv-collection-banner" id="mv-collection-banner-{{ section.id }}">
+  <div class="mv-banner-bg-wrap">
+    <img
+      src="{{ 'mv-collection-banner-bg.jpg' | asset_url }}"
+      alt="Myra Veda Ayurvedic Formulations"
+      class="mv-banner-bg-img"
+      loading="eager"
+      width="1920"
+      height="1080"
+    >
+    <div class="mv-banner-overlay"></div>
+  </div>
+
+  <div class="mv-container">
+    {%- if section.settings.show_breadcrumbs -%}
+      <nav class="mv-breadcrumbs" aria-label="Breadcrumbs">
+        <a href="/" class="mv-bc-link">Home</a>
+        <span class="mv-bc-sep">/</span>
+        <a href="/collections" class="mv-bc-link">Collections</a>
+        <span class="mv-bc-sep">/</span>
+        <span class="mv-bc-curr">{{ collection.title | default: 'Formulations' }}</span>
+      </nav>
+    {%- endif -%}
+
+    <div class="mv-banner-content">
+      {%- if section.settings.badge != blank -%}
+        <span class="mv-section-badge">{{ section.settings.badge | escape }}</span>
+      {%- endif -%}
+
+      <h1 class="mv-banner-title">{{ collection.title | default: 'All Formulations' }}</h1>
+
+      <div class="mv-divider-accent"></div>
+
+      {%- if collection.description != blank and section.settings.show_description -%}
+        <div class="mv-banner-description rte">
+          {{ collection.description }}
+        </div>
+      {%- elsif section.settings.subheading != blank -%}
+        <p class="mv-banner-subtitle">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.show_count and collection.products_count > 0 -%}
+        <div class="mv-banner-meta">
+          <span class="mv-count-pill">✦ {{ collection.products_count }} Formulations Available</span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  #mv-collection-banner-{{ section.id }} {
+    position: relative;
+    padding: clamp(20px, 2.8vw, 32px) 20px clamp(18px, 2.4vw, 28px);
+    border-bottom: 1.5px solid rgba(201, 158, 62, 0.32);
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .mv-banner-bg-wrap {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .mv-banner-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+    animation: mvBannerAmbientZoom 20s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+    filter: brightness(0.96) saturate(1.08);
+    transform-origin: center center;
+    display: block;
+  }
+
+  @keyframes mvBannerAmbientZoom {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.07);
+    }
+  }
+
+  .mv-banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(7, 26, 20, 0.36) 0%, rgba(7, 26, 20, 0.65) 100%);
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+    pointer-events: none;
+  }
+
+  #mv-collection-banner-{{ section.id }} .mv-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .mv-breadcrumbs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .mv-bc-link {
+    color: #DFB76C;
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+
+  .mv-bc-link:hover {
+    color: #FFFFFF;
+  }
+
+  .mv-bc-sep {
+    color: rgba(223, 183, 108, 0.65);
+    font-size: 0.66rem;
+  }
+
+  .mv-bc-curr {
+    color: #FFFFFF;
+    font-weight: 700;
+  }
+
+  .mv-banner-content {
+    max-width: 780px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .mv-banner-content .mv-section-badge {
+    padding: 3px 12px;
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    margin-bottom: 6px;
+    display: inline-block;
+  }
+
+  .mv-banner-title {
+    font-family: 'Marcellus', 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 3.2vw, 2.6rem);
+    color: #FFFFFF;
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 4px 0 6px;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
+  }
+
+  .mv-banner-content .mv-divider-accent {
+    width: 46px;
+    height: 1.5px;
+    margin: 6px auto;
+  }
+
+  .mv-banner-description,
+  .mv-banner-subtitle {
+    font-family: var(--mv-font-sans);
+    font-size: clamp(0.90rem, 1.1vw, 0.98rem);
+    color: #F5E8C7;
+    line-height: 1.5;
+    margin: 6px auto 0;
+    max-width: 660px;
+    font-weight: 400;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+  }
+
+  .mv-banner-meta {
+    margin-top: 10px;
+  }
+
+  .mv-count-pill {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(7, 26, 20, 0.75);
+    border: 1px solid rgba(201, 158, 62, 0.6);
+    border-radius: var(--mv-radius-pill);
+    font-family: 'Cinzel', serif;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #F5E8C7;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  @media (max-width: 640px) {
+    #mv-collection-banner-{{ section.id }} {
+      padding: 18px 14px 16px;
+    }
+    .mv-banner-title {
+      font-size: 1.8rem;
+    }
+    .mv-breadcrumbs {
+      font-size: 0.62rem;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+    .mv-count-pill {
+      font-size: 0.62rem;
+      padding: 3px 12px;
+    }
+    .mv-banner-description,
+    .mv-banner-subtitle {
+      font-size: 0.86rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "MV Collection Banner",
+  "tag": "section",
+  "class": "mv-collection-banner-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Royal Badge",
+      "default": "✦ HAUTE LUXE AYURVEDA ✦"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show Breadcrumbs",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show Description",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Fallback Subtitle",
+      "default": "Pure, potent formulations crafted with 5000-year-old Ayurvedic wisdom."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_count",
+      "label": "Show Product Count",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

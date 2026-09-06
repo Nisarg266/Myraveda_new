@@ -1,0 +1,316 @@
+<div class="mv-philosophy-section" id="mv-philosophy-{{ section.id }}">
+  <div class="mv-container">
+    <div class="mv-philosophy-header mv-section-header">
+      <span class="mv-section-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+        {{ section.settings.badge | default: "What Makes Us Special" | escape }}
+      </span>
+      <h2 class="mv-section-title">{{ section.settings.title | escape }}</h2>
+      <div class="mv-divider-accent"></div>
+    </div>
+
+    {%- if section.settings.image != blank -%}
+      <div class="mv-map-showcase">
+        <div class="mv-map-gallery-frame">
+          <img
+            src="{{ section.settings.image | image_url: width: 2200 }}"
+            srcset="{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1400 }} 1400w, {{ section.settings.image | image_url: width: 2200 }} 2200w"
+            sizes="(max-width: 990px) 96vw, 1180px"
+            alt="{{ section.settings.title | escape }}"
+            loading="lazy"
+            class="mv-map-img"
+          >
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="mv-philosophy-manifesto">
+      <div class="mv-manifesto-quote-icon">“</div>
+      <div class="mv-philosophy-text">
+        {{ section.settings.text }}
+      </div>
+    </div>
+
+    <div class="mv-philosophy-pillars-grid">
+      <div class="mv-pillar-card">
+        <div class="mv-pillar-icon-halo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+        </div>
+        <div class="mv-pillar-content">
+          <h3 class="mv-pillar-title">Exotic Global Ingredients</h3>
+          <p class="mv-pillar-desc">Culmination of ancient, nutrient-rich beauty rituals hand-sourced from 100+ countries.</p>
+        </div>
+      </div>
+
+      <div class="mv-pillar-card">
+        <div class="mv-pillar-icon-halo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <div class="mv-pillar-content">
+          <h3 class="mv-pillar-title">Ayurvedic Botanicals</h3>
+          <p class="mv-pillar-desc">Pure, time-tested herbal heritage from certified Ayurvedic growers across India.</p>
+        </div>
+      </div>
+
+      <div class="mv-pillar-card">
+        <div class="mv-pillar-icon-halo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+        </div>
+        <div class="mv-pillar-content">
+          <h3 class="mv-pillar-title">Sustainable Clean Beauty</h3>
+          <p class="mv-pillar-desc">100% vegetarian, free from 400+ toxins, and bottled in recyclable luxury packaging.</p>
+        </div>
+      </div>
+    </div>
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="mv-philosophy-cta-row">
+        <a href="{{ section.settings.button_link | default: '#' }}" class="mv-btn-gold">
+          <span>{{ section.settings.button_label | escape }}</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  #mv-philosophy-{{ section.id }} {
+    padding: clamp(42px, 5vw, 62px) 24px;
+    background: #FFFFFF;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(201, 158, 62, 0.16);
+    border-bottom: 1px solid rgba(201, 158, 62, 0.16);
+  }
+
+  .mv-container {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  .mv-philosophy-header.mv-section-header {
+    margin-bottom: 30px;
+  }
+
+  /* Map Gallery Showcase - Enlarged and Crisp */
+  .mv-map-showcase {
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto 34px;
+    position: relative;
+  }
+
+  .mv-map-gallery-frame {
+    position: relative;
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 10px;
+    border: 1px solid rgba(201, 158, 62, 0.22);
+    box-shadow: 0 14px 40px rgba(14, 40, 31, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.3s ease;
+  }
+
+  .mv-map-gallery-frame:hover {
+    box-shadow: 0 18px 48px rgba(201, 158, 62, 0.15);
+    border-color: rgba(201, 158, 62, 0.45);
+  }
+
+  .mv-map-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 14px;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mv-map-gallery-frame:hover .mv-map-img {
+    transform: scale(1.012);
+  }
+
+  /* Manifesto Quote */
+  .mv-philosophy-manifesto {
+    max-width: 900px;
+    margin: 0 auto 34px;
+    text-align: center;
+    position: relative;
+    padding: 0 20px;
+  }
+
+  .mv-manifesto-quote-icon {
+    font-family: var(--mv-font-serif);
+    font-size: 3.2rem;
+    line-height: 0.8;
+    color: #C99E3E;
+    opacity: 0.45;
+    margin-bottom: 6px;
+  }
+
+  .mv-philosophy-text {
+    font-family: 'Marcellus', 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.3rem, 2vw, 1.75rem);
+    line-height: 1.6;
+    color: #0E281F;
+    font-weight: 400;
+  }
+
+  .mv-philosophy-text strong {
+    color: #8C651E;
+    font-weight: 600;
+  }
+
+  /* Pillars Grid */
+  .mv-philosophy-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 34px;
+  }
+
+  .mv-pillar-card {
+    background: #FCFAF7;
+    border: 1px solid rgba(201, 158, 62, 0.28);
+    border-radius: 20px;
+    padding: 30px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(14, 40, 31, 0.03);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mv-pillar-card:hover {
+    background: #FFFFFF;
+    transform: translateY(-5px);
+    border-color: #C99E3E;
+    box-shadow: 0 16px 36px rgba(201, 158, 62, 0.18);
+  }
+
+  .mv-pillar-icon-halo {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1.5px solid #C99E3E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(201, 158, 62, 0.15);
+  }
+
+  .mv-pillar-card:hover .mv-pillar-icon-halo {
+    transform: scale(1.08) rotate(4deg);
+    background: linear-gradient(135deg, #DFB76C, #9E7429);
+  }
+
+  .mv-pillar-card:hover .mv-pillar-icon-halo svg {
+    stroke: #FFFFFF;
+  }
+
+  .mv-pillar-title {
+    font-family: 'Marcellus', 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #0E281F;
+    margin: 0 0 8px;
+    letter-spacing: 0.01em;
+  }
+
+  .mv-pillar-desc {
+    font-family: var(--mv-font-sans);
+    font-size: 0.86rem;
+    line-height: 1.6;
+    color: #4A423A;
+    margin: 0;
+  }
+
+  .mv-philosophy-cta-row {
+    text-align: center;
+  }
+
+  @media (max-width: 990px) {
+    .mv-philosophy-pillars-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    #mv-philosophy-{{ section.id }} {
+      padding: 34px 18px;
+    }
+    .mv-philosophy-header.mv-section-header {
+      margin-bottom: 20px;
+    }
+    .mv-map-showcase {
+      margin-bottom: 22px;
+    }
+    .mv-philosophy-manifesto {
+      margin-bottom: 24px;
+    }
+    .mv-philosophy-pillars-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+    .mv-pillar-card {
+      padding: 22px 18px;
+    }
+    .mv-map-gallery-frame {
+      padding: 8px;
+      border-radius: 16px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "MV Brand Philosophy",
+  "tag": "section",
+  "class": "mv-philosophy-section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "What Makes Us Special"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Where Global Exotic Rituals Meet Ayurvedic Wisdom"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Story / Text",
+      "default": "<p>World's First Sustainable \"<strong>Clean-Beauty</strong>\" brand that combines <strong>Exotic ingredients</strong> used in beauty rituals of different cultures around the world, WITH <strong>Ayurvedic botanicals</strong>.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "World Map Image"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Discover Our Story"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MV Brand Philosophy"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1620 @@
+{% comment %}
+  =============================================================================
+  MYRA VEDA LUXURY ESSENTIALS - HAUTE LUXE LIGHT WHITE FOOTER
+  Balanced Luxury Geometry:
+    - Tight, compact vertical padding (eliminates bottom empty space)
+    - Full-width balanced 4-column alignment (eliminates right empty space)
+    - Integrated inline newsletter pill (compact height, high-fashion aesthetic)
+    - Pristine Pure White & Royal 24K Gold Canvas
+    - 100% Mobile Optimized Architecture
+  =============================================================================
+{% endcomment %}
+
+{%- liquid
+  assign brand_logo = section.settings.brand_image
+  assign brand_tagline = section.settings.brand_tagline
+  assign contact_title = section.settings.contact_title | default: 'CONTACT US'
+  assign contact_phone = section.settings.contact_phone | default: '+91-9137254894'
+  assign contact_email = section.settings.contact_email | default: 'connect@myravedaluxury.com'
+  assign contact_hours = section.settings.contact_hours | default: 'Mon – Sat: 10:00 AM – 7:00 PM IST'
+  
+  assign social_fb = section.settings.social_facebook | default: 'https://www.facebook.com/myraveda?mibextid=LQQJ4d'
+  assign social_ig = section.settings.social_instagram | default: 'https://instagram.com/myraveda?igshid=OGQ5ZDc2ODk2ZA=='
+  assign social_tw = section.settings.social_twitter | default: 'https://twitter.com/myravedaluxury?s=11&t=_1FLY9NLg9lMj-gnf1OCnw'
+  assign social_yt = section.settings.social_youtube | default: 'https://youtube.com/@myravedaluxuryessentials9186'
+  
+  assign menu_title = section.settings.menu_title | default: 'QUICK LINKS'
+  assign menu_handle = section.settings.menu | default: 'quick-link'
+  
+  assign newsletter_title = section.settings.newsletter_title | default: 'INSIDER INFORMATION'
+  assign newsletter_subtext = section.settings.newsletter_subtext | default: 'Subscribe to receive invitations to private botanical harvests, VIP ritual previews, and 15% off your first order.'
+  
+  assign scheme = section.settings.color_scheme | default: 'pure_white_gold'
+-%}
+
+<div class="mv-footer-wrapper mv-scheme--{{ scheme }}" id="mv-luxury-footer">
+  
+  {%- if section.settings.show_trust_strip -%}
+    <!-- 1. PRE-FOOTER LUXURY TRUST PILLARS (COMPACT LUXE) -->
+    <div class="mv-footer-trust-strip">
+      <div class="mv-footer-container">
+        <div class="mv-trust-grid">
+          
+          <div class="mv-trust-item">
+            <div class="mv-trust-icon-ring">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <div class="mv-trust-content">
+              <span class="mv-trust-title">100% Sustainable</span>
+              <span class="mv-trust-desc">Clean-Beauty Certified</span>
+            </div>
+          </div>
+
+          <div class="mv-trust-item">
+            <div class="mv-trust-icon-ring">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+              </svg>
+            </div>
+            <div class="mv-trust-content">
+              <span class="mv-trust-title">Pure Botanicals</span>
+              <span class="mv-trust-desc">Wild-Harvested Herbs</span>
+            </div>
+          </div>
+
+          <div class="mv-trust-item">
+            <div class="mv-trust-icon-ring">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="m4.93 4.93 4.24 4.24"/>
+                <path d="m14.83 9.17 4.24-4.24"/>
+                <path d="m14.83 14.83 4.24 4.24"/>
+                <path d="m9.17 14.83-4.24 4.24"/>
+                <circle cx="12" cy="12" r="4"/>
+              </svg>
+            </div>
+            <div class="mv-trust-content">
+              <span class="mv-trust-title">Cruelty-Free</span>
+              <span class="mv-trust-desc">PETA Approved & Ethical</span>
+            </div>
+          </div>
+
+          <div class="mv-trust-item">
+            <div class="mv-trust-icon-ring">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13"/>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/>
+                <circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+            </div>
+            <div class="mv-trust-content">
+              <span class="mv-trust-title">Global Express</span>
+              <span class="mv-trust-desc">Insured Worldwide Delivery</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <!-- 2. MAIN GRAND FOOTER ARCHITECTURE (TIGHT & BALANCED) -->
+  <footer class="mv-footer-main">
+    <div class="mv-footer-container">
+      <div class="mv-footer-grid">
+        
+        <!-- COLUMN 1: MAISON & HERITAGE -->
+        <div class="mv-footer-col mv-footer-col--brand">
+          <div class="mv-footer-brand-stage">
+            {%- if brand_logo != blank -%}
+              <a href="{{ routes.root_url }}" class="mv-footer-logo-link" aria-label="{{ shop.name }}">
+                <img 
+                  src="{{ brand_logo | image_url: width: 600 }}"
+                  alt="{{ shop.name }}"
+                  class="mv-footer-logo-img"
+                  width="{{ section.settings.logo_width }}"
+                  height="auto"
+                  loading="lazy"
+                >
+              </a>
+            {%- else -%}
+              <a href="{{ routes.root_url }}" class="mv-footer-logo-fallback" aria-label="{{ shop.name }}">
+                <span class="mv-logo-emblem">✦</span>
+                <span class="mv-logo-text">MYRA VEDA</span>
+                <span class="mv-logo-subtext">LUXURY ESSENTIALS</span>
+              </a>
+            {%- endif -%}
+
+            <div class="mv-gold-divider-subtle"></div>
+
+            <p class="mv-footer-tagline">
+              {%- if brand_tagline != blank -%}
+                {{ brand_tagline }}
+              {%- else -%}
+                World's First Sustainable Clean-Beauty Brand. Handcrafted Ayurvedic formulations merging sacred Vedic herbs with European dermatological science.
+              {%- endif -%}
+            </p>
+
+            <div class="mv-footer-creds">
+              <span class="mv-cred-pill">✦ PETA Cruelty-Free</span>
+              <span class="mv-cred-pill">✦ 100% Vegetarian</span>
+              <span class="mv-cred-pill">✦ Sustainable Glass</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- COLUMN 2: CONTACT US & CONCIERGE -->
+        <div class="mv-footer-col mv-footer-col--contact">
+          <h3 class="mv-footer-heading">
+            <span class="mv-heading-star">✦</span>
+            {{ contact_title }}
+          </h3>
+          
+          <div class="mv-contact-items">
+            
+            <a href="tel:{{ contact_phone | replace: ' ', '' | replace: '-', '' }}" class="mv-contact-card" title="Call Concierge">
+              <div class="mv-contact-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+              </div>
+              <div class="mv-contact-details">
+                <span class="mv-contact-label">Customer Care</span>
+                <span class="mv-contact-val">{{ contact_phone }}</span>
+              </div>
+            </a>
+
+            <a href="mailto:{{ contact_email }}" class="mv-contact-card" title="Email Concierge">
+              <div class="mv-contact-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div class="mv-contact-details">
+                <span class="mv-contact-label">Apothecary Support</span>
+                <span class="mv-contact-val">{{ contact_email }}</span>
+              </div>
+            </a>
+
+            <div class="mv-contact-card mv-contact-card--static">
+              <div class="mv-contact-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div class="mv-contact-details">
+                <span class="mv-contact-label">Ritual Concierge Hours</span>
+                <span class="mv-contact-val">{{ contact_hours }}</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ANIMATED SOCIAL ICONS -->
+          <div class="mv-footer-socials-wrap">
+            <span class="mv-socials-label">FOLLOW OUR JOURNEY</span>
+            <div class="mv-footer-socials">
+              
+              {%- if social_ig != blank -%}
+                <a href="{{ social_ig }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Instagram">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+
+              {%- if social_fb != blank -%}
+                <a href="{{ social_fb }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Facebook">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+
+              {%- if social_yt != blank -%}
+                <a href="{{ social_yt }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="YouTube">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+
+              {%- if social_tw != blank -%}
+                <a href="{{ social_tw }}" target="_blank" rel="noopener noreferrer" class="mv-social-btn" aria-label="Twitter X">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4l11.733 16h4.267l-11.733 -16z"/>
+                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+
+            </div>
+          </div>
+        </div>
+
+        <!-- COLUMN 3: QUICK LINKS & RITUALS -->
+        <div class="mv-footer-col mv-footer-col--links">
+          <h3 class="mv-footer-heading">
+            <span class="mv-heading-star">✦</span>
+            {{ menu_title }}
+          </h3>
+
+          <nav class="mv-footer-menu" aria-label="{{ menu_title }}">
+            {%- assign menu_links = linklists[menu_handle].links -%}
+            {%- if menu_links.size > 0 -%}
+              <ul class="mv-footer-nav-list">
+                {%- for link in menu_links -%}
+                  <li class="mv-nav-item">
+                    <a href="{{ link.url }}" class="mv-nav-link">
+                      <span class="mv-link-bullet">✦</span>
+                      <span class="mv-link-text">{{ link.title }}</span>
+                      <span class="mv-link-arrow">›</span>
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- else -%}
+              <!-- LUXURY BOTANICAL DEFAULT LINKS -->
+              <ul class="mv-footer-nav-list">
+                <li class="mv-nav-item">
+                  <a href="/collections/all" class="mv-nav-link">
+                    <span class="mv-link-bullet">✦</span>
+                    <span class="mv-link-text">Shop All</span>
+                    <span class="mv-link-arrow">›</span>
+                  </a>
+                </li>
+                <li class="mv-nav-item">
+                  <a href="/collections/all" class="mv-nav-link">
+                    <span class="mv-link-bullet">✦</span>
+                    <span class="mv-link-text">Best Sellers</span>
+                    <span class="mv-link-arrow">›</span>
+                  </a>
+                </li>
+                <li class="mv-nav-item">
+                  <a href="/pages/about-us" class="mv-nav-link">
+                    <span class="mv-link-bullet">✦</span>
+                    <span class="mv-link-text">Our Heritage</span>
+                    <span class="mv-link-arrow">›</span>
+                  </a>
+                </li>
+                <li class="mv-nav-item">
+                  <a href="/collections/all" class="mv-nav-link">
+                    <span class="mv-link-bullet">✦</span>
+                    <span class="mv-link-text">Daily Rituals</span>
+                    <span class="mv-link-arrow">›</span>
+                  </a>
+                </li>
+                <li class="mv-nav-item">
+                  <a href="/pages/contact" class="mv-nav-link">
+                    <span class="mv-link-bullet">✦</span>
+                    <span class="mv-link-text">Track Order</span>
+                    <span class="mv-link-arrow">›</span>
+                  </a>
+                </li>
+                <li class="mv-nav-item">
+                  <a href="/policies/privacy-policy" class="mv-nav-link">
+                    <span class="mv-link-bullet">✦</span>
+                    <span class="mv-link-text">Privacy Policy</span>
+                    <span class="mv-link-arrow">›</span>
+                  </a>
+                </li>
+                <li class="mv-nav-item">
+                  <a href="/policies/terms-of-service" class="mv-nav-link">
+                    <span class="mv-link-bullet">✦</span>
+                    <span class="mv-link-text">Terms of Service</span>
+                    <span class="mv-link-arrow">›</span>
+                  </a>
+                </li>
+                <li class="mv-nav-item">
+                  <a href="/pages/contact" class="mv-nav-link">
+                    <span class="mv-link-bullet">✦</span>
+                    <span class="mv-link-text">Contact Concierge</span>
+                    <span class="mv-link-arrow">›</span>
+                  </a>
+                </li>
+              </ul>
+            {%- endif -%}
+          </nav>
+        </div>
+
+        <!-- COLUMN 4: INSIDER INFORMATION (NEWSLETTER - COMPACT STREAMLINED PODIUM) -->
+        <div class="mv-footer-col mv-footer-col--newsletter">
+          <div class="mv-newsletter-podium">
+            
+            <span class="mv-newsletter-kicker">✦ THE INNER CIRCLE</span>
+            <h3 class="mv-footer-heading mv-footer-heading--gold">
+              {{ newsletter_title }}
+            </h3>
+            
+            <p class="mv-newsletter-desc">
+              {{ newsletter_subtext }}
+            </p>
+
+            <div class="mv-newsletter-form-box">
+              {%- form 'customer', id: 'mv-footer-newsletter-form', class: 'mv-newsletter-form' -%}
+                <input type="hidden" name="contact[tags]" value="newsletter,mv_insider_circle">
+                
+                {%- if form.posted_successfully? -%}
+                  <div class="mv-newsletter-success">
+                    <span class="mv-success-star">✦</span>
+                    <p class="mv-success-text">Welcome to the Inner Circle. Your invitation is on its way.</p>
+                  </div>
+                {%- else -%}
+                  <div class="mv-newsletter-capsule">
+                    <div class="mv-capsule-input-wrap">
+                      <svg class="mv-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                      </svg>
+                      <input 
+                        type="email" 
+                        name="contact[email]" 
+                        id="mv-footer-email" 
+                        class="mv-email-input" 
+                        placeholder="Enter your email address"
+                        required
+                        autocomplete="email"
+                        aria-label="Email address"
+                      >
+                    </div>
+
+                    <button type="submit" class="mv-newsletter-btn" aria-label="Subscribe to newsletter">
+                      <span class="mv-btn-shimmer"></span>
+                      <span class="mv-btn-text">JOIN CIRCLE</span>
+                      <span class="mv-btn-icon">→</span>
+                    </button>
+                  </div>
+
+                  {%- if form.errors -%}
+                    <p class="mv-newsletter-error">
+                      {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+                    </p>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+
+            <div class="mv-newsletter-perks">
+              <span class="mv-perk-item">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Spam-free assurance
+              </span>
+              <span class="mv-perk-item">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                15% VIP welcome reward
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- 3. FOOTER BOTTOM BAR (COMPACT & BALANCED) -->
+  <div class="mv-footer-bottom">
+    <div class="mv-footer-container">
+      <div class="mv-bottom-content">
+        
+        <div class="mv-bottom-left">
+          <p class="mv-copyright-text">
+            {{ section.settings.copyright_text | default: '© 2026 Myra Veda Luxury Essentials. All Rights Reserved.' }}
+          </p>
+          <span class="mv-bottom-separator">•</span>
+          <p class="mv-craft-credit">
+            {%- assign credit_text = section.settings.craft_credit | default: 'Designed & Developed by Scraft Studio' -%}
+            {%- if credit_text contains 'Scraft Studio' -%}
+              {{ credit_text | replace: 'Scraft Studio', '<span class="mv-studio-highlight">Scraft Studio</span>' }}
+            {%- else -%}
+              {{ credit_text }}
+            {%- endif -%}
+          </p>
+        </div>
+
+        {%- if section.settings.show_payment_icons -%}
+          <!-- LUXURY MONOCHROME GOLD PAYMENT ICONS -->
+          <div class="mv-bottom-payments">
+            <span class="mv-payment-badge" title="Visa">VISA</span>
+            <span class="mv-payment-badge" title="Mastercard">MASTERCARD</span>
+            <span class="mv-payment-badge" title="American Express">AMEX</span>
+            <span class="mv-payment-badge" title="Apple Pay">APPLE PAY</span>
+            <span class="mv-payment-badge" title="Google Pay">G PAY</span>
+            <span class="mv-payment-badge" title="UPI">UPI</span>
+            <span class="mv-payment-badge" title="NetBanking">NET BANKING</span>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_back_to_top -%}
+          <button 
+            type="button" 
+            class="mv-back-to-top-btn" 
+            id="mvBackToTopBtn" 
+            onclick="(function(){
+              var pw = document.querySelector('.page-wrapper');
+              if (pw) { pw.scrollTo({ top: 0, behavior: 'smooth' }); }
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              if (document.documentElement) { document.documentElement.scrollTo({ top: 0, behavior: 'smooth' }); }
+              if (document.body) { document.body.scrollTo({ top: 0, behavior: 'smooth' }); }
+              var topEl = document.querySelector('#header-group, #header-component, #MainContent, body');
+              if (topEl && typeof topEl.scrollIntoView === 'function') {
+                topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            })();"
+            aria-label="Back to top of page"
+            title="Ascend to Top"
+          >
+            <span class="mv-top-arrow">↑</span>
+            <span class="mv-top-label">TOP</span>
+          </button>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  /* ==========================================================================
+     MYRA VEDA LUXURY LIGHT WHITE FOOTER - BALANCED GEOMETRY
+     ========================================================================== */
+  
+  /* DEFAULT SCHEME: PURE ALABASTER WHITE & ROYAL 24K GOLD */
+  .mv-footer-wrapper.mv-scheme--pure_white_gold {
+    --mv-f-bg: #FFFFFF;
+    --mv-f-surface: #FAF8F5;
+    --mv-f-card-bg: #FFFFFF;
+    --mv-f-card-border: rgba(201, 158, 62, 0.35);
+    --mv-f-card-shadow: 0 4px 16px rgba(14, 40, 31, 0.04);
+    --mv-f-text-primary: #0E281F;
+    --mv-f-text-secondary: #3D3630;
+    --mv-f-text-muted: #7E766D;
+    --mv-f-gold-primary: #C99E3E;
+    --mv-f-gold-light: #DFB76C;
+    --mv-f-gold-dark: #8C651E;
+    --mv-f-strip-bg: #FAF8F5;
+    --mv-f-strip-border: rgba(201, 158, 62, 0.22);
+    --mv-f-bottom-bg: #F4F1EA;
+    --mv-f-podium-bg: #FAF8F4;
+    --mv-f-podium-border: #D4AF37;
+    --mv-f-input-bg: #FFFFFF;
+    --mv-f-input-border: rgba(201, 158, 62, 0.4);
+    --mv-f-input-text: #0E281F;
+    --mv-f-btn-bg: linear-gradient(135deg, #0E281F 0%, #163E30 100%);
+    --mv-f-btn-border: #D4AF37;
+    --mv-f-btn-text: #F5E8C7;
+  }
+
+  /* SCHEME 2: CASHMERE IVORY & WARM GOLD */
+  .mv-footer-wrapper.mv-scheme--cashmere_ivory {
+    --mv-f-bg: #FCFAF7;
+    --mv-f-surface: #FFFFFF;
+    --mv-f-card-bg: #FFFFFF;
+    --mv-f-card-border: rgba(197, 155, 69, 0.32);
+    --mv-f-card-shadow: 0 4px 16px rgba(14, 40, 31, 0.04);
+    --mv-f-text-primary: #121A16;
+    --mv-f-text-secondary: #423C36;
+    --mv-f-text-muted: #7E756B;
+    --mv-f-gold-primary: #C59B45;
+    --mv-f-gold-light: #EAD4A4;
+    --mv-f-gold-dark: #8A651E;
+    --mv-f-strip-bg: #F7F4EE;
+    --mv-f-strip-border: rgba(197, 155, 69, 0.2);
+    --mv-f-bottom-bg: #EFE9DE;
+    --mv-f-podium-bg: #FFFFFF;
+    --mv-f-podium-border: #C59B45;
+    --mv-f-input-bg: #FFFFFF;
+    --mv-f-input-border: rgba(197, 155, 69, 0.4);
+    --mv-f-input-text: #121A16;
+    --mv-f-btn-bg: linear-gradient(135deg, #DFB76C 0%, #C59B45 50%, #9E7429 100%);
+    --mv-f-btn-border: #FFF1C5;
+    --mv-f-btn-text: #0E281F;
+  }
+
+  /* SCHEME 3: ROYAL OBSIDIAN NOIR & 24K GOLD */
+  .mv-footer-wrapper.mv-scheme--obsidian_gold {
+    --mv-f-bg: #0E100F;
+    --mv-f-surface: #141716;
+    --mv-f-card-bg: rgba(255, 255, 255, 0.035);
+    --mv-f-card-border: rgba(212, 175, 55, 0.28);
+    --mv-f-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --mv-f-text-primary: #FAF8F5;
+    --mv-f-text-secondary: #C8BFB3;
+    --mv-f-text-muted: #8E8579;
+    --mv-f-gold-primary: #D4AF37;
+    --mv-f-gold-light: #FDE68A;
+    --mv-f-gold-dark: #A17920;
+    --mv-f-strip-bg: #090B0A;
+    --mv-f-strip-border: rgba(212, 175, 55, 0.2);
+    --mv-f-bottom-bg: #060706;
+    --mv-f-podium-bg: rgba(255, 255, 255, 0.04);
+    --mv-f-podium-border: #D4AF37;
+    --mv-f-input-bg: rgba(255, 255, 255, 0.08);
+    --mv-f-input-border: rgba(212, 175, 55, 0.45);
+    --mv-f-input-text: #FFFFFF;
+    --mv-f-btn-bg: linear-gradient(135deg, #FDE68A 0%, #D4AF37 45%, #AA8022 100%);
+    --mv-f-btn-border: #FFF1C5;
+    --mv-f-btn-text: #0E100F;
+  }
+
+  .mv-footer-wrapper {
+    background: var(--mv-f-bg);
+    color: var(--mv-f-text-secondary);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    position: relative;
+    overflow: hidden;
+    border-top: 1.5px solid var(--mv-f-gold-primary);
+  }
+
+  /* EXPANDED LUXURY CONTAINER (Eliminates right dead space) */
+  .mv-footer-container {
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 3.5vw, 44px);
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+  }
+
+  /* 1. TRUST STRIP (COMPACT RHYTHM) */
+  .mv-footer-trust-strip {
+    border-bottom: 1px solid var(--mv-f-strip-border);
+    background: var(--mv-f-strip-bg);
+    padding: 15px 0;
+  }
+
+  .mv-trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(14px, 2vw, 24px);
+    align-items: center;
+  }
+
+  .mv-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mv-trust-item:hover {
+    transform: translateY(-2px);
+  }
+
+  .mv-trust-icon-ring {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(201, 158, 62, 0.16) 0%, #FFFFFF 100%);
+    border: 1.5px solid var(--mv-f-gold-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mv-f-gold-dark);
+    transition: all 0.4s ease;
+    box-shadow: 0 3px 12px rgba(14, 40, 31, 0.06);
+  }
+
+  .mv-trust-icon-ring svg {
+    width: 32px;
+    height: 32px;
+    stroke-width: 2.2px;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+
+  .mv-trust-item:hover .mv-trust-icon-ring {
+    background: linear-gradient(135deg, #DFB76C 0%, #C59B45 50%, #9E7429 100%);
+    color: #FFFFFF;
+    border-color: #F5E8C7;
+    box-shadow: 0 6px 18px rgba(201, 158, 62, 0.3);
+    transform: rotate(8deg) scale(1.06);
+  }
+
+  .mv-trust-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mv-trust-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--mv-f-text-primary);
+    text-transform: uppercase;
+    line-height: 1.25;
+  }
+
+  .mv-trust-desc {
+    font-size: 0.74rem;
+    color: var(--mv-f-text-secondary);
+    line-height: 1.35;
+  }
+
+  /* 2. MAIN FOOTER GRID (TIGHTENED VERTICAL PADDING) */
+  .mv-footer-main {
+    padding: clamp(28px, 3.5vw, 40px) 0 clamp(20px, 2.5vw, 28px) 0;
+  }
+
+  /* BALANCED 4-COLUMN DISTRIBUTION - STRETCHES FULL WIDTH */
+  .mv-footer-grid {
+    display: grid;
+    grid-template-columns: 1.28fr 1.12fr 0.95fr 1.45fr;
+    gap: clamp(20px, 2.8vw, 42px);
+    align-items: start;
+    width: 100%;
+  }
+
+  .mv-footer-col {
+    width: 100%;
+  }
+
+  /* COLUMN 1: BRAND */
+  .mv-footer-brand-stage {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mv-footer-logo-link {
+    display: inline-block;
+    margin-bottom: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  .mv-footer-logo-link:hover {
+    transform: scale(1.02);
+  }
+
+  .mv-footer-logo-img {
+    max-width: 220px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 3px 8px rgba(14, 40, 31, 0.06));
+  }
+
+  .mv-footer-logo-fallback {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    margin-bottom: 12px;
+  }
+
+  .mv-logo-emblem {
+    color: var(--mv-f-gold-primary);
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+  }
+
+  .mv-logo-text {
+    font-family: 'Marcellus', serif;
+    font-size: 1.55rem;
+    letter-spacing: 0.16em;
+    color: var(--mv-f-text-primary);
+    font-weight: 700;
+  }
+
+  .mv-logo-subtext {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.26em;
+    color: var(--mv-f-gold-primary);
+    text-transform: uppercase;
+  }
+
+  .mv-gold-divider-subtle {
+    width: 50px;
+    height: 1.5px;
+    background: linear-gradient(90deg, var(--mv-f-gold-primary) 0%, rgba(201, 158, 62, 0) 100%);
+    margin: 8px 0 12px 0;
+  }
+
+  .mv-footer-tagline {
+    font-size: 0.82rem;
+    line-height: 1.58;
+    color: var(--mv-f-text-secondary);
+    margin: 0 0 14px 0;
+    max-width: 320px;
+  }
+
+  .mv-footer-creds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .mv-cred-pill {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: var(--mv-f-gold-dark);
+    background: var(--mv-f-surface);
+    border: 1px solid var(--mv-f-card-border);
+    padding: 3px 9px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    font-weight: 600;
+  }
+
+  .mv-cred-pill:hover {
+    background: var(--mv-f-gold-primary);
+    border-color: var(--mv-f-gold-primary);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+  }
+
+  /* HEADINGS (TIGHT SPACING) */
+  .mv-footer-heading {
+    font-family: 'Marcellus', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+    color: var(--mv-f-text-primary);
+    margin: 0 0 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    text-transform: uppercase;
+    position: relative;
+    font-weight: 600;
+  }
+
+  .mv-heading-star {
+    color: var(--mv-f-gold-primary);
+    font-size: 0.8rem;
+    animation: starPulse 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes starPulse {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    100% { transform: scale(1.2); opacity: 1; }
+  }
+
+  .mv-footer-heading--gold {
+    color: var(--mv-f-text-primary);
+  }
+
+  /* COLUMN 2: CONTACT CARDS */
+  .mv-contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 16px;
+  }
+
+  .mv-contact-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background: var(--mv-f-card-bg);
+    border: 1px solid var(--mv-f-card-border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--mv-f-card-shadow);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mv-contact-card:not(.mv-contact-card--static):hover {
+    border-color: var(--mv-f-gold-primary);
+    transform: translateX(4px);
+    box-shadow: 0 6px 18px rgba(201, 158, 62, 0.14);
+  }
+
+  .mv-contact-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 7px;
+    background: rgba(201, 158, 62, 0.12);
+    border: 1px solid var(--mv-f-card-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mv-f-gold-dark);
+    transition: all 0.3s ease;
+  }
+
+  .mv-contact-card:hover .mv-contact-icon {
+    background: var(--mv-f-gold-primary);
+    color: #FFFFFF;
+    transform: rotate(5deg);
+  }
+
+  .mv-contact-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mv-contact-label {
+    font-size: 0.64rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.08em;
+    color: var(--mv-f-gold-dark);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .mv-contact-val {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--mv-f-text-primary);
+    letter-spacing: 0.02em;
+    transition: color 0.3s ease;
+  }
+
+  .mv-contact-card:hover .mv-contact-val {
+    color: var(--mv-f-gold-primary);
+  }
+
+  /* SOCIAL ICONS */
+  .mv-footer-socials-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mv-socials-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    color: var(--mv-f-gold-dark);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .mv-footer-socials {
+    display: flex;
+    gap: 10px;
+  }
+
+  .mv-social-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--mv-f-card-bg);
+    border: 1.5px solid var(--mv-f-card-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mv-f-text-primary);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 6px rgba(14, 40, 31, 0.04);
+  }
+
+  .mv-social-btn:hover {
+    transform: translateY(-3px) scale(1.08);
+    background: linear-gradient(135deg, #DFB76C 0%, #C59B45 50%, #9E7429 100%);
+    color: #FFFFFF;
+    border-color: #DFB76C;
+    box-shadow: 0 6px 18px rgba(201, 158, 62, 0.3);
+  }
+
+  /* COLUMN 3: QUICK LINKS */
+  .mv-footer-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mv-nav-item {
+    margin: 0;
+  }
+
+  .mv-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--mv-f-text-secondary);
+    text-decoration: none;
+    font-size: 0.84rem;
+    letter-spacing: 0.02em;
+    position: relative;
+    padding: 2px 0;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mv-link-bullet {
+    font-size: 0.58rem;
+    color: var(--mv-f-gold-primary);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+  }
+
+  .mv-link-arrow {
+    font-size: 0.9rem;
+    color: var(--mv-f-gold-primary);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mv-link-text {
+    position: relative;
+    font-weight: 500;
+  }
+
+  .mv-link-text::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0%;
+    height: 1.5px;
+    background: linear-gradient(90deg, var(--mv-f-gold-primary) 0%, var(--mv-f-gold-dark) 100%);
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mv-nav-link:hover {
+    color: var(--mv-f-gold-dark);
+    transform: translateX(5px);
+  }
+
+  .mv-nav-link:hover .mv-link-bullet {
+    opacity: 1;
+    transform: scale(1.3) rotate(45deg);
+  }
+
+  .mv-nav-link:hover .mv-link-text::after {
+    width: 100%;
+  }
+
+  .mv-nav-link:hover .mv-link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* COLUMN 4: NEWSLETTER PODIUM (STREAMLINED & RIGHT-ALIGNED) */
+  .mv-footer-col--newsletter {
+    width: 100%;
+  }
+
+  .mv-newsletter-podium {
+    background: var(--mv-f-podium-bg);
+    border: 1.5px solid var(--mv-f-podium-border);
+    border-radius: 16px;
+    padding: 18px 22px;
+    position: relative;
+    box-shadow: 0 8px 26px rgba(14, 40, 31, 0.05);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mv-newsletter-kicker {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--mv-f-gold-dark);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+
+  .mv-newsletter-desc {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--mv-f-text-secondary);
+    margin: 0 0 14px 0;
+  }
+
+  /* INTEGRATED CAPSULE INPUT (COMPACT HEIGHT) */
+  .mv-newsletter-capsule {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .mv-capsule-input-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  .mv-input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--mv-f-gold-primary);
+    pointer-events: none;
+    transition: color 0.3s ease;
+    z-index: 2;
+  }
+
+  .mv-email-input,
+  .mv-newsletter-podium input[type="email"] {
+    width: 100% !important;
+    background: var(--mv-f-input-bg) !important;
+    border: 1.5px solid var(--mv-f-input-border) !important;
+    border-radius: 999px !important;
+    padding: 11px 16px 11px 40px !important;
+    color: var(--mv-f-input-text) !important;
+    -webkit-text-fill-color: var(--mv-f-input-text) !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 0.84rem !important;
+    outline: none !important;
+    transition: all 0.35s ease !important;
+    box-sizing: border-box !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02) !important;
+  }
+
+  .mv-email-input::placeholder,
+  .mv-newsletter-podium input[type="email"]::placeholder {
+    color: var(--mv-f-text-muted) !important;
+    -webkit-text-fill-color: var(--mv-f-text-muted) !important;
+    letter-spacing: 0.02em !important;
+    opacity: 0.8 !important;
+  }
+
+  .mv-email-input:focus,
+  .mv-newsletter-podium input[type="email"]:focus {
+    border-color: var(--mv-f-gold-primary) !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 0 18px rgba(201, 158, 62, 0.28) !important;
+  }
+
+  /* LUXURY BUTTON */
+  .mv-newsletter-btn {
+    width: 100% !important;
+    background: var(--mv-f-btn-bg) !important;
+    color: var(--mv-f-btn-text) !important;
+    border: 1.5px solid var(--mv-f-btn-border) !important;
+    border-radius: 999px !important;
+    padding: 11px 20px !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 0.76rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 4px 14px rgba(14, 40, 31, 0.12) !important;
+  }
+
+  .mv-btn-shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-25deg);
+    animation: goldSheen 4.5s infinite;
+  }
+
+  @keyframes goldSheen {
+    0% { left: -100%; }
+    25% { left: 150%; }
+    100% { left: 150%; }
+  }
+
+  .mv-newsletter-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 22px rgba(201, 158, 62, 0.35) !important;
+    border-color: #FFFFFF !important;
+  }
+
+  .mv-btn-icon {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .mv-newsletter-btn:hover .mv-btn-icon {
+    transform: translateX(4px);
+  }
+
+  .mv-newsletter-success {
+    background: rgba(201, 158, 62, 0.12);
+    border: 1px solid var(--mv-f-gold-primary);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mv-success-star {
+    color: var(--mv-f-gold-primary);
+    font-size: 1.1rem;
+  }
+
+  .mv-success-text {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--mv-f-text-primary);
+    font-weight: 600;
+  }
+
+  .mv-newsletter-perks {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .mv-perk-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.68rem;
+    color: var(--mv-f-text-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .mv-perk-item svg {
+    color: var(--mv-f-gold-primary);
+  }
+
+  /* 3. FOOTER BOTTOM BAR (COMPACT & BALANCED) */
+  .mv-footer-bottom {
+    border-top: 1px solid rgba(201, 158, 62, 0.22);
+    background: var(--mv-f-bottom-bg);
+    padding: 14px 0;
+  }
+
+  .mv-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .mv-bottom-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.74rem;
+    color: var(--mv-f-text-muted);
+  }
+
+  .mv-copyright-text,
+  .mv-craft-credit {
+    margin: 0;
+  }
+
+  .mv-craft-credit .mv-studio-highlight {
+    color: var(--mv-f-gold-dark, #A27B2C);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    display: inline-block;
+    transition: color 0.2s ease;
+  }
+
+  .mv-craft-credit .mv-studio-highlight:hover {
+    color: var(--mv-f-gold-primary, #C99E3E);
+  }
+
+  .mv-bottom-separator {
+    color: var(--mv-f-gold-primary);
+  }
+
+  /* PAYMENT PILLS */
+  .mv-bottom-payments {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .mv-payment-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--mv-f-gold-dark);
+    background: #FFFFFF;
+    border: 1px solid var(--mv-f-card-border);
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+
+  .mv-payment-badge:hover {
+    background: var(--mv-f-gold-primary);
+    border-color: var(--mv-f-gold-primary);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+  }
+
+  /* BACK TO TOP BUTTON */
+  .mv-back-to-top-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FFFFFF;
+    border: 1.5px solid var(--mv-f-gold-primary);
+    border-radius: 999px;
+    padding: 6px 16px;
+    color: var(--mv-f-text-primary);
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+    user-select: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(14, 40, 31, 0.05);
+  }
+
+  .mv-top-arrow {
+    font-size: 0.85rem;
+    color: var(--mv-f-gold-primary);
+    transition: transform 0.3s ease;
+  }
+
+  .mv-back-to-top-btn:hover {
+    background: var(--mv-f-gold-primary);
+    color: #FFFFFF;
+    border-color: var(--mv-f-gold-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 16px rgba(201, 158, 62, 0.28);
+  }
+
+  .mv-back-to-top-btn:hover .mv-top-arrow {
+    color: #FFFFFF;
+    transform: translateY(-2px);
+  }
+
+  /* ==========================================================================
+     RESPONSIVE BREAKPOINTS (PHONE & TABLET)
+     ========================================================================== */
+  
+  @media (max-width: 1024px) {
+    .mv-trust-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .mv-footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .mv-footer-col--brand {
+      grid-column: 1 / -1;
+    }
+
+    .mv-footer-col--newsletter {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .mv-footer-wrapper {
+      overflow-x: hidden;
+    }
+
+    .mv-footer-container {
+      padding: 0 16px;
+    }
+
+    .mv-footer-trust-strip {
+      padding: 16px 0;
+    }
+
+    .mv-trust-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px 10px;
+    }
+
+    .mv-trust-item {
+      gap: 10px;
+    }
+
+    .mv-trust-icon-ring {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+    }
+
+    .mv-trust-icon-ring svg {
+      width: 26px;
+      height: 26px;
+      stroke-width: 2.2px;
+    }
+
+    .mv-trust-title {
+      font-size: 0.78rem;
+    }
+
+    .mv-trust-desc {
+      font-size: 0.68rem;
+    }
+
+    .mv-footer-main {
+      padding: 26px 0 20px 0;
+    }
+
+    .mv-footer-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .mv-footer-logo-img {
+      max-width: 190px;
+    }
+
+    .mv-footer-heading {
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .mv-contact-items {
+      gap: 8px;
+    }
+
+    .mv-footer-nav-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+    }
+
+    .mv-newsletter-podium {
+      padding: 18px 14px;
+    }
+
+    .mv-email-input,
+    .mv-newsletter-podium input[type="email"] {
+      font-size: 16px !important;
+      padding: 11px 14px 11px 36px !important;
+      height: 44px !important;
+    }
+
+    .mv-newsletter-btn {
+      height: 44px !important;
+    }
+
+    .mv-footer-bottom {
+      padding: 18px 0 24px 0;
+    }
+
+    .mv-bottom-content {
+      flex-direction: column;
+      text-align: center;
+      gap: 14px;
+    }
+
+    .mv-bottom-left {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mv-bottom-separator {
+      display: none;
+    }
+
+    .mv-bottom-payments {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .mv-trust-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .mv-footer-nav-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "MV Luxury Footer",
+  "class": "mv-luxury-footer-section",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Color Theme"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Footer Color Palette",
+      "options": [
+        {
+          "value": "pure_white_gold",
+          "label": "Pure White & 24K Gold"
+        },
+        {
+          "value": "cashmere_ivory",
+          "label": "Cashmere Ivory & Gold"
+        },
+        {
+          "value": "obsidian_gold",
+          "label": "Royal Obsidian & Gold"
+        }
+      ],
+      "default": "pure_white_gold"
+    },
+    {
+      "type": "header",
+      "content": "Brand Identity"
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_image",
+      "label": "Brand Logo or Tagline Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo Width (px)",
+      "min": 120,
+      "max": 350,
+      "step": 10,
+      "default": 220
+    },
+    {
+      "type": "textarea",
+      "id": "brand_tagline",
+      "label": "Brand Tagline",
+      "default": "World's First Sustainable Clean-Beauty Brand. Handcrafted Ayurvedic formulations merging sacred Vedic herbs with European dermatological science."
+    },
+    {
+      "type": "header",
+      "content": "Contact Us (Concierge)"
+    },
+    {
+      "type": "text",
+      "id": "contact_title",
+      "label": "Contact Heading",
+      "default": "CONTACT US"
+    },
+    {
+      "type": "text",
+      "id": "contact_phone",
+      "label": "Phone Number",
+      "default": "+91-9137254894"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Email Address",
+      "default": "connect@myravedaluxury.com"
+    },
+    {
+      "type": "text",
+      "id": "contact_hours",
+      "label": "Support Hours",
+      "default": "Mon – Sat: 10:00 AM – 7:00 PM IST"
+    },
+    {
+      "type": "header",
+      "content": "Social Media Links"
+    },
+    {
+      "type": "text",
+      "id": "social_facebook",
+      "label": "Facebook URL",
+      "default": "https://www.facebook.com/myraveda?mibextid=LQQJ4d"
+    },
+    {
+      "type": "text",
+      "id": "social_instagram",
+      "label": "Instagram URL",
+      "default": "https://instagram.com/myraveda?igshid=OGQ5ZDc2ODk2ZA=="
+    },
+    {
+      "type": "text",
+      "id": "social_twitter",
+      "label": "Twitter / X URL",
+      "default": "https://twitter.com/myravedaluxury?s=11&t=_1FLY9NLg9lMj-gnf1OCnw"
+    },
+    {
+      "type": "text",
+      "id": "social_youtube",
+      "label": "YouTube URL",
+      "default": "https://youtube.com/@myravedaluxuryessentials9186"
+    },
+    {
+      "type": "header",
+      "content": "Navigation Menu"
+    },
+    {
+      "type": "text",
+      "id": "menu_title",
+      "label": "Menu Heading",
+      "default": "QUICK LINKS"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Select Menu"
+    },
+    {
+      "type": "header",
+      "content": "Insider Information (Newsletter)"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Newsletter Heading",
+      "default": "INSIDER INFORMATION"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_subtext",
+      "label": "Newsletter Description",
+      "default": "Subscribe to receive invitations to private botanical harvests, VIP ritual previews, and 15% off your first order."
+    },
+    {
+      "type": "header",
+      "content": "Pillars & Extras"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_strip",
+      "label": "Show Luxury Trust Strip (Pre-Footer)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show Payment Badges",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_back_to_top",
+      "label": "Show Back-to-Top Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "© 2026 Myra Veda Luxury Essentials. All Rights Reserved."
+    },
+    {
+      "type": "text",
+      "id": "craft_credit",
+      "label": "Craft Credit",
+      "default": "Designed & Developed by Scraft Studio"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MV Luxury Footer"
+    }
+  ]
+}
+{% endschema %}
