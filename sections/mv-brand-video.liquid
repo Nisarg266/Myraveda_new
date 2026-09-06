@@ -1,4 +1,4 @@
-<div class="mv-video-section" id="mv-video-{{ section.id }}">
+<div class="mv-video-section" id="mv-video-{{ section.id }}" style="--vid-heading-desktop: {{ section.settings.heading_size_desktop | default: 34 }}px; --vid-heading-mobile: {{ section.settings.heading_size_mobile | default: 24 }}px; --vid-label-desktop: {{ section.settings.video_label_size_desktop | default: 23 }}px; --vid-label-mobile: {{ section.settings.video_label_size_mobile | default: 18 }}px; --vid-pt: {{ section.settings.padding_top | default: 55 }}px; --vid-pb: {{ section.settings.padding_bottom | default: 55 }}px; --vid-ratio: {{ section.settings.aspect_ratio | default: '16 / 9' }};">
   <div class="mv-container">
     <div class="mv-video-header mv-section-header">
       {%- if section.settings.badge != blank -%}
@@ -14,14 +14,19 @@
     <div class="mv-video-box">
       <div class="mv-video-poster" id="mv-poster-{{ section.id }}">
         {%- if section.settings.image != blank -%}
-          <img
-            src="{{ section.settings.image | image_url: width: 1800 }}"
-            srcset="{{ section.settings.image | image_url: width: 600 }} 600w, {{ section.settings.image | image_url: width: 1200 }} 1200w, {{ section.settings.image | image_url: width: 1800 }} 1800w"
-            sizes="(max-width: 990px) 100vw, 1200px"
-            alt="{{ section.settings.video_title | default: 'Myra Veda Brand Story' | escape }}"
-            loading="lazy"
-            class="mv-video-cover-img"
-          >
+          <picture>
+            {%- if section.settings.mobile_image != blank -%}
+              <source media="(max-width: 749px)" srcset="{{ section.settings.mobile_image | image_url: width: 900 }}">
+            {%- endif -%}
+            <img
+              src="{{ section.settings.image | image_url: width: 1800 }}"
+              srcset="{{ section.settings.image | image_url: width: 600 }} 600w, {{ section.settings.image | image_url: width: 1200 }} 1200w, {{ section.settings.image | image_url: width: 1800 }} 1800w"
+              sizes="(max-width: 990px) 100vw, 1200px"
+              alt="{{ section.settings.video_title | default: 'Myra Veda Brand Story' | escape }}"
+              loading="lazy"
+              class="mv-video-cover-img"
+            >
+          </picture>
         {%- else -%}
           {{ 'lifestyle-2' | placeholder_svg_tag: 'mv-video-placeholder' }}
         {%- endif -%}
@@ -63,12 +68,19 @@
 
 <style>
   #mv-video-{{ section.id }} {
-    padding: clamp(44px, 5.5vw, 66px) 24px;
+    padding-top: var(--vid-pt, clamp(44px, 5.5vw, 66px));
+    padding-bottom: var(--vid-pb, clamp(44px, 5.5vw, 66px));
+    padding-left: 24px;
+    padding-right: 24px;
     background: radial-gradient(ellipse at 50% 30%, #0E281F 0%, #071913 100%);
     position: relative;
     overflow: hidden;
     border-top: 1px solid rgba(201, 158, 62, 0.3);
     border-bottom: 1px solid rgba(201, 158, 62, 0.3);
+  }
+
+  #mv-video-{{ section.id }} .mv-section-title {
+    font-size: var(--vid-heading-desktop, clamp(2rem, 3.5vw, 2.7rem));
   }
 
   .mv-video-box {
@@ -77,7 +89,7 @@
     margin: 0 auto;
     border-radius: 28px;
     overflow: hidden;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: var(--vid-ratio, 16 / 9);
     border: 1.5px solid rgba(201, 158, 62, 0.55);
     box-shadow: 0 28px 70px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(201, 158, 62, 0.2);
     background: #071913;
@@ -169,7 +181,7 @@
   .mv-video-label {
     color: #FFFFFF;
     font-family: var(--mv-font-serif);
-    font-size: 1.45rem;
+    font-size: var(--vid-label-desktop, 1.45rem);
     letter-spacing: 0.05em;
     font-weight: 500;
     text-shadow: 0 2px 12px rgba(0,0,0,0.6);
@@ -190,7 +202,13 @@
 
   @media (max-width: 640px) {
     #mv-video-{{ section.id }} {
-      padding: 36px 18px;
+      padding-top: var(--vid-pt, 36px);
+      padding-bottom: var(--vid-pb, 36px);
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+    #mv-video-{{ section.id }} .mv-section-title {
+      font-size: var(--vid-heading-mobile, 1.85rem);
     }
     .mv-play-btn {
       width: 68px;
@@ -201,7 +219,7 @@
       height: 22px;
     }
     .mv-video-label {
-      font-size: 1.15rem;
+      font-size: var(--vid-label-mobile, 1.15rem);
     }
     .mv-video-box {
       border-radius: 18px;
@@ -232,6 +250,10 @@
   "class": "mv-video-section-wrapper",
   "settings": [
     {
+      "type": "header",
+      "content": "Video & Content"
+    },
+    {
       "type": "text",
       "id": "badge",
       "label": "Badge Text",
@@ -250,9 +272,22 @@
       "default": "Watch how our passion for clean beauty and ancient botanical heritage unfolds"
     },
     {
+      "type": "header",
+      "content": "Poster Images (Desktop & Mobile)"
+    },
+    {
       "type": "image_picker",
       "id": "image",
-      "label": "Poster Image"
+      "label": "Desktop Poster Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Poster Image"
+    },
+    {
+      "type": "header",
+      "content": "Video Link & Label"
     },
     {
       "type": "text",
@@ -265,6 +300,85 @@
       "id": "video_url",
       "label": "YouTube Video URL",
       "default": "https://youtu.be/OqAXQOmucX4"
+    },
+    {
+      "type": "header",
+      "content": "Typography (Desktop & Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 22,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Desktop)",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 18,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "video_label_size_desktop",
+      "min": 16,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Video Label Size (Desktop)",
+      "default": 23
+    },
+    {
+      "type": "range",
+      "id": "video_label_size_mobile",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Video Label Size (Mobile)",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Dimensions & Spacing"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Video Frame Aspect Ratio",
+      "options": [
+        { "value": "16 / 9", "label": "16:9 Standard Widescreen" },
+        { "value": "4 / 3", "label": "4:3 Classic Editorial" },
+        { "value": "21 / 9", "label": "21:9 Ultra Cinematic" }
+      ],
+      "default": "16 / 9"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 55
     }
   ],
   "presets": [

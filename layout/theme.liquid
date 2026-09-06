@@ -98,6 +98,66 @@
         max-width: 100% !important;
         box-sizing: border-box !important;
       }
+      /* Critical Cart Drawer Zero Horizontal Overflow, Title Ellipsis & Unconditionally Visible Delete */
+      .cart-drawer__content,
+      .cart-drawer__items,
+      scroll-hint.cart-drawer__content,
+      scroll-hint.cart-drawer__items {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+      }
+      .cart-drawer__items .cart-items__title,
+      #cart-drawer .cart-items__title {
+        display: block !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+      }
+      .cart-drawer__items .cart-items__remove,
+      #cart-drawer .cart-items__remove {
+        position: absolute !important;
+        top: 10px !important;
+        right: 10px !important;
+        z-index: 20 !important;
+        display: flex !important;
+      }
+      /* Critical Mobile Navigation Drawer UI & Scroll Fix */
+      @media (max-width: 989px) {
+        #header-group,
+        .header-section,
+        #header-component,
+        .header {
+          overflow: visible !important;
+        }
+        .header[data-sticky-state='idle'],
+        .header[data-sticky-state] {
+          opacity: 1 !important;
+          visibility: visible !important;
+          pointer-events: auto !important;
+        }
+        .header-drawer,
+        .header-drawer--mobile,
+        .menu-drawer-container,
+        details.menu-drawer-container {
+          z-index: 999999 !important;
+        }
+        .menu-drawer {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          height: 100dvh !important;
+          height: 100vh !important;
+          max-height: 100dvh !important;
+          z-index: 999999 !important;
+        }
+        .menu-drawer__backdrop {
+          position: fixed !important;
+          inset: 0 !important;
+          z-index: 999998 !important;
+        }
+      }
     </style>
   </head>
 

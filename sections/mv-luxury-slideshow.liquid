@@ -1,5 +1,5 @@
 {% render 'measure-header-heights' %}
-<div class="mv-hero-slideshow" id="mv-slideshow-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.speed | default: 6 }}">
+<div class="mv-hero-slideshow" id="mv-slideshow-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.speed | default: 6 }}" style="--hero-title-desktop: {{ section.settings.heading_size_desktop | default: 48 }}px; --hero-title-mobile: {{ section.settings.heading_size_mobile | default: 28 }}px; --hero-sub-desktop: {{ section.settings.subheading_size_desktop | default: 16 }}px; --hero-sub-mobile: {{ section.settings.subheading_size_mobile | default: 14 }}px; padding-top: {{ section.settings.padding_top | default: 0 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px;">
   <div class="mv-slideshow-viewport">
     {%- for block in section.blocks -%}
       {%- assign is_first = forloop.first -%}
@@ -52,18 +52,27 @@
               </div>
 
               <div class="mv-hero-btn-slot">
-                {%- if block.settings.button_label != blank -%}
+                {%- if block.settings.button_label != blank or block.settings.secondary_button_label != blank -%}
                   <div class="mv-hero-btn-row">
-                    <a href="{{ block.settings.link | default: '#' }}" class="mv-hero-btn-primary">
-                      <span class="mv-btn-label">{{ block.settings.button_label | escape }}</span>
-                      <span class="mv-btn-arrow-ring">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
-                      </span>
-                    </a>
-                    <a href="{{ block.settings.link | default: '#' }}" class="mv-hero-btn-secondary">
-                      <span>Explore Ritual</span>
-                      <span class="mv-gold-line"></span>
-                    </a>
+                    {%- if block.settings.button_label != blank -%}
+                      <a href="{{ block.settings.link | default: '#' }}" class="mv-hero-btn-primary">
+                        <span class="mv-btn-label">{{ block.settings.button_label | escape }}</span>
+                        <span class="mv-btn-arrow-ring">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                        </span>
+                      </a>
+                    {%- endif -%}
+                    {%- if block.settings.secondary_button_label != blank -%}
+                      <a href="{{ block.settings.secondary_link | default: block.settings.link | default: '#' }}" class="mv-hero-btn-secondary">
+                        <span>{{ block.settings.secondary_button_label | escape }}</span>
+                        <span class="mv-gold-line"></span>
+                      </a>
+                    {%- elsif block.settings.button_label != blank -%}
+                      <a href="{{ block.settings.secondary_link | default: block.settings.link | default: '#' }}" class="mv-hero-btn-secondary">
+                        <span>Explore Ritual</span>
+                        <span class="mv-gold-line"></span>
+                      </a>
+                    {%- endif -%}
                   </div>
                 {%- endif -%}
               </div>
@@ -233,7 +242,7 @@
   .mv-hero-title {
     color: #0E281F;
     font-family: 'Marcellus', 'Playfair Display', Georgia, serif;
-    font-size: clamp(2.2rem, 3.4vw, 3.1rem);
+    font-size: var(--hero-title-desktop, clamp(2.2rem, 3.4vw, 3.1rem));
     line-height: 1.15;
     margin: 0;
     font-weight: 500;
@@ -249,7 +258,7 @@
   .mv-hero-subheading {
     color: #1A1613;
     font-family: var(--mv-font-sans);
-    font-size: 0.98rem;
+    font-size: var(--hero-sub-desktop, 0.98rem);
     line-height: 1.62;
     margin: 0;
     font-weight: 500;
@@ -516,7 +525,7 @@
     }
 
     .mv-hero-title {
-      font-size: 1.85rem;
+      font-size: var(--hero-title-mobile, 1.85rem);
       line-height: 1.18;
       color: #0E281F;
       font-weight: 500;
@@ -530,7 +539,7 @@
     }
 
     .mv-hero-subheading {
-      font-size: 0.86rem;
+      font-size: var(--hero-sub-mobile, 0.86rem);
       line-height: 1.48;
       color: #1A1613;
       font-weight: 500;
@@ -665,6 +674,10 @@
   "class": "mv-slideshow-section",
   "settings": [
     {
+      "type": "header",
+      "content": "Layout & Dimensions"
+    },
+    {
       "type": "range",
       "id": "desktop_height",
       "min": 50,
@@ -720,6 +733,74 @@
       "unit": "s",
       "label": "Autoplay Speed",
       "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Typography (Desktop & Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 24,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Desktop)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 18,
+      "max": 38,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Mobile)",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "subheading_size_desktop",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Font Size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subheading_size_mobile",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Font Size (Mobile)",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
     }
   ],
   "blocks": [
@@ -728,14 +809,22 @@
       "name": "Slide",
       "settings": [
         {
+          "type": "header",
+          "content": "Responsive Images"
+        },
+        {
           "type": "image_picker",
           "id": "image",
-          "label": "Desktop Image"
+          "label": "Desktop Image (Landscape / 16:9)"
         },
         {
           "type": "image_picker",
           "id": "mobile_image",
-          "label": "Mobile Image"
+          "label": "Mobile Image (Portrait / 2:3 or 4:5)"
+        },
+        {
+          "type": "header",
+          "content": "Content"
         },
         {
           "type": "text",
@@ -755,6 +844,10 @@
           "label": "Subheading"
         },
         {
+          "type": "header",
+          "content": "Primary Action"
+        },
+        {
           "type": "text",
           "id": "button_label",
           "label": "Button Label",
@@ -764,6 +857,21 @@
           "type": "url",
           "id": "link",
           "label": "Button Link"
+        },
+        {
+          "type": "header",
+          "content": "Secondary Action"
+        },
+        {
+          "type": "text",
+          "id": "secondary_button_label",
+          "label": "Secondary Button Label",
+          "default": "Explore Ritual"
+        },
+        {
+          "type": "url",
+          "id": "secondary_link",
+          "label": "Secondary Button Link"
         }
       ]
     }

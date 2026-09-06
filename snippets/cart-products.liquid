@@ -198,6 +198,7 @@
                       <a
                         href="{{ item.url }}"
                         class="cart-items__title"
+                        title="{{ item.product.title | escape }}"
                         {% if item.parent_relationship.parent != null %}
                           aria-label="{{ 'accessibility.nested_product' | t: product_title: item.product.title, parent_title: item.parent_relationship.parent.title | escape }}"
                         {% endif %}

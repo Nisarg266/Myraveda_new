@@ -1,4 +1,4 @@
-<div class="mv-philosophy-section" id="mv-philosophy-{{ section.id }}">
+<div class="mv-philosophy-section" id="mv-philosophy-{{ section.id }}" style="--philo-title-desktop: {{ section.settings.heading_size_desktop | default: 34 }}px; --philo-title-mobile: {{ section.settings.heading_size_mobile | default: 24 }}px; --philo-text-desktop: {{ section.settings.manifesto_size_desktop | default: 24 }}px; --philo-text-mobile: {{ section.settings.manifesto_size_mobile | default: 19 }}px; --philo-pt: {{ section.settings.padding_top | default: 52 }}px; --philo-pb: {{ section.settings.padding_bottom | default: 52 }}px; --philo-bg: {{ section.settings.background_color | default: '#FFFFFF' }};">
   <div class="mv-container">
     <div class="mv-philosophy-header mv-section-header">
       <span class="mv-section-badge">
@@ -12,14 +12,19 @@
     {%- if section.settings.image != blank -%}
       <div class="mv-map-showcase">
         <div class="mv-map-gallery-frame">
-          <img
-            src="{{ section.settings.image | image_url: width: 2200 }}"
-            srcset="{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1400 }} 1400w, {{ section.settings.image | image_url: width: 2200 }} 2200w"
-            sizes="(max-width: 990px) 96vw, 1180px"
-            alt="{{ section.settings.title | escape }}"
-            loading="lazy"
-            class="mv-map-img"
-          >
+          <picture>
+            {%- if section.settings.mobile_image != blank -%}
+              <source media="(max-width: 749px)" srcset="{{ section.settings.mobile_image | image_url: width: 900 }}">
+            {%- endif -%}
+            <img
+              src="{{ section.settings.image | image_url: width: 2200 }}"
+              srcset="{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1400 }} 1400w, {{ section.settings.image | image_url: width: 2200 }} 2200w"
+              sizes="(max-width: 990px) 96vw, 1180px"
+              alt="{{ section.settings.title | escape }}"
+              loading="lazy"
+              class="mv-map-img"
+            >
+          </picture>
         </div>
       </div>
     {%- endif -%}
@@ -32,35 +37,61 @@
     </div>
 
     <div class="mv-philosophy-pillars-grid">
-      <div class="mv-pillar-card">
-        <div class="mv-pillar-icon-halo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="mv-pillar-card" {{ block.shopify_attributes }}>
+            <div class="mv-pillar-icon-halo">
+              {%- if block.settings.custom_icon != blank -%}
+                <img src="{{ block.settings.custom_icon | image_url: width: 100 }}" alt="{{ block.settings.title | escape }}" width="28" height="28" style="object-fit: contain;">
+              {%- elsif block.settings.icon == 'shield' -%}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              {%- elsif block.settings.icon == 'clean' or block.settings.icon == 'drop' -%}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+              {%- elsif block.settings.icon == 'leaf' -%}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><path d="M11 20A7 7 0 0 1 4 13a8 8 0 0 1 8-8 7 7 0 0 1 7 7 8 8 0 0 1-8 8z"></path><path d="M12 2v20"></path></svg>
+              {%- elsif block.settings.icon == 'sparkle' -%}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              {%- else -%}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+              {%- endif -%}
+            </div>
+            <div class="mv-pillar-content">
+              <h3 class="mv-pillar-title">{{ block.settings.title | escape }}</h3>
+              <p class="mv-pillar-desc">{{ block.settings.description | escape }}</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="mv-pillar-card">
+          <div class="mv-pillar-icon-halo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+          </div>
+          <div class="mv-pillar-content">
+            <h3 class="mv-pillar-title">Exotic Global Ingredients</h3>
+            <p class="mv-pillar-desc">Culmination of ancient, nutrient-rich beauty rituals hand-sourced from 100+ countries.</p>
+          </div>
         </div>
-        <div class="mv-pillar-content">
-          <h3 class="mv-pillar-title">Exotic Global Ingredients</h3>
-          <p class="mv-pillar-desc">Culmination of ancient, nutrient-rich beauty rituals hand-sourced from 100+ countries.</p>
-        </div>
-      </div>
 
-      <div class="mv-pillar-card">
-        <div class="mv-pillar-icon-halo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <div class="mv-pillar-card">
+          <div class="mv-pillar-icon-halo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <div class="mv-pillar-content">
+            <h3 class="mv-pillar-title">Ayurvedic Botanicals</h3>
+            <p class="mv-pillar-desc">Pure, time-tested herbal heritage from certified Ayurvedic growers across India.</p>
+          </div>
         </div>
-        <div class="mv-pillar-content">
-          <h3 class="mv-pillar-title">Ayurvedic Botanicals</h3>
-          <p class="mv-pillar-desc">Pure, time-tested herbal heritage from certified Ayurvedic growers across India.</p>
-        </div>
-      </div>
 
-      <div class="mv-pillar-card">
-        <div class="mv-pillar-icon-halo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+        <div class="mv-pillar-card">
+          <div class="mv-pillar-icon-halo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+          </div>
+          <div class="mv-pillar-content">
+            <h3 class="mv-pillar-title">Sustainable Clean Beauty</h3>
+            <p class="mv-pillar-desc">100% vegetarian, free from 400+ toxins, and bottled in recyclable luxury packaging.</p>
+          </div>
         </div>
-        <div class="mv-pillar-content">
-          <h3 class="mv-pillar-title">Sustainable Clean Beauty</h3>
-          <p class="mv-pillar-desc">100% vegetarian, free from 400+ toxins, and bottled in recyclable luxury packaging.</p>
-        </div>
-      </div>
+      {%- endif -%}
     </div>
 
     {%- if section.settings.button_label != blank -%}
@@ -76,8 +107,11 @@
 
 <style>
   #mv-philosophy-{{ section.id }} {
-    padding: clamp(42px, 5vw, 62px) 24px;
-    background: #FFFFFF;
+    padding-top: var(--philo-pt, clamp(42px, 5vw, 62px));
+    padding-bottom: var(--philo-pb, clamp(42px, 5vw, 62px));
+    padding-left: 24px;
+    padding-right: 24px;
+    background: var(--philo-bg, #FFFFFF);
     position: relative;
     overflow: hidden;
     border-top: 1px solid rgba(201, 158, 62, 0.16);
@@ -91,6 +125,10 @@
 
   .mv-philosophy-header.mv-section-header {
     margin-bottom: 30px;
+  }
+
+  #mv-philosophy-{{ section.id }} .mv-section-title {
+    font-size: var(--philo-title-desktop, clamp(2rem, 3.5vw, 2.7rem));
   }
 
   /* Map Gallery Showcase - Enlarged and Crisp */
@@ -148,7 +186,7 @@
 
   .mv-philosophy-text {
     font-family: 'Marcellus', 'Playfair Display', Georgia, serif;
-    font-size: clamp(1.3rem, 2vw, 1.75rem);
+    font-size: var(--philo-text-desktop, clamp(1.3rem, 2vw, 1.75rem));
     line-height: 1.6;
     color: #0E281F;
     font-weight: 400;
@@ -240,16 +278,25 @@
 
   @media (max-width: 640px) {
     #mv-philosophy-{{ section.id }} {
-      padding: 34px 18px;
+      padding-top: var(--philo-pt, 34px);
+      padding-bottom: var(--philo-pb, 34px);
+      padding-left: 18px;
+      padding-right: 18px;
     }
     .mv-philosophy-header.mv-section-header {
       margin-bottom: 20px;
+    }
+    #mv-philosophy-{{ section.id }} .mv-section-title {
+      font-size: var(--philo-title-mobile, 1.85rem);
     }
     .mv-map-showcase {
       margin-bottom: 22px;
     }
     .mv-philosophy-manifesto {
       margin-bottom: 24px;
+    }
+    .mv-philosophy-text {
+      font-size: var(--philo-text-mobile, 1.25rem);
     }
     .mv-philosophy-pillars-grid {
       grid-template-columns: 1fr;
@@ -273,6 +320,10 @@
   "class": "mv-philosophy-section-wrapper",
   "settings": [
     {
+      "type": "header",
+      "content": "Content & Story"
+    },
+    {
       "type": "text",
       "id": "badge",
       "label": "Badge Text",
@@ -287,13 +338,26 @@
     {
       "type": "richtext",
       "id": "text",
-      "label": "Story / Text",
+      "label": "Story / Manifesto Text",
       "default": "<p>World's First Sustainable \"<strong>Clean-Beauty</strong>\" brand that combines <strong>Exotic ingredients</strong> used in beauty rituals of different cultures around the world, WITH <strong>Ayurvedic botanicals</strong>.</p>"
+    },
+    {
+      "type": "header",
+      "content": "World Map Images (Desktop & Mobile)"
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "World Map Image"
+      "label": "Desktop World Map Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile World Map Image"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
     },
     {
       "type": "text",
@@ -305,11 +369,149 @@
       "type": "url",
       "id": "button_link",
       "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Typography (Desktop & Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 22,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Desktop)",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 18,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "manifesto_size_desktop",
+      "min": 18,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Story Text Size (Desktop)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "manifesto_size_mobile",
+      "min": 15,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Story Text Size (Mobile)",
+      "default": 19
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing & Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 52
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon Symbol",
+          "options": [
+            { "value": "globe", "label": "Global World / Rituals" },
+            { "value": "shield", "label": "Ayurvedic Shield / Protection" },
+            { "value": "clean", "label": "Clean Beauty / Teardrop" },
+            { "value": "leaf", "label": "Botanical Leaf" },
+            { "value": "sparkle", "label": "Royal Sparkle / Glow" }
+          ],
+          "default": "globe"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom Icon Image (Overrides Symbol)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Pillar Title",
+          "default": "Exotic Global Ingredients"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Pillar Description",
+          "default": "Culmination of ancient, nutrient-rich beauty rituals hand-sourced from 100+ countries."
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "MV Brand Philosophy"
+      "name": "MV Brand Philosophy",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "globe",
+            "title": "Exotic Global Ingredients",
+            "description": "Culmination of ancient, nutrient-rich beauty rituals hand-sourced from 100+ countries."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "shield",
+            "title": "Ayurvedic Botanicals",
+            "description": "Pure, time-tested herbal heritage from certified Ayurvedic growers across India."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "icon": "clean",
+            "title": "Sustainable Clean Beauty",
+            "description": "100% vegetarian, free from 400+ toxins, and bottled in recyclable luxury packaging."
+          }
+        }
+      ]
     }
   ]
 }

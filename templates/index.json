@@ -69,6 +69,37 @@
     },
     "mv_brand_philosophy": {
       "type": "mv-brand-philosophy",
+      "blocks": {
+        "pillar_global": {
+          "type": "pillar",
+          "settings": {
+            "icon": "globe",
+            "title": "Exotic Global Ingredients",
+            "description": "Culmination of ancient, nutrient-rich beauty rituals hand-sourced from 100+ countries."
+          }
+        },
+        "pillar_ayurvedic": {
+          "type": "pillar",
+          "settings": {
+            "icon": "shield",
+            "title": "Ayurvedic Botanicals",
+            "description": "Pure, time-tested herbal heritage from certified Ayurvedic growers across India."
+          }
+        },
+        "pillar_clean": {
+          "type": "pillar",
+          "settings": {
+            "icon": "clean",
+            "title": "Sustainable Clean Beauty",
+            "description": "100% vegetarian, free from 400+ toxins, and bottled in recyclable luxury packaging."
+          }
+        }
+      },
+      "block_order": [
+        "pillar_global",
+        "pillar_ayurvedic",
+        "pillar_clean"
+      ],
       "settings": {
         "badge": "What Makes Us Special",
         "title": "Where Global Exotic Rituals Meet Ayurvedic Wisdom",
@@ -282,6 +313,34 @@
     },
     "mv_featured_product": {
       "type": "mv-featured-product",
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "check",
+            "text": "Draws out deep micro-toxins & excess sebum without stripping moisture"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "check",
+            "text": "Infused with authentic Egyptian White Clay & healing botanical extracts"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "check",
+            "text": "100% vegetarian, free from 400+ harsh chemicals"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3"
+      ],
       "settings": {
         "badge": "Signature Formulation",
         "heading": "Mask Like Never Before!",

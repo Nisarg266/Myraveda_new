@@ -13,6 +13,7 @@
 {%- liquid
   assign brand_logo = section.settings.brand_image
   assign brand_tagline = section.settings.brand_tagline
+  assign brand_align = section.settings.brand_alignment | default: 'center'
   assign contact_title = section.settings.contact_title | default: 'CONTACT US'
   assign contact_phone = section.settings.contact_phone | default: '+91-9137254894'
   assign contact_email = section.settings.contact_email | default: 'connect@myravedaluxury.com'
@@ -110,7 +111,7 @@
         
         <!-- COLUMN 1: MAISON & HERITAGE -->
         <div class="mv-footer-col mv-footer-col--brand">
-          <div class="mv-footer-brand-stage">
+          <div class="mv-footer-brand-stage mv-brand-align--{{ brand_align }}">
             {%- if brand_logo != blank -%}
               <a href="{{ routes.root_url }}" class="mv-footer-logo-link" aria-label="{{ shop.name }}">
                 <img 
@@ -667,6 +668,42 @@
   .mv-footer-brand-stage {
     display: flex;
     flex-direction: column;
+  }
+
+  .mv-brand-align--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .mv-brand-align--center .mv-footer-logo-link {
+    display: inline-flex;
+    justify-content: center;
+    margin: 0 auto 12px auto;
+  }
+
+  .mv-brand-align--center .mv-footer-logo-img {
+    margin: 0 auto;
+  }
+
+  .mv-brand-align--center .mv-footer-logo-fallback {
+    align-items: center;
+    text-align: center;
+    margin: 0 auto 12px auto;
+  }
+
+  .mv-brand-align--center .mv-gold-divider-subtle {
+    margin: 8px auto 12px auto;
+    background: linear-gradient(90deg, transparent 0%, var(--mv-f-gold-primary) 50%, transparent 100%);
+  }
+
+  .mv-brand-align--center .mv-footer-tagline {
+    text-align: center;
+    margin: 0 auto 14px auto;
+  }
+
+  .mv-brand-align--center .mv-footer-creds {
+    justify-content: center;
+    margin: 0 auto;
   }
 
   .mv-footer-logo-link {
@@ -1304,6 +1341,48 @@
 
     .mv-footer-col--brand {
       grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .mv-footer-brand-stage {
+      align-items: center !important;
+      text-align: center !important;
+      width: 100%;
+    }
+
+    .mv-footer-brand-stage .mv-footer-logo-link {
+      display: inline-flex !important;
+      justify-content: center !important;
+      margin: 0 auto 12px auto !important;
+    }
+
+    .mv-footer-brand-stage .mv-footer-logo-img {
+      margin: 0 auto !important;
+    }
+
+    .mv-footer-brand-stage .mv-footer-logo-fallback {
+      align-items: center !important;
+      text-align: center !important;
+      margin: 0 auto 12px auto !important;
+    }
+
+    .mv-footer-brand-stage .mv-gold-divider-subtle {
+      margin: 10px auto 14px auto !important;
+      background: linear-gradient(90deg, transparent 0%, var(--mv-f-gold-primary) 50%, transparent 100%) !important;
+    }
+
+    .mv-footer-brand-stage .mv-footer-tagline {
+      text-align: center !important;
+      margin: 0 auto 16px auto !important;
+      max-width: 440px !important;
+    }
+
+    .mv-footer-brand-stage .mv-footer-creds {
+      justify-content: center !important;
+      margin: 0 auto !important;
     }
 
     .mv-footer-col--newsletter {
@@ -1363,8 +1442,44 @@
       gap: 24px;
     }
 
-    .mv-footer-logo-img {
-      max-width: 190px;
+    .mv-footer-col--brand,
+    .mv-footer-brand-stage {
+      align-items: center !important;
+      text-align: center !important;
+      width: 100%;
+    }
+
+    .mv-footer-brand-stage .mv-footer-logo-link {
+      display: inline-flex !important;
+      justify-content: center !important;
+      margin: 0 auto 12px auto !important;
+    }
+
+    .mv-footer-brand-stage .mv-footer-logo-img {
+      max-width: 190px !important;
+      margin: 0 auto !important;
+    }
+
+    .mv-footer-brand-stage .mv-footer-logo-fallback {
+      align-items: center !important;
+      text-align: center !important;
+      margin: 0 auto 12px auto !important;
+    }
+
+    .mv-footer-brand-stage .mv-gold-divider-subtle {
+      margin: 10px auto 14px auto !important;
+      background: linear-gradient(90deg, transparent 0%, var(--mv-f-gold-primary) 50%, transparent 100%) !important;
+    }
+
+    .mv-footer-brand-stage .mv-footer-tagline {
+      text-align: center !important;
+      margin: 0 auto 16px auto !important;
+      max-width: 380px !important;
+    }
+
+    .mv-footer-brand-stage .mv-footer-creds {
+      justify-content: center !important;
+      margin: 0 auto !important;
     }
 
     .mv-footer-heading {
@@ -1488,6 +1603,22 @@
       "id": "brand_tagline",
       "label": "Brand Tagline",
       "default": "World's First Sustainable Clean-Beauty Brand. Handcrafted Ayurvedic formulations merging sacred Vedic herbs with European dermatological science."
+    },
+    {
+      "type": "select",
+      "id": "brand_alignment",
+      "label": "Brand Alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
     },
     {
       "type": "header",

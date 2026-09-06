@@ -7,7 +7,17 @@
   =============================================================================
 {% endcomment %}
 
-<div class="mv-testimonials-section" id="mv-testimonials-{{ section.id }}">
+<div class="mv-testimonials-section" id="mv-testimonials-{{ section.id }}" style="
+  --test-heading-desktop: {{ section.settings.heading_size_desktop | default: 34 }}px;
+  --test-heading-mobile: {{ section.settings.heading_size_mobile | default: 24 }}px;
+  --test-quote-desktop: {{ section.settings.quote_size_desktop | default: 16 }}px;
+  --test-quote-mobile: {{ section.settings.quote_size_mobile | default: 14 }}px;
+  --test-author-desktop: {{ section.settings.author_name_size_desktop | default: 16 }}px;
+  --test-author-mobile: {{ section.settings.author_name_size_mobile | default: 14 }}px;
+  --test-pt: {{ section.settings.padding_top | default: 56 }}px;
+  --test-pb: {{ section.settings.padding_bottom | default: 56 }}px;
+  --test-bg: {{ section.settings.background_color | default: '#FAF8F5' }};
+">
   <div class="mv-testimonials-ambient-glow"></div>
   
   <div class="mv-test-container">
@@ -129,8 +139,9 @@
      ========================================================================== */
   
   .mv-testimonials-section {
-    padding: clamp(46px, 5.5vw, 68px) 0;
-    background: #FAF8F5;
+    padding-top: var(--test-pt, clamp(46px, 5.5vw, 68px));
+    padding-bottom: var(--test-pb, clamp(46px, 5.5vw, 68px));
+    background: var(--test-bg, #FAF8F5);
     position: relative;
     overflow: hidden;
     border-top: 1.5px solid rgba(201, 158, 62, 0.28);
@@ -193,7 +204,7 @@
 
   .mv-test-main-heading {
     font-family: 'Marcellus', 'Playfair Display', Georgia, serif;
-    font-size: clamp(2.1rem, 3.6vw, 2.9rem);
+    font-size: var(--test-heading-desktop, clamp(2.1rem, 3.6vw, 2.9rem));
     line-height: 1.15;
     letter-spacing: 0.03em;
     color: #0E281F;
@@ -364,7 +375,7 @@
 
   .mv-test-quote {
     font-family: 'Playfair Display', 'Marcellus', Georgia, serif;
-    font-size: clamp(0.95rem, 1.05vw, 1.05rem);
+    font-size: var(--test-quote-desktop, clamp(0.95rem, 1.05vw, 1.05rem));
     line-height: 1.55;
     color: #0E281F;
     font-style: italic;
@@ -429,7 +440,7 @@
 
   .mv-author-name {
     font-family: 'Marcellus', serif;
-    font-size: 1rem;
+    font-size: var(--test-author-desktop, 1rem);
     font-weight: 700;
     color: #0E281F;
     letter-spacing: 0.02em;
@@ -471,7 +482,8 @@
      ========================================================================== */
   @media (max-width: 767px) {
     .mv-testimonials-section {
-      padding: 34px 0 38px 0;
+      padding-top: calc(var(--test-pt, 56px) * 0.65);
+      padding-bottom: calc(var(--test-pb, 56px) * 0.65);
     }
 
     .mv-test-container {
@@ -497,7 +509,7 @@
     }
 
     .mv-test-main-heading {
-      font-size: clamp(1.65rem, 5.8vw, 2.1rem);
+      font-size: var(--test-heading-mobile, clamp(1.65rem, 5.8vw, 2.1rem));
       margin-bottom: 6px;
       line-height: 1.15;
     }
@@ -556,7 +568,7 @@
     }
 
     .mv-test-quote {
-      font-size: 0.98rem;
+      font-size: var(--test-quote-mobile, 0.98rem);
       line-height: 1.52;
     }
 
@@ -576,7 +588,7 @@
     }
 
     .mv-author-name {
-      font-size: 0.92rem;
+      font-size: var(--test-author-mobile, 0.92rem);
     }
 
     .mv-author-title {
@@ -704,6 +716,10 @@
   "class": "mv-testimonials-section-wrapper",
   "settings": [
     {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
       "type": "text",
       "id": "badge",
       "label": "Badge Text",
@@ -720,6 +736,100 @@
       "id": "subheading",
       "label": "Subheading",
       "default": "What our customers think about our clean luxury formulations"
+    },
+    {
+      "type": "header",
+      "content": "Typography (Desktop & Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 24,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Desktop)",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 18,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "quote_size_desktop",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Quote Font Size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "quote_size_mobile",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Quote Font Size (Mobile)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "author_name_size_desktop",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Author Name Size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "author_name_size_mobile",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Author Name Size (Mobile)",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing & Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FAF8F5"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Top Padding (Desktop)",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom Padding (Desktop)",
+      "default": 56
     }
   ],
   "blocks": [

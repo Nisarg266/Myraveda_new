@@ -19,6 +19,14 @@ class HeaderDrawer extends Component {
 
     this.addEventListener('keyup', this.#onKeyUp);
     this.#setupAnimatedElementListeners();
+
+    const summary = this.refs.details?.querySelector('summary');
+    if (summary) {
+      summary.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.toggle();
+      });
+    }
   }
 
   disconnectedCallback() {
@@ -40,7 +48,7 @@ class HeaderDrawer extends Component {
    * @returns {boolean} Whether the main menu drawer is open
    */
   get isOpen() {
-    return this.refs.details.hasAttribute('open');
+    return this.refs.details.classList.contains('menu-open');
   }
 
   /**
@@ -72,6 +80,7 @@ class HeaderDrawer extends Component {
 
     if (!summary) return;
 
+    details.setAttribute('open', '');
     summary.setAttribute('aria-expanded', 'true');
 
     this.preventInitialAccordionAnimations(details);

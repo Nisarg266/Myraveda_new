@@ -1,4 +1,4 @@
-<div class="mv-promotions-section" id="mv-promotions-{{ section.id }}">
+<div class="mv-promotions-section" id="mv-promotions-{{ section.id }}" style="--promo-heading-desktop: {{ section.settings.heading_size_desktop | default: 34 }}px; --promo-heading-mobile: {{ section.settings.heading_size_mobile | default: 24 }}px; --promo-card-title-desktop: {{ section.settings.card_title_size_desktop | default: 27 }}px; --promo-card-title-mobile: {{ section.settings.card_title_size_mobile | default: 23 }}px; --promo-pt: {{ section.settings.padding_top | default: 52 }}px; --promo-pb: {{ section.settings.padding_bottom | default: 52 }}px; --promo-bg: {{ section.settings.background_color | default: '#FCFAF7' }};">
   <div class="mv-container">
     <div class="mv-section-header">
       {%- if section.settings.badge != blank -%}
@@ -11,58 +11,91 @@
       <div class="mv-divider-accent"></div>
     </div>
 
-    <div class="mv-promo-grid">
-      {%- for block in section.blocks -%}
-        <div class="mv-promo-card" {{ block.shopify_attributes }}>
-          <a href="{{ block.settings.button_link | default: '#' }}" class="mv-promo-media-link" aria-label="{{ block.settings.title | escape }}">
-            <div class="mv-promo-img-wrapper">
-              {%- if block.settings.image != blank -%}
-                <img
-                  src="{{ block.settings.image | image_url: width: 800 }}"
-                  srcset="{{ block.settings.image | image_url: width: 400 }} 400w, {{ block.settings.image | image_url: width: 700 }} 700w, {{ block.settings.image | image_url: width: 1000 }} 1000w"
-                  sizes="(max-width: 749px) 90vw, (max-width: 1024px) 45vw, 380px"
-                  alt="{{ block.settings.title | escape }}"
-                  loading="lazy"
-                  class="mv-promo-img"
-                >
-              {%- else -%}
-                {{ 'collection-1' | placeholder_svg_tag: 'mv-promo-placeholder' }}
-              {%- endif -%}
-              <div class="mv-promo-gradient-scrim"></div>
-            </div>
-          </a>
-
-          <div class="mv-promo-content">
-            {%- if block.settings.caption != blank -%}
-              <span class="mv-promo-tag">{{ block.settings.caption | escape }}</span>
-            {%- endif -%}
-
-            {%- if block.settings.title != blank -%}
-              <h3 class="mv-promo-title">
-                <a href="{{ block.settings.button_link | default: '#' }}">{{ block.settings.title | escape }}</a>
-              </h3>
-            {%- endif -%}
-
-            {%- if block.settings.button_label != blank -%}
-              <div class="mv-promo-btn-wrap">
-                <a href="{{ block.settings.button_link | default: '#' }}" class="mv-btn-gold mv-promo-cta">
-                  <span>{{ block.settings.button_label | escape }}</span>
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
-                </a>
+    <div class="mv-promo-slider-wrap">
+      <div class="mv-promo-grid">
+        {%- for block in section.blocks -%}
+          <div class="mv-promo-card" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.button_link | default: '#' }}" class="mv-promo-media-link" aria-label="{{ block.settings.title | escape }}">
+              <div class="mv-promo-img-wrapper">
+                {%- if block.settings.image != blank -%}
+                  <picture>
+                    {%- if block.settings.mobile_image != blank -%}
+                      <source media="(max-width: 749px)" srcset="{{ block.settings.mobile_image | image_url: width: 700 }}">
+                    {%- endif -%}
+                    <img
+                      src="{{ block.settings.image | image_url: width: 800 }}"
+                      srcset="{{ block.settings.image | image_url: width: 400 }} 400w, {{ block.settings.image | image_url: width: 700 }} 700w, {{ block.settings.image | image_url: width: 1000 }} 1000w"
+                      sizes="(max-width: 749px) 85vw, (max-width: 1024px) 45vw, 380px"
+                      alt="{{ block.settings.title | escape }}"
+                      loading="lazy"
+                      class="mv-promo-img"
+                    >
+                  </picture>
+                {%- else -%}
+                  {{ 'collection-1' | placeholder_svg_tag: 'mv-promo-placeholder' }}
+                {%- endif -%}
+                <div class="mv-promo-gradient-scrim"></div>
               </div>
-            {%- endif -%}
+            </a>
+
+            <div class="mv-promo-content">
+              {%- if block.settings.caption != blank -%}
+                <span class="mv-promo-tag">{{ block.settings.caption | escape }}</span>
+              {%- endif -%}
+
+              {%- if block.settings.title != blank -%}
+                <h3 class="mv-promo-title">
+                  <a href="{{ block.settings.button_link | default: '#' }}">{{ block.settings.title | escape }}</a>
+                </h3>
+              {%- endif -%}
+
+              {%- if block.settings.button_label != blank -%}
+                <div class="mv-promo-btn-wrap">
+                  <a href="{{ block.settings.button_link | default: '#' }}" class="mv-btn-gold mv-promo-cta">
+                    <span>{{ block.settings.button_label | escape }}</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                  </a>
+                </div>
+              {%- endif -%}
+            </div>
           </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="mv-promo-nav">
+        <button class="mv-promo-arrow mv-promo-prev" aria-label="Previous Collection">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <div class="mv-promo-dots">
+          {%- for block in section.blocks -%}
+            <button class="mv-promo-dot{% if forloop.first %} active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}"></button>
+          {%- endfor -%}
         </div>
-      {%- endfor -%}
+        <button class="mv-promo-arrow mv-promo-next" aria-label="Next Collection">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>
 
 <style>
   #mv-promotions-{{ section.id }} {
-    padding: clamp(42px, 5vw, 62px) 24px;
-    background: #FCFAF7;
+    padding-top: var(--promo-pt, clamp(42px, 5vw, 62px));
+    padding-bottom: var(--promo-pb, clamp(42px, 5vw, 62px));
+    padding-left: 24px;
+    padding-right: 24px;
+    background: var(--promo-bg, #FCFAF7);
     position: relative;
+  }
+
+  #mv-promotions-{{ section.id }} .mv-section-title {
+    font-size: var(--promo-heading-desktop, clamp(2rem, 3.5vw, 2.7rem));
+  }
+
+  .mv-promo-slider-wrap {
+    position: relative;
+    width: 100%;
   }
 
   .mv-promo-grid {
@@ -150,7 +183,7 @@
 
   .mv-promo-title {
     font-family: 'Marcellus', 'Playfair Display', Georgia, serif;
-    font-size: 1.7rem;
+    font-size: var(--promo-card-title-desktop, 1.7rem);
     line-height: 1.28;
     margin: 0 0 20px;
     font-weight: 500;
@@ -190,6 +223,62 @@
     border-color: #DFB76C;
   }
 
+  .mv-promo-nav {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .mv-promo-arrow {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #0E281F;
+    border: 1.5px solid #C99E3E;
+    color: #F5E8C7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(14, 40, 31, 0.15);
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .mv-promo-arrow:hover {
+    background: #C99E3E;
+    color: #0E281F;
+    border-color: #DFB76C;
+    transform: scale(1.08);
+  }
+
+  .mv-promo-dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mv-promo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(14, 40, 31, 0.22);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mv-promo-dot.active {
+    width: 24px;
+    border-radius: 999px;
+    background: #0E281F;
+    box-shadow: 0 0 0 1.5px #C99E3E;
+  }
+
   @media (max-width: 990px) {
     .mv-promo-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -197,25 +286,145 @@
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     #mv-promotions-{{ section.id }} {
-      padding: 34px 18px;
+      padding-top: var(--promo-pt, 34px);
+      padding-bottom: var(--promo-pb, 38px);
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+    #mv-promotions-{{ section.id }} .mv-section-title {
+      font-size: var(--promo-heading-mobile, 1.85rem);
     }
     .mv-promo-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
+      display: flex !important;
+      flex-direction: row !important;
+      overflow-x: auto !important;
+      scroll-behavior: smooth !important;
+      -webkit-overflow-scrolling: touch !important;
+      scroll-snap-type: x mandatory !important;
+      gap: 16px !important;
+      margin: 0 -18px !important;
+      padding: 10px 18px 22px !important;
+      scroll-padding-left: 18px !important;
+      scroll-padding-right: 18px !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    .mv-promo-grid::-webkit-scrollbar {
+      display: none !important;
     }
     .mv-promo-card {
-      border-radius: 90px 90px 22px 22px;
+      flex: 0 0 clamp(270px, 80vw, 330px) !important;
+      width: clamp(270px, 80vw, 330px) !important;
+      scroll-snap-align: start !important;
+      scroll-snap-stop: always !important;
+      border-radius: 90px 90px 22px 22px !important;
+      box-shadow: 0 12px 30px rgba(14, 40, 31, 0.08) !important;
     }
     .mv-promo-img-wrapper {
-      border-radius: 90px 90px 0 0;
+      border-radius: 90px 90px 0 0 !important;
+      aspect-ratio: 1 !important;
     }
     .mv-promo-content {
-      padding: 24px 20px;
+      padding: 24px 20px !important;
+    }
+    .mv-promo-title {
+      font-size: var(--promo-card-title-mobile, 1.45rem) !important;
+      margin-bottom: 16px !important;
+    }
+    .mv-promo-nav {
+      display: flex !important;
     }
   }
 </style>
+
+<script>
+  (function() {
+    function initPromoSlider() {
+      const wrap = document.getElementById('mv-promotions-{{ section.id }}');
+      if (!wrap) return;
+
+      const track = wrap.querySelector('.mv-promo-grid');
+      const prevBtn = wrap.querySelector('.mv-promo-prev');
+      const nextBtn = wrap.querySelector('.mv-promo-next');
+      const dots = wrap.querySelectorAll('.mv-promo-dot');
+
+      if (!track) return;
+
+      function getStep() {
+        const item = track.querySelector('.mv-promo-card');
+        if (!item) return 290;
+        const style = window.getComputedStyle(track);
+        const gap = parseFloat(style.gap) || parseFloat(style.columnGap) || 16;
+        return item.getBoundingClientRect().width + gap;
+      }
+
+      function updateActiveState() {
+        const step = getStep();
+        const current = track.scrollLeft;
+        const index = Math.min(dots.length - 1, Math.max(0, Math.round(current / step)));
+
+        dots.forEach(function(dot, i) {
+          if (i === index) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+
+        if (prevBtn && nextBtn) {
+          const maxScroll = track.scrollWidth - track.clientWidth - 5;
+          prevBtn.style.opacity = current <= 5 ? '0.4' : '1';
+          nextBtn.style.opacity = current >= maxScroll ? '0.4' : '1';
+        }
+      }
+
+      track.addEventListener('scroll', updateActiveState, { passive: true });
+      updateActiveState();
+
+      if (prevBtn) {
+        prevBtn.onclick = function(e) {
+          e.preventDefault();
+          const step = getStep();
+          const target = Math.max(0, Math.round(track.scrollLeft / step - 1) * step);
+          track.scrollTo({ left: target, behavior: 'smooth' });
+        };
+      }
+
+      if (nextBtn) {
+        nextBtn.onclick = function(e) {
+          e.preventDefault();
+          const step = getStep();
+          const maxScroll = track.scrollWidth - track.clientWidth;
+          const target = Math.min(maxScroll, Math.round(track.scrollLeft / step + 1) * step);
+          track.scrollTo({ left: target, behavior: 'smooth' });
+        };
+      }
+
+      dots.forEach(function(dot) {
+        dot.onclick = function(e) {
+          e.preventDefault();
+          const targetIndex = parseInt(this.getAttribute('data-index'), 10) || 0;
+          const step = getStep();
+          track.scrollTo({ left: targetIndex * step, behavior: 'smooth' });
+        };
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPromoSlider);
+    } else {
+      initPromoSlider();
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.target && e.target.querySelector('#mv-promotions-{{ section.id }}')) {
+        initPromoSlider();
+      }
+    });
+  })();
+</script>
 
 {% schema %}
 {
@@ -223,6 +432,10 @@
   "tag": "section",
   "class": "mv-promotion-cards-section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
     {
       "type": "text",
       "id": "badge",
@@ -240,6 +453,80 @@
       "id": "subheading",
       "label": "Section Subheading",
       "default": "Take solace in our wide RANGE of #CleanBeauty selection of cruelty-free skincare & haircare"
+    },
+    {
+      "type": "header",
+      "content": "Typography (Desktop & Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 22,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Desktop)",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 18,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_title_size_desktop",
+      "min": 18,
+      "max": 34,
+      "step": 1,
+      "unit": "px",
+      "label": "Card Title Size (Desktop)",
+      "default": 27
+    },
+    {
+      "type": "range",
+      "id": "card_title_size_mobile",
+      "min": 16,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Card Title Size (Mobile)",
+      "default": 23
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing & Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 52
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FCFAF7"
     }
   ],
   "blocks": [
@@ -248,9 +535,22 @@
       "name": "Category Card",
       "settings": [
         {
+          "type": "header",
+          "content": "Responsive Images"
+        },
+        {
           "type": "image_picker",
           "id": "image",
-          "label": "Card Image"
+          "label": "Desktop Card Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Card Image"
+        },
+        {
+          "type": "header",
+          "content": "Card Details"
         },
         {
           "type": "text",

@@ -81,16 +81,22 @@
         {% endif %}
       "
     >
-      <button
-        class="button close-button menu-drawer__close-button focus-inset"
-        type="button"
-        aria-label="{{ 'actions.close' | t }}"
-        on:click="/close"
-      >
-        <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
-          {{- 'icon-close-menu.svg' | inline_asset_content -}}
-        </span>
-      </button>
+      <div class="menu-drawer__top-header">
+        <a href="{{ routes.root_url }}" class="menu-drawer__brand-badge" aria-label="{{ shop.name }}">
+          <span class="menu-drawer__brand-star">✦</span>
+          <span class="menu-drawer__brand-title">MYRA VEDA</span>
+        </a>
+        <button
+          class="button close-button menu-drawer__close-button focus-inset"
+          type="button"
+          aria-label="{{ 'actions.close' | t }}"
+          on:click="/close"
+        >
+          <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
+            {{- 'icon-close-menu.svg' | inline_asset_content -}}
+          </span>
+        </button>
+      </div>
       <nav
         class="menu-drawer__navigation"
         style="
@@ -535,6 +541,10 @@
                             class="menu-drawer__featured-content menu-drawer__featured-content--childlist"
                             style="--menu-drawer-animation-index: {{ linklist.links.size | plus: 1 }};"
                           >
+                            <div class="menu-drawer__featured-header">
+                              <span class="menu-drawer__featured-star">✦</span>
+                              <span class="menu-drawer__featured-title">FEATURED PICKS</span>
+                            </div>
                             <ul class="menu-drawer__featured-content-list list-unstyled">
                               {% if featured_collections.size > 0 %}
                                 {%- for collection in featured_collections limit: max_featured_items -%}
@@ -593,6 +603,19 @@
         class="menu-drawer__utility-links menu-drawer__animated-element"
         style="--menu-drawer-animation-index: {{ linklist.links.size }};"
       >
+        <div class="menu-drawer__concierge-card">
+          <div class="menu-drawer__concierge-row">
+            <span class="menu-drawer__concierge-icon">✦</span>
+            <div class="menu-drawer__concierge-info">
+              <span class="menu-drawer__concierge-label">LUXURY CONCIERGE</span>
+              <a href="tel:+919137254894" class="menu-drawer__concierge-link">+91 9137254894</a>
+            </div>
+          </div>
+          <div class="menu-drawer__concierge-pills">
+            <span class="menu-drawer__pill">✦ 100% VEGETARIAN</span>
+            <span class="menu-drawer__pill">✦ PETA CRUELTY-FREE</span>
+          </div>
+        </div>
         {% liquid
           assign show_language = section.settings.show_language
           if localization.available_languages.size <= 1
@@ -745,6 +768,10 @@
           class="menu-drawer__featured-content"
           style="--menu-drawer-animation-index: {{ linklist.links.size | plus: 1 }};"
         >
+          <div class="menu-drawer__featured-header">
+            <span class="menu-drawer__featured-star">✦</span>
+            <span class="menu-drawer__featured-title">CURATED BESTSELLERS</span>
+          </div>
           <ul class="menu-drawer__featured-content-list menu-drawer__animated-element list-unstyled">
             {% if top_level_featured_collections.size > 0 %}
               {%- for collection in top_level_featured_collections limit: max_featured_items -%}

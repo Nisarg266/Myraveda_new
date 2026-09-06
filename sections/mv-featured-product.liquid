@@ -1,4 +1,4 @@
-<div class="mv-featured-prod-section" id="mv-feat-prod-{{ section.id }}">
+<div class="mv-featured-prod-section" id="mv-feat-prod-{{ section.id }}" style="--feat-heading-desktop: {{ section.settings.heading_size_desktop | default: 34 }}px; --feat-heading-mobile: {{ section.settings.heading_size_mobile | default: 24 }}px; --feat-title-desktop: {{ section.settings.product_title_size_desktop | default: 32 }}px; --feat-title-mobile: {{ section.settings.product_title_size_mobile | default: 24 }}px; --feat-price-desktop: {{ section.settings.price_size_desktop | default: 24 }}px; --feat-price-mobile: {{ section.settings.price_size_mobile | default: 20 }}px; --feat-pt: {{ section.settings.padding_top | default: 52 }}px; --feat-pb: {{ section.settings.padding_bottom | default: 52 }}px; --feat-bg: {{ section.settings.background_color | default: '#FAF8F5' }};">
   <div class="mv-container">
     <div class="mv-section-header">
       {%- if section.settings.badge != blank -%}
@@ -18,7 +18,21 @@
         {%- comment -%} Media Gallery {%- endcomment -%}
         <div class="mv-prod-gallery">
           <div class="mv-prod-main-image-wrap">
-            {%- if product != blank and product.featured_media != blank -%}
+            {%- if section.settings.custom_image != blank -%}
+              <picture>
+                {%- if section.settings.custom_mobile_image != blank -%}
+                  <source media="(max-width: 749px)" srcset="{{ section.settings.custom_mobile_image | image_url: width: 700 }}">
+                {%- endif -%}
+                <img
+                  src="{{ section.settings.custom_image | image_url: width: 1000 }}"
+                  srcset="{{ section.settings.custom_image | image_url: width: 500 }} 500w, {{ section.settings.custom_image | image_url: width: 900 }} 900w"
+                  sizes="(max-width: 990px) 100vw, 550px"
+                  alt="{{ product.title | default: 'Featured Formulation' | escape }}"
+                  loading="lazy"
+                  class="mv-prod-main-img"
+                >
+              </picture>
+            {%- elsif product != blank and product.featured_media != blank -%}
               <img
                 src="{{ product.featured_media | image_url: width: 1000 }}"
                 srcset="{{ product.featured_media | image_url: width: 500 }} 500w, {{ product.featured_media | image_url: width: 900 }} 900w"
@@ -30,7 +44,7 @@
             {%- else -%}
               {{ 'product-3' | placeholder_svg_tag: 'mv-prod-placeholder' }}
             {%- endif -%}
-            <span class="mv-spotlight-badge">SIGNATURE FORMULA</span>
+            <span class="mv-spotlight-badge">{{ section.settings.badge_label | default: "SIGNATURE FORMULA" | escape }}</span>
           </div>
         </div>
 
@@ -72,24 +86,43 @@
           </div>
 
           <div class="mv-benefits-checklist">
-            <div class="mv-check-item">
-              <span class="mv-check-halo">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              </span>
-              <span>Draws out deep micro-toxins & excess sebum without stripping moisture</span>
-            </div>
-            <div class="mv-check-item">
-              <span class="mv-check-halo">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              </span>
-              <span>Infused with authentic Egyptian White Clay & healing botanical extracts</span>
-            </div>
-            <div class="mv-check-item">
-              <span class="mv-check-halo">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              </span>
-              <span>100% vegetarian, free from 400+ harsh chemicals</span>
-            </div>
+            {%- if section.blocks.size > 0 -%}
+              {%- for block in section.blocks -%}
+                <div class="mv-check-item" {{ block.shopify_attributes }}>
+                  <span class="mv-check-halo">
+                    {%- if block.settings.icon == 'leaf' -%}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2.5"><path d="M11 20A7 7 0 0 1 4 13a8 8 0 0 1 8-8 7 7 0 0 1 7 7 8 8 0 0 1-8 8z"></path></svg>
+                    {%- elsif block.settings.icon == 'sparkle' -%}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    {%- elsif block.settings.icon == 'star' -%}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="#C99E3E"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    {%- else -%}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    {%- endif -%}
+                  </span>
+                  <span>{{ block.settings.text | escape }}</span>
+                </div>
+              {%- endfor -%}
+            {%- else -%}
+              <div class="mv-check-item">
+                <span class="mv-check-halo">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span>Draws out deep micro-toxins & excess sebum without stripping moisture</span>
+              </div>
+              <div class="mv-check-item">
+                <span class="mv-check-halo">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span>Infused with authentic Egyptian White Clay & healing botanical extracts</span>
+              </div>
+              <div class="mv-check-item">
+                <span class="mv-check-halo">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C99E3E" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span>100% vegetarian, free from 400+ harsh chemicals</span>
+              </div>
+            {%- endif -%}
           </div>
 
           {%- comment -%} Purchase Form {%- endcomment -%}
@@ -139,10 +172,17 @@
 
 <style>
   #mv-feat-prod-{{ section.id }} {
-    padding: clamp(42px, 5vw, 62px) 24px;
-    background: #FAF8F5;
+    padding-top: var(--feat-pt, clamp(42px, 5vw, 62px));
+    padding-bottom: var(--feat-pb, clamp(42px, 5vw, 62px));
+    padding-left: 24px;
+    padding-right: 24px;
+    background: var(--feat-bg, #FAF8F5);
     border-top: 1px solid rgba(201, 158, 62, 0.2);
     border-bottom: 1px solid rgba(201, 158, 62, 0.2);
+  }
+
+  #mv-feat-prod-{{ section.id }} .mv-section-title {
+    font-size: var(--feat-heading-desktop, clamp(2rem, 3.5vw, 2.7rem));
   }
 
   .mv-prod-spotlight-card {
@@ -223,7 +263,7 @@
 
   .mv-spotlight-title {
     font-family: 'Marcellus', 'Playfair Display', Georgia, serif;
-    font-size: clamp(2rem, 3.2vw, 2.7rem);
+    font-size: var(--feat-title-desktop, clamp(2rem, 3.2vw, 2.7rem));
     color: #0E281F;
     line-height: 1.2;
     margin: 14px 0 16px;
@@ -249,7 +289,7 @@
 
   .mv-price-val {
     font-family: var(--mv-font-sans);
-    font-size: 1.6rem;
+    font-size: var(--feat-price-desktop, 1.6rem);
     font-weight: 700;
     color: #0E281F;
   }
@@ -413,7 +453,19 @@
 
   @media (max-width: 640px) {
     #mv-feat-prod-{{ section.id }} {
-      padding: 34px 18px;
+      padding-top: var(--feat-pt, 34px);
+      padding-bottom: var(--feat-pb, 34px);
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+    #mv-feat-prod-{{ section.id }} .mv-section-title {
+      font-size: var(--feat-heading-mobile, 1.85rem);
+    }
+    .mv-spotlight-title {
+      font-size: var(--feat-title-mobile, 1.65rem);
+    }
+    .mv-price-val {
+      font-size: var(--feat-price-mobile, 1.35rem);
     }
     .mv-prod-spotlight-card {
       padding: 24px 18px;
@@ -428,6 +480,10 @@
   "tag": "section",
   "class": "mv-featured-product-section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
     {
       "type": "text",
       "id": "badge",
@@ -447,6 +503,10 @@
       "default": "One of our best sellers ever!"
     },
     {
+      "type": "header",
+      "content": "Product Selection"
+    },
+    {
       "type": "product",
       "id": "product",
       "label": "Featured Product"
@@ -455,11 +515,174 @@
       "type": "product",
       "id": "cross_sell_product",
       "label": "Goes Well With Product"
+    },
+    {
+      "type": "header",
+      "content": "Custom Spotlight Media (Optional Overrides)"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_image",
+      "label": "Custom Desktop Spotlight Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_mobile_image",
+      "label": "Custom Mobile Spotlight Image"
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "Image Badge Label",
+      "default": "SIGNATURE FORMULA"
+    },
+    {
+      "type": "header",
+      "content": "Typography (Desktop & Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 22,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Desktop)",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 18,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "product_title_size_desktop",
+      "min": 22,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Product Title Size (Desktop)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "product_title_size_mobile",
+      "min": 18,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Product Title Size (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "price_size_desktop",
+      "min": 18,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Price Font Size (Desktop)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "price_size_mobile",
+      "min": 16,
+      "max": 26,
+      "step": 1,
+      "unit": "px",
+      "label": "Price Font Size (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing & Background"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 52
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FAF8F5"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit Highlight",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon Symbol",
+          "options": [
+            { "value": "check", "label": "Gold Checkmark" },
+            { "value": "leaf", "label": "Botanical Leaf" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "star", "label": "Gold Star" }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Benefit Text",
+          "default": "Draws out deep micro-toxins & excess sebum without stripping moisture"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "MV Featured Product"
+      "name": "MV Featured Product",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "check",
+            "text": "Draws out deep micro-toxins & excess sebum without stripping moisture"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "check",
+            "text": "Infused with authentic Egyptian White Clay & healing botanical extracts"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "check",
+            "text": "100% vegetarian, free from 400+ harsh chemicals"
+          }
+        }
+      ]
     }
   ]
 }

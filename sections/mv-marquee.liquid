@@ -1,4 +1,4 @@
-<div class="mv-marquee-section" id="mv-marquee-{{ section.id }}">
+<div class="mv-marquee-section" id="mv-marquee-{{ section.id }}" style="--marquee-bg-1: {{ section.settings.background_color_1 | default: '#071A14' }}; --marquee-bg-2: {{ section.settings.background_color_2 | default: '#0E281F' }}; --marquee-text-color: {{ section.settings.text_color | default: '#FFFDF7' }}; --marquee-star-color: {{ section.settings.star_color | default: '#DFB76C' }}; --marquee-border-color: {{ section.settings.border_color | default: '#C99E3E' }}; --marquee-height-desktop: {{ section.settings.height_desktop | default: 48 }}px; --marquee-height-mobile: {{ section.settings.height_mobile | default: 40 }}px; --marquee-font-desktop: {{ section.settings.font_size_desktop | default: 16 }}px; --marquee-font-mobile: {{ section.settings.font_size_mobile | default: 13 }}px;">
   <div class="mv-marquee-ticker" style="--speed: {{ section.settings.speed | default: 28 }}s;">
     <div class="mv-marquee-content">
       {%- for i in (1..3) -%}
@@ -25,15 +25,15 @@
 
 <style>
   #mv-marquee-{{ section.id }} {
-    background: linear-gradient(90deg, #071A14 0%, #0E281F 50%, #071A14 100%);
-    height: 48px;
+    background: linear-gradient(90deg, var(--marquee-bg-1) 0%, var(--marquee-bg-2) 50%, var(--marquee-bg-1) 100%);
+    height: var(--marquee-height-desktop, 48px);
     box-sizing: border-box;
     display: flex;
     align-items: center;
     overflow: hidden;
     position: relative;
-    border-top: 1.5px solid #C99E3E;
-    border-bottom: 1.5px solid #C99E3E;
+    border-top: 1.5px solid var(--marquee-border-color, #C99E3E);
+    border-bottom: 1.5px solid var(--marquee-border-color, #C99E3E);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(201, 158, 62, 0.35);
     z-index: 5;
   }
@@ -45,9 +45,11 @@
     will-change: transform;
   }
 
+  {%- if section.settings.pause_on_hover -%}
   #mv-marquee-{{ section.id }}:hover .mv-marquee-ticker {
     animation-play-state: paused;
   }
+  {%- endif -%}
 
   .mv-marquee-content {
     display: flex;
@@ -65,7 +67,7 @@
   }
 
   .mv-marquee-star {
-    color: #DFB76C;
+    color: var(--marquee-star-color, #DFB76C);
     font-size: 1.05rem;
     filter: drop-shadow(0 0 8px rgba(223, 183, 108, 0.8));
     flex-shrink: 0;
@@ -74,8 +76,8 @@
 
   .mv-marquee-text {
     font-family: var(--mv-font-serif, 'Marcellus', serif);
-    font-size: clamp(0.95rem, 1.25vw, 1.18rem);
-    color: #FFFDF7;
+    font-size: var(--marquee-font-desktop, clamp(0.95rem, 1.25vw, 1.18rem));
+    color: var(--marquee-text-color, #FFFDF7);
     letter-spacing: 0.16em;
     white-space: nowrap;
     text-transform: uppercase;
@@ -91,7 +93,7 @@
 
   @media (max-width: 749px) {
     #mv-marquee-{{ section.id }} {
-      height: 40px;
+      height: var(--marquee-height-mobile, 40px);
     }
 
     .mv-marquee-content {
@@ -108,7 +110,7 @@
     }
 
     .mv-marquee-text {
-      font-size: 0.82rem;
+      font-size: var(--marquee-font-mobile, 0.82rem);
       letter-spacing: 0.12em;
     }
   }
@@ -121,6 +123,10 @@
   "class": "mv-marquee-section-wrapper",
   "settings": [
     {
+      "type": "header",
+      "content": "Scroll & Movement"
+    },
+    {
       "type": "range",
       "id": "speed",
       "min": 10,
@@ -128,7 +134,95 @@
       "step": 2,
       "unit": "s",
       "label": "Scroll Duration",
-      "default": 30
+      "default": 28
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause On Hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Typography (Desktop & Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "font_size_desktop",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size (Mobile)",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Bar Height"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 36,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Bar Height (Desktop)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 28,
+      "max": 56,
+      "step": 2,
+      "unit": "px",
+      "label": "Bar Height (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Color Palette"
+    },
+    {
+      "type": "color",
+      "id": "background_color_1",
+      "label": "Background Gradient Edge",
+      "default": "#071A14"
+    },
+    {
+      "type": "color",
+      "id": "background_color_2",
+      "label": "Background Gradient Center",
+      "default": "#0E281F"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFDF7"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star / Separator Color",
+      "default": "#DFB76C"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#C99E3E"
     }
   ],
   "blocks": [
