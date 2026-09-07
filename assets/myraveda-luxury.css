@@ -1,10 +1,7 @@
 /* ==========================================================================
    MYRA VEDA LUXURY ESSENTIALS - HAUTE LUXE BOTANICAL DESIGN SYSTEM
    Palette: Royal Botanical Emerald, Liquid Champagne Gold, Warm Cashmere Alabaster
-   Typography: Cormorant Garamond (Editorial Serif) & Plus Jakarta Sans
-   ========================================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+/* Typography: Cormorant Garamond (Editorial Serif) & Plus Jakarta Sans loaded in <head> */
 
 :root {
   /* Royal Botanical Emerald & Champagne Gold Palette */
