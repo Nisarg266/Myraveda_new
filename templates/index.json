@@ -16,7 +16,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/2_10695ed5-c1bd-44f9-a1f7-ca210d2f8a41.png",
-            "image_position": "center center",
+            "image_position": "center 65%",
             "mobile_image": "shopify://shop_images/6A_9ab3a4d7-f370-4521-98e6-e8a9369d9582.jpg",
             "mobile_image_position": "center center",
             "caption": "Introducing",
@@ -84,7 +84,8 @@
         "slide_gift_hampers"
       ],
       "settings": {
-        "desktop_height": 80,
+        "desktop_height_mode": "screen_cover",
+        "desktop_height": 85,
         "mobile_height": 80,
         "content_alignment": "left",
         "overlay_opacity": 30,

@@ -1,5 +1,11 @@
 {% render 'measure-header-heights' %}
-<div class="mv-hero-slideshow" id="mv-slideshow-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.speed | default: 6 }}" style="--hero-title-desktop: {{ section.settings.heading_size_desktop | default: 48 }}px; --hero-title-mobile: {{ section.settings.heading_size_mobile | default: 28 }}px; --hero-sub-desktop: {{ section.settings.subheading_size_desktop | default: 16 }}px; --hero-sub-mobile: {{ section.settings.subheading_size_mobile | default: 14 }}px; --hero-desktop-h: {{ section.settings.desktop_height | default: 80 }}vh; --hero-mobile-h: {{ section.settings.mobile_height | default: 80 }}vh; padding-top: {{ section.settings.padding_top | default: 0 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px;">
+{%- liquid
+  assign d_height_css = 'calc(100vh - var(--header-group-height, var(--header-height, 100px)))'
+  if section.settings.desktop_height_mode == 'custom'
+    assign d_height_css = section.settings.desktop_height | default: 85 | append: 'vh'
+  endif
+-%}
+<div class="mv-hero-slideshow" id="mv-slideshow-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.speed | default: 6 }}" style="--hero-title-desktop: {{ section.settings.heading_size_desktop | default: 48 }}px; --hero-title-mobile: {{ section.settings.heading_size_mobile | default: 28 }}px; --hero-sub-desktop: {{ section.settings.subheading_size_desktop | default: 16 }}px; --hero-sub-mobile: {{ section.settings.subheading_size_mobile | default: 14 }}px; --hero-desktop-h: {{ d_height_css }}; --hero-mobile-h: {{ section.settings.mobile_height | default: 80 }}vh; padding-top: {{ section.settings.padding_top | default: 0 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px;">
   <div class="mv-slideshow-viewport">
     {%- for block in section.blocks -%}
       {%- assign is_first = forloop.first -%}
@@ -21,14 +27,14 @@
 
           {%- if desktop_img != blank -%}
             {%- liquid
-              assign desktop_pos = 'center center'
+              assign desktop_pos = 'center 65%'
               if block.settings.image_position != blank
                 assign desktop_pos = block.settings.image_position
               elsif desktop_img.presentation.focal_point != blank
                 assign desktop_pos = desktop_img.presentation.focal_point
               endif
 
-              assign mobile_pos = desktop_pos
+              assign mobile_pos = 'center center'
               if block.settings.mobile_image_position != blank
                 assign mobile_pos = block.settings.mobile_image_position
               elsif mobile_img.presentation.focal_point != blank
@@ -142,19 +148,10 @@
   #mv-slideshow-{{ section.id }} {
     position: relative;
     width: 100%;
-    height: var(--hero-desktop-h, 80vh);
-    min-height: clamp(660px, var(--hero-desktop-h, 80vh), 940px);
-    max-height: 940px;
+    height: var(--hero-desktop-h, calc(100vh - var(--header-group-height, 100px)));
+    min-height: 560px;
     overflow: hidden;
     background: #FAF8F5;
-  }
-
-  @media (min-width: 1200px) {
-    #mv-slideshow-{{ section.id }} {
-      height: clamp(790px, var(--hero-desktop-h, 80vh), 940px);
-      min-height: 790px;
-      max-height: 940px;
-    }
   }
 
   @media (max-width: 749px) {
@@ -203,12 +200,21 @@
     overflow: hidden;
   }
 
+  .mv-hero-media picture,
+  .mv-hero-picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
   .mv-hero-bg-img,
   .mv-hero-placeholder {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center center;
+    object-position: var(--img-pos-desktop, center 65%);
     display: block;
   }
 
@@ -843,14 +849,24 @@
       "content": "Layout & Dimensions"
     },
     {
+      "type": "select",
+      "id": "desktop_height_mode",
+      "label": "Desktop Screen Fit",
+      "options": [
+        { "value": "screen_cover", "label": "Cover Screen (Full screen below header)" },
+        { "value": "custom", "label": "Custom VH Height" }
+      ],
+      "default": "screen_cover"
+    },
+    {
       "type": "range",
       "id": "desktop_height",
       "min": 50,
       "max": 100,
       "step": 5,
       "unit": "vh",
-      "label": "Desktop Height",
-      "default": 80
+      "label": "Desktop Height (if Custom VH)",
+      "default": 85
     },
     {
       "type": "range",
@@ -987,15 +1003,16 @@
           "id": "image_position",
           "label": "Desktop Image Alignment",
           "options": [
-            { "value": "center center", "label": "Center (Default)" },
-            { "value": "center 65%", "label": "Shifted Up (Product Fully Visible)" },
-            { "value": "center 72%", "label": "Shifted Up More" },
-            { "value": "center 35%", "label": "Shifted Down" },
+            { "value": "center 65%", "label": "Center Balanced (Product Fully Visible)" },
+            { "value": "center center", "label": "Center Center" },
+            { "value": "center 72%", "label": "Shifted Up More (High Focus)" },
+            { "value": "center 50%", "label": "Center 50%" },
+            { "value": "center 35%", "label": "Shifted Down (Top Focus)" },
             { "value": "54% 65%", "label": "Shifted Up & Slightly Right" },
             { "value": "center top", "label": "Top Aligned" },
             { "value": "center bottom", "label": "Bottom Aligned" }
           ],
-          "default": "center center"
+          "default": "center 65%"
         },
         {
           "type": "image_picker",

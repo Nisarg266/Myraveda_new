@@ -1,1 +1,139 @@
-{"sections":{"main":{"type":"main-page","blocks":{"title":{"type":"text","name":"t:names.title","settings":{"text":"<h1>{{ closest.page.title }}<\/h1>","width":"100%","max_width":"normal","alignment":"center","type_preset":"h2","font":"var(--font-primary--family)","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"content":{"type":"text","name":"t:names.content","settings":{"text":"{{ closest.page.content }}","width":"100%","max_width":"narrow","alignment":"center","type_preset":"rte","font":"var(--font-primary--family)","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["title","content"],"settings":{"content_direction":"column","gap":32,"background_color":"{{ settings.color_palette.background }}","padding-block-start":40,"padding-block-end":0}},"form":{"type":"section","blocks":{"contact_form_UwiCkQ":{"type":"contact-form","settings":{"width":"custom","custom_width":50,"width_mobile":"custom","custom_width_mobile":100,"input_style":"default","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"submit-button":{"type":"contact-form-submit-button","static":true,"settings":{"label":"Submit","style_class":"button","width":"fit-content","custom_width":100,"width_mobile":"fit-content","custom_width_mobile":100},"blocks":{}}},"block_order":[]}},"block_order":["contact_form_UwiCkQ"],"name":"t:names.contact_form","settings":{"content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"center","vertical_alignment_flex_direction_column":"center","gap":32,"section_width":"page-width","section_height_custom":50,"background_media":"none","background_color":"{{ settings.color_palette.background }}","video_position":"cover","background_image_position":"cover","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","border":"none","border_width":1,"border_opacity":100,"border_radius":0,"padding-block-start":32,"padding-block-end":84}}},"order":["main","form"]}
+{
+  "sections": {
+    "contact_main": {
+      "type": "mv-contact-page",
+      "blocks": {
+        "faq_track": {
+          "type": "faq",
+          "settings": {
+            "question": "How can I track the shipping status of my order?",
+            "answer": "<p>Once your artisanal order is hand-packaged and dispatched, you will receive an SMS and email notification with an automated live tracking link. You can also WhatsApp our concierge at +91 91372 54894 with your Order # for instant dispatch updates.</p>"
+          }
+        },
+        "faq_timeline": {
+          "type": "faq",
+          "settings": {
+            "question": "What is the standard delivery timeline across India and internationally?",
+            "answer": "<p>Domestic orders are delivered within 2–4 business days across Mumbai, Delhi, Bengaluru, and major metro cities, and 4–6 business days for the rest of India. Express dispatch is available upon request via our WhatsApp concierge.</p>"
+          }
+        },
+        "faq_ingredients": {
+          "type": "faq",
+          "settings": {
+            "question": "Are all Myra Veda formulations 100% vegetarian, cruelty-free, and clean?",
+            "answer": "<p>Yes, absolutely. Myra Veda is proud to be India's first sustainable clean-beauty brand certified 100% vegetarian and cruelty-free. We formulate without parabens, sulphates, silicones, synthetic colorants, and 400+ prohibited toxic chemicals.</p>"
+          }
+        },
+        "faq_gifting": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I request bespoke gift hampers for weddings or corporate events?",
+            "answer": "<p>We curate bespoke #MYRAkhi luxury gift hampers and corporate wellness gift suites. Select 'Bespoke Gifting & Festive Hampers' in the contact form or email gifting@myravedaluxury.com with your quantities and desired customization.</p>"
+          }
+        },
+        "faq_consultation": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I receive a personalized skin or hair ritual consultation?",
+            "answer": "<p>Yes! Our in-house Ayurvedic ritual advisors offer complimentary consultations to curate the ideal botanical regimen based on your dosha and specific skin or hair goals. Simply message us on WhatsApp to begin.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_track",
+        "faq_timeline",
+        "faq_ingredients",
+        "faq_gifting",
+        "faq_consultation"
+      ],
+      "settings": {
+        "eyebrow": "Bespoke Concierge & Client Care",
+        "heading": "Connect With Myra Veda",
+        "subheading": "Whether you are seeking personalized botanical ritual guidance, order concierge assistance, bespoke gifting consultations, or wholesale inquiries — our dedicated team is at your service.",
+        "phone_label": "WhatsApp & Direct Call",
+        "phone_number": "+91 91372 54894",
+        "whatsapp_number": "919137254894",
+        "email_label": "Client Care Concierge",
+        "email_address": "connect@myravedaluxury.com",
+        "hours_label": "Operating Hours",
+        "hours_text": "Mon – Sat: 10:00 AM – 7:00 PM IST",
+        "gifting_label": "Bespoke Gifting & PR",
+        "gifting_subtitle": "Custom Hampers & Corporate PR",
+        "gifting_email": "connect@myravedaluxury.com",
+        "form_heading": "Send Us a Message",
+        "form_description": "Fill in the details below and our personal care advisors will respond within 24 business hours.",
+        "submit_label": "Send Message to Concierge",
+        "promise_heading": "A Symphony of Exotic Botanicals & Pure Ayurveda",
+        "promise_text": "Our client care team operates with the same meticulous mindfulness that guides our small-batch formulations.",
+        "faq_heading": "Instant Answers to Frequent Inquiries",
+        "background_color": "#FAF8F5",
+        "card_background": "#FFFFFF",
+        "accent_gold": "#C99E3E",
+        "primary_text_color": "#112A20",
+        "secondary_text_color": "#5C6B64",
+        "border_color": "#EAE4DC",
+        "padding_top": 60,
+        "padding_bottom": 80
+      }
+    },
+    "brand_marquee": {
+      "type": "mv-marquee",
+      "blocks": {
+        "m_soil_to_soul": {
+          "type": "ticker_item",
+          "settings": {
+            "marquee_text": "World's Finest Ingredients From Soil To Soul®"
+          }
+        },
+        "m_wiser": {
+          "type": "ticker_item",
+          "settings": {
+            "marquee_text": "#WiserTogether"
+          }
+        },
+        "m_informed": {
+          "type": "ticker_item",
+          "settings": {
+            "marquee_text": "#InformedChoice"
+          }
+        },
+        "m_vegetarian": {
+          "type": "ticker_item",
+          "settings": {
+            "marquee_text": "100% Vegetarian & Cruelty-Free"
+          }
+        },
+        "m_toxin_free": {
+          "type": "ticker_item",
+          "settings": {
+            "marquee_text": "Free from 400+ Harsh Chemicals"
+          }
+        }
+      },
+      "block_order": [
+        "m_soil_to_soul",
+        "m_wiser",
+        "m_informed",
+        "m_vegetarian",
+        "m_toxin_free"
+      ],
+      "settings": {
+        "speed": 28,
+        "pause_on_hover": true,
+        "font_size_desktop": 16,
+        "font_size_mobile": 13,
+        "height_desktop": 48,
+        "height_mobile": 40,
+        "background_color_1": "#071a14",
+        "background_color_2": "#0e281f",
+        "text_color": "#fffdf7",
+        "star_color": "#dfb76c",
+        "border_color": "#c99e3e"
+      }
+    }
+  },
+  "order": [
+    "contact_main",
+    "brand_marquee"
+  ]
+}
