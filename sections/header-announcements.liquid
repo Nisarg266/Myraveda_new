@@ -38,11 +38,84 @@
       {% content_for 'blocks' %}
     </div>
   </announcement-bar-component>
+
+  <!-- MOBILE CONTINUOUS MARQUEE TICKER -->
+  <div class="announcement-bar__mobile-marquee" aria-label="Announcements">
+    <div class="announcement-bar__marquee-track"></div>
+  </div>
 </aside>
 
 {% stylesheet %}
   .announcement-bar {
     border-block-end: var(--border-bottom-width) solid var(--color-border);
+  }
+
+  .announcement-bar__mobile-marquee {
+    display: none;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    user-select: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .announcement-bar__marquee-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    white-space: nowrap;
+    will-change: transform;
+    animation: mvAnnouncementMarquee 26s linear infinite;
+  }
+
+  .announcement-bar__marquee-track:hover,
+  .announcement-bar__marquee-track:active {
+    animation-play-state: paused;
+  }
+
+  .announcement-bar__marquee-group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .announcement-bar__marquee-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 20px;
+    font-family: var(--font-subheading--family, 'Plus Jakarta Sans', sans-serif);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #FAF8F5;
+    flex-shrink: 0;
+    line-height: 1.2;
+  }
+
+  .announcement-bar__marquee-item a,
+  .announcement-bar__marquee-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  @keyframes mvAnnouncementMarquee {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .announcement-bar__slider {
+      display: none !important;
+    }
+
+    .announcement-bar__mobile-marquee {
+      display: flex;
+    }
   }
 
   .announcement-bar__slider {
@@ -124,6 +197,62 @@
     inset: 0;
   }
 {% endstylesheet %}
+
+<script>
+  (function() {
+    function initAnnouncementMarquee() {
+      const bar = document.querySelector('.announcement-bar');
+      if (!bar) return;
+      const slides = bar.querySelector('.announcement-bar__slides');
+      const mobileMarquee = bar.querySelector('.announcement-bar__mobile-marquee');
+      if (!slides || !mobileMarquee) return;
+
+      const slideItems = slides.querySelectorAll('.announcement-bar__slide');
+      const texts = [];
+      slideItems.forEach(s => {
+        const textEl = s.querySelector('.announcement-bar__text');
+        const linkEl = s.querySelector('.announcement-bar__link');
+        if (textEl) {
+          texts.push({
+            html: textEl.innerHTML.trim(),
+            link: linkEl ? linkEl.getAttribute('href') : ''
+          });
+        }
+      });
+
+      if (!texts.length) return;
+
+      let groupHtml = '';
+      for (let i = 0; i < 4; i++) {
+        texts.forEach(item => {
+          if (item.link) {
+            groupHtml += '<div class="announcement-bar__marquee-item"><a href="' + item.link + '" class="announcement-bar__marquee-link">' + item.html + '</a></div>';
+          } else {
+            groupHtml += '<div class="announcement-bar__marquee-item"><span class="announcement-bar__marquee-text">' + item.html + '</span></div>';
+          }
+        });
+      }
+
+      mobileMarquee.innerHTML = 
+        '<div class="announcement-bar__marquee-track">' +
+          '<div class="announcement-bar__marquee-group">' + groupHtml + '</div>' +
+          '<div class="announcement-bar__marquee-group" aria-hidden="true">' + groupHtml + '</div>' +
+        '</div>';
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAnnouncementMarquee);
+    } else {
+      initAnnouncementMarquee();
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (!e.target || e.target.contains(document.querySelector('.announcement-bar'))) {
+        initAnnouncementMarquee();
+      }
+    });
+  })();
+</script>
 
 {% schema %}
 {
