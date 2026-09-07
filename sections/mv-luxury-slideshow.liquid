@@ -1,5 +1,5 @@
 {% render 'measure-header-heights' %}
-<div class="mv-hero-slideshow" id="mv-slideshow-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.speed | default: 6 }}" style="--hero-title-desktop: {{ section.settings.heading_size_desktop | default: 48 }}px; --hero-title-mobile: {{ section.settings.heading_size_mobile | default: 28 }}px; --hero-sub-desktop: {{ section.settings.subheading_size_desktop | default: 16 }}px; --hero-sub-mobile: {{ section.settings.subheading_size_mobile | default: 14 }}px; --hero-desktop-h: {{ section.settings.desktop_height | default: 85 }}vh; --hero-mobile-h: {{ section.settings.mobile_height | default: 65 }}vh; padding-top: {{ section.settings.padding_top | default: 0 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px;">
+<div class="mv-hero-slideshow" id="mv-slideshow-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.speed | default: 6 }}" style="--hero-title-desktop: {{ section.settings.heading_size_desktop | default: 48 }}px; --hero-title-mobile: {{ section.settings.heading_size_mobile | default: 28 }}px; --hero-sub-desktop: {{ section.settings.subheading_size_desktop | default: 16 }}px; --hero-sub-mobile: {{ section.settings.subheading_size_mobile | default: 14 }}px; --hero-mobile-h: {{ section.settings.mobile_height | default: 80 }}vh; padding-top: {{ section.settings.padding_top | default: 0 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px;">
   <div class="mv-slideshow-viewport">
     {%- for block in section.blocks -%}
       {%- assign is_first = forloop.first -%}
@@ -17,14 +17,14 @@
       <div class="mv-hero-slide {% if is_first %}is-active{% endif %}" id="mv-slide-{{ block.id }}" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
         <div class="mv-hero-media">
           {%- if block.settings.image != blank -%}
-            <picture>
+            <picture class="mv-hero-picture">
               {%- if block.settings.mobile_image != blank -%}
                 <source media="(max-width: 749px)" srcset="{{ block.settings.mobile_image | image_url: width: 1000 }}">
               {%- endif -%}
               {%- liquid
-                assign img_position = 'center 65%'
-                if block.settings.image_position != blank
-                  assign img_position = block.settings.image_position
+                assign mobile_img_position = 'center center'
+                if block.settings.mobile_image_position != blank
+                  assign mobile_img_position = block.settings.mobile_image_position
                 endif
               -%}
               <img
@@ -34,7 +34,7 @@
                 alt="{{ block.settings.title | default: 'Myra Veda Luxury Hero' | escape }}"
                 loading="{% if is_first %}eager{% else %}lazy{% endif %}"
                 class="mv-hero-bg-img"
-                style="object-position: {{ img_position }};"
+                style="object-position: {{ block.settings.image.presentation.focal_point | default: 'center center' }}; --img-pos-mobile: {{ mobile_img_position }};"
               >
             </picture>
           {%- else -%}
@@ -130,25 +130,22 @@
   #mv-slideshow-{{ section.id }} {
     position: relative;
     width: 100%;
-    height: var(--hero-desktop-h, 85vh);
-    min-height: clamp(620px, var(--hero-desktop-h, 85vh), 920px);
-    max-height: 940px;
+    aspect-ratio: 16 / 9;
+    min-height: clamp(660px, calc(100vw * 9 / 16), 1080px);
+    max-height: calc(100vw * 9 / 16);
     overflow: hidden;
     background: #FAF8F5;
   }
 
-  @media (min-width: 1200px) {
-    #mv-slideshow-{{ section.id }} {
-      height: clamp(740px, var(--hero-desktop-h, 85vh), 920px);
-      min-height: 750px;
-      max-height: 940px;
-    }
-  }
-
   @media (max-width: 749px) {
     #mv-slideshow-{{ section.id }} {
-      height: var(--hero-mobile-h, 65vh);
-      min-height: clamp(420px, var(--hero-mobile-h, 65vh), 600px);
+      aspect-ratio: auto;
+      height: var(--hero-mobile-h, 78vh);
+      min-height: clamp(540px, var(--hero-mobile-h, 78vh), 720px);
+      max-height: 750px;
+    }
+    .mv-hero-bg-img {
+      object-position: var(--img-pos-mobile, center center) !important;
     }
   }
 
@@ -191,7 +188,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 65%;
+    object-position: center center;
     display: block;
   }
 
@@ -237,17 +234,17 @@
   /* Luxury Transparent Glass Editorial Card - Transparent with subtle blur */
   .mv-hero-editorial-content {
     width: 100%;
-    max-width: 440px;
+    max-width: 495px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
-    background: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.22);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border: 1.5px solid rgba(201, 158, 62, 0.45);
     border-radius: 24px;
-    padding: 28px 32px;
+    padding: 32px 36px;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.4);
     pointer-events: auto;
     z-index: 10;
@@ -544,12 +541,30 @@
       display: none !important;
     }
 
+    .mv-hero-media picture,
+    .mv-hero-picture {
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      position: absolute !important;
+      inset: 0 !important;
+    }
+
+    .mv-hero-bg-img,
+    .mv-hero-placeholder {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: var(--img-pos-mobile, center center) !important;
+      display: block !important;
+    }
+
     .mv-hero-slide {
       align-items: flex-start;
     }
 
     .mv-hero-container {
-      padding: clamp(16px, 3.5vh, 28px) 16px 0;
+      padding: clamp(10px, 2vh, 18px) 14px 0;
       align-items: flex-start;
       justify-content: center;
     }
@@ -559,17 +574,17 @@
       text-align: center;
     }
 
-    /* Luxury Transparent Glass Card on Mobile */
+    /* Luxury Transparent Glass Card on Mobile - Compact & Refined to keep product visible */
     .mv-hero-editorial-content {
-      max-width: 100%;
+      max-width: 380px;
       width: 100%;
-      background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1.5px solid rgba(201, 158, 62, 0.42);
-      border-radius: 20px;
-      padding: 18px 16px 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(201, 158, 62, 0.45);
+      border-radius: 18px;
+      padding: 14px 16px 12px;
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
       text-align: center;
       align-items: center;
       height: auto;
@@ -578,45 +593,51 @@
 
     .mv-hero-eyebrow-slot {
       justify-content: center;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .mv-hero-eyebrow {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.9);
       border: 1px solid #C99E3E;
       color: #8C651E;
-      font-size: 0.68rem;
-      padding: 4px 14px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      padding: 3px 12px;
       box-shadow: none;
     }
 
     .mv-hero-title-slot {
       height: auto;
       min-height: auto;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .mv-hero-title {
-      font-size: var(--hero-title-mobile, 1.85rem);
-      line-height: 1.18;
+      font-size: var(--hero-title-mobile, clamp(1.4rem, 5vw, 1.7rem));
+      line-height: 1.15;
       color: #0E281F;
       font-weight: 500;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.95), 0 2px 12px rgba(255, 255, 255, 0.85);
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.95), 0 2px 10px rgba(255, 255, 255, 0.85);
     }
 
     .mv-hero-subheading-slot {
       height: auto;
       min-height: auto;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .mv-hero-subheading {
-      font-size: var(--hero-sub-mobile, 0.86rem);
-      line-height: 1.48;
+      font-size: var(--hero-sub-mobile, 0.78rem);
+      line-height: 1.35;
       color: #1A1613;
       font-weight: 500;
       text-shadow: 0 1px 2px rgba(255, 255, 255, 0.95), 0 2px 8px rgba(255, 255, 255, 0.85);
-      max-width: 100%;
+      max-width: 320px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .mv-hero-btn-slot {
@@ -626,32 +647,38 @@
 
     .mv-hero-btn-row {
       justify-content: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     .mv-hero-btn-primary {
-      padding: 11px 22px;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
+      padding: 9px 20px;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
     }
 
     .mv-hero-btn-secondary {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
       color: #0E281F !important;
       text-shadow: none;
       padding: 2px 0;
     }
 
     .mv-hero-controls {
-      bottom: 18px;
-      right: 18px;
-      padding: 6px 14px;
-      gap: 14px;
+      bottom: 12px;
+      right: 14px;
+      padding: 5px 12px;
+      gap: 10px;
+      border-radius: 40px;
     }
 
     .mv-counter-track {
-      width: 36px;
+      width: 32px;
+    }
+
+    .mv-hero-nav-btn {
+      width: 28px;
+      height: 28px;
     }
   }
 </style>
@@ -764,7 +791,7 @@
       "step": 5,
       "unit": "vh",
       "label": "Desktop Height",
-      "default": 85
+      "default": 70
     },
     {
       "type": "range",
@@ -774,7 +801,7 @@
       "step": 5,
       "unit": "vh",
       "label": "Mobile Height",
-      "default": 65
+      "default": 80
     },
     {
       "type": "select",
@@ -901,19 +928,21 @@
           "id": "mobile_image",
           "label": "Mobile Image (Portrait / 2:3 or 4:5)"
         },
+
         {
           "type": "select",
-          "id": "image_position",
-          "label": "Image Desktop Alignment",
+          "id": "mobile_image_position",
+          "label": "Image Mobile Alignment",
           "options": [
-            { "value": "center 65%", "label": "Shifted Up (Product Fully Visible)" },
-            { "value": "center 72%", "label": "Shifted Up More" },
-            { "value": "center center", "label": "Center" },
-            { "value": "54% 65%", "label": "Shifted Up & Slightly Right" },
-            { "value": "center bottom", "label": "Center Bottom" },
-            { "value": "center top", "label": "Center Top" }
+            { "value": "center center", "label": "Center (Default)" },
+            { "value": "center 40%", "label": "Shifted Slightly Down" },
+            { "value": "center 45%", "label": "Balanced / Slightly Lower" },
+            { "value": "center 30%", "label": "Shifted Down More" },
+            { "value": "center 60%", "label": "Shifted Up" },
+            { "value": "center top", "label": "Top Aligned" },
+            { "value": "center bottom", "label": "Bottom Aligned" }
           ],
-          "default": "center 65%"
+          "default": "center center"
         },
         {
           "type": "header",
