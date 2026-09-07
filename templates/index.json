@@ -15,8 +15,9 @@
         "slide_rose_water": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/6B_69894d91-10ff-4f95-9833-551c4bb0063b.jpg",
+            "image": "shopify://shop_images/2_f12c29ac-8ba6-4f5c-9749-b9507a40f469.png",
             "mobile_image": "shopify://shop_images/6A_9ab3a4d7-f370-4521-98e6-e8a9369d9582.jpg",
+            "image_position": "center 65%",
             "caption": "Introducing",
             "title": "Pure Rose Water",
             "subheading": "Steam-distilled from fresh Kannauj roses to revitalize, soothe, and illuminate your skin.",
@@ -31,6 +32,7 @@
           "settings": {
             "image": "shopify://shop_images/BANNER_16-9_1_13586ad4-b1b9-447f-8d7f-d8a85bf47e48.jpg",
             "mobile_image": "shopify://shop_images/BANNER_2-3_1_c9395fdd-72b5-40ab-a14e-9dd33f4baa56.jpg",
+            "image_position": "center 65%",
             "caption": "Introducing",
             "title": "Essential Oils",
             "subheading": "100% Pure, therapeutic-grade aromatherapeutic elixirs for mindful daily wellness.",
@@ -45,6 +47,7 @@
           "settings": {
             "image": "shopify://shop_images/5B_1.jpg",
             "mobile_image": "shopify://shop_images/5A_1.jpg",
+            "image_position": "center 65%",
             "caption": "Milk Therapy",
             "title": "Hair Oil",
             "subheading": "Deeply nourishing botanical infusion with Lavender, Tea Tree, and Rosemary for lustrous hair.",
@@ -59,6 +62,7 @@
           "settings": {
             "image": "shopify://shop_images/rk_hori.jpg",
             "mobile_image": "shopify://shop_images/0O2A3143.jpg",
+            "image_position": "center 65%",
             "caption": "Curated Gifting",
             "title": "#MYRAkhi Gift Hampers",
             "subheading": "Spoil your loved ones with an exuberant splurge of sustainable clean-beauty luxuries.",
@@ -191,7 +195,7 @@
         "manifesto_size_mobile": 19,
         "padding_top": 52,
         "padding_bottom": 52,
-        "background_color": "#FFFFFF"
+        "background_color": "#ffffff"
       }
     },
     "mv_promotion_cards": {
