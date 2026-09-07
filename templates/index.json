@@ -15,7 +15,8 @@
         "slide_rose_water": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/6B_69894d91-10ff-4f95-9833-551c4bb0063b.jpg",
+            "image": "shopify://shop_images/2_10695ed5-c1bd-44f9-a1f7-ca210d2f8a41.png",
+            "image_position": "center center",
             "mobile_image": "shopify://shop_images/6A_9ab3a4d7-f370-4521-98e6-e8a9369d9582.jpg",
             "mobile_image_position": "center center",
             "caption": "Introducing",
@@ -31,6 +32,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/BANNER_16-9_1_13586ad4-b1b9-447f-8d7f-d8a85bf47e48.jpg",
+            "image_position": "center center",
             "mobile_image": "shopify://shop_images/BANNER_2-3_1_c9395fdd-72b5-40ab-a14e-9dd33f4baa56.jpg",
             "mobile_image_position": "center center",
             "caption": "Introducing",
@@ -46,6 +48,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/5B_1.jpg",
+            "image_position": "center center",
             "mobile_image": "shopify://shop_images/5A_1.jpg",
             "mobile_image_position": "center center",
             "caption": "Milk Therapy",
@@ -61,6 +64,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/rk_hori.jpg",
+            "image_position": "center center",
             "mobile_image": "shopify://shop_images/0O2A3143.jpg",
             "mobile_image_position": "center center",
             "caption": "Curated Gifting",
@@ -195,7 +199,7 @@
         "manifesto_size_mobile": 19,
         "padding_top": 52,
         "padding_bottom": 52,
-        "background_color": "#FFFFFF"
+        "background_color": "#ffffff"
       }
     },
     "mv_promotion_cards": {
@@ -432,6 +436,7 @@
         "image": "shopify://shop_images/crushed-makeup-in-brown-and-purple.jpg",
         "video_title": "Watch Our Story",
         "video_url": "https://youtu.be/OqAXQOmucX4",
+        "show_pillars": true,
         "heading_size_desktop": 34,
         "heading_size_mobile": 24,
         "video_label_size_desktop": 20,
