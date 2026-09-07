@@ -1,7 +1,7 @@
 <div class="mv-category-section" id="mv-category-{{ section.id }}" style="--cat-heading-desktop: {{ section.settings.heading_size_desktop | default: 34 }}px; --cat-heading-mobile: {{ section.settings.heading_size_mobile | default: 24 }}px; --cat-name-desktop: {{ section.settings.category_name_size_desktop | default: 25 }}px; --cat-name-mobile: {{ section.settings.category_name_size_mobile | default: 21 }}px; --cat-height-desktop: {{ section.settings.card_height_desktop | default: 420 }}px; --cat-height-mobile: {{ section.settings.card_height_mobile | default: 360 }}px; --cat-pt: {{ section.settings.padding_top | default: 52 }}px; --cat-pb: {{ section.settings.padding_bottom | default: 52 }}px; --cat-bg: {{ section.settings.background_color | default: '#FFFFFF' }};">
   <div class="mv-container">
     <div class="mv-section-header-row">
-      <div>
+      <div class="mv-category-title-col">
         {%- if section.settings.badge != blank -%}
           <span class="mv-section-badge">{{ section.settings.badge | escape }}</span>
         {%- endif -%}
@@ -269,18 +269,52 @@
     transform: translateX(5px);
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
     #mv-category-{{ section.id }} {
       padding-top: var(--cat-pt, 34px);
       padding-bottom: var(--cat-pb, 34px);
       padding-left: 18px;
       padding-right: 18px;
     }
-    #mv-category-{{ section.id }} .mv-section-title {
-      font-size: var(--cat-heading-mobile, 1.85rem);
-    }
     .mv-section-header-row {
       margin-bottom: 22px;
+      gap: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .mv-category-title-col {
+      width: 100%;
+      max-width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .mv-category-title-col .mv-section-badge {
+      margin: 0 auto 8px auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #mv-category-{{ section.id }} .mv-section-title {
+      font-size: var(--cat-heading-mobile, 1.85rem);
+      text-align: center;
+      margin: 0 0 8px 0;
+    }
+    .mv-category-title-col .mv-section-subtitle {
+      text-align: center;
+      margin: 0 auto !important;
+      max-width: 90%;
+    }
+    .mv-slider-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin: 4px auto 0 auto;
     }
     .mv-cat-track-container {
       margin: 0 -18px;

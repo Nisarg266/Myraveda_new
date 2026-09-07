@@ -1,5 +1,5 @@
 {% render 'measure-header-heights' %}
-<div class="mv-hero-slideshow" id="mv-slideshow-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.speed | default: 6 }}" style="--hero-title-desktop: {{ section.settings.heading_size_desktop | default: 48 }}px; --hero-title-mobile: {{ section.settings.heading_size_mobile | default: 28 }}px; --hero-sub-desktop: {{ section.settings.subheading_size_desktop | default: 16 }}px; --hero-sub-mobile: {{ section.settings.subheading_size_mobile | default: 14 }}px; --hero-mobile-h: {{ section.settings.mobile_height | default: 80 }}vh; padding-top: {{ section.settings.padding_top | default: 0 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px;">
+<div class="mv-hero-slideshow" id="mv-slideshow-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.speed | default: 6 }}" style="--hero-title-desktop: {{ section.settings.heading_size_desktop | default: 48 }}px; --hero-title-mobile: {{ section.settings.heading_size_mobile | default: 28 }}px; --hero-sub-desktop: {{ section.settings.subheading_size_desktop | default: 16 }}px; --hero-sub-mobile: {{ section.settings.subheading_size_mobile | default: 14 }}px; --hero-desktop-h: {{ section.settings.desktop_height | default: 85 }}vh; --hero-mobile-h: {{ section.settings.mobile_height | default: 80 }}vh; padding-top: {{ section.settings.padding_top | default: 0 }}px; padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px;">
   <div class="mv-slideshow-viewport">
     {%- for block in section.blocks -%}
       {%- assign is_first = forloop.first -%}
@@ -130,11 +130,19 @@
   #mv-slideshow-{{ section.id }} {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    min-height: clamp(660px, calc(100vw * 9 / 16), 1080px);
-    max-height: calc(100vw * 9 / 16);
+    height: var(--hero-desktop-h, 85vh);
+    min-height: clamp(620px, var(--hero-desktop-h, 85vh), 920px);
+    max-height: 940px;
     overflow: hidden;
     background: #FAF8F5;
+  }
+
+  @media (min-width: 1200px) {
+    #mv-slideshow-{{ section.id }} {
+      height: clamp(740px, var(--hero-desktop-h, 85vh), 920px);
+      min-height: 750px;
+      max-height: 940px;
+    }
   }
 
   @media (max-width: 749px) {
@@ -234,7 +242,7 @@
   /* Luxury Transparent Glass Editorial Card - Transparent with subtle blur */
   .mv-hero-editorial-content {
     width: 100%;
-    max-width: 495px;
+    max-width: 440px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -244,7 +252,7 @@
     -webkit-backdrop-filter: blur(14px);
     border: 1.5px solid rgba(201, 158, 62, 0.45);
     border-radius: 24px;
-    padding: 32px 36px;
+    padding: 28px 32px;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.4);
     pointer-events: auto;
     z-index: 10;
@@ -791,7 +799,7 @@
       "step": 5,
       "unit": "vh",
       "label": "Desktop Height",
-      "default": 70
+      "default": 85
     },
     {
       "type": "range",
