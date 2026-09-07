@@ -30,7 +30,7 @@
         "slide_essential_oils": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/BANNER_16-9_1_13586ad4-b1b9-447f-8d7f-d8a85bf47e48.jpg",
+            "image": "shopify://shop_images/3_7e753a47-cf64-4c4e-bd9d-bb5e75647079.png",
             "mobile_image": "shopify://shop_images/BANNER_2-3_1_c9395fdd-72b5-40ab-a14e-9dd33f4baa56.jpg",
             "image_position": "center 65%",
             "caption": "Introducing",
@@ -45,7 +45,7 @@
         "slide_hair_oil": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/5B_1.jpg",
+            "image": "shopify://shop_images/4_636f310c-4567-4ae2-8304-752f31b46cdb.png",
             "mobile_image": "shopify://shop_images/5A_1.jpg",
             "image_position": "center 65%",
             "caption": "Milk Therapy",
@@ -60,7 +60,7 @@
         "slide_gift_hampers": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/rk_hori.jpg",
+            "image": "shopify://shop_images/1_9b05b2f9-1ebf-4273-89a2-e0a673a4114c.png",
             "mobile_image": "shopify://shop_images/0O2A3143.jpg",
             "image_position": "center 65%",
             "caption": "Curated Gifting",
