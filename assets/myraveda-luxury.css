@@ -621,24 +621,28 @@ product-card.mv-product-card {
 }
 
 /* Haute Luxe Product Media Canvas — Complete Packshot Visibility (Zero Cropping) */
-.mv-card-inner .mv-product-media-wrap {
+.mv-card-inner .mv-product-media-wrap,
+.mv-product-card .mv-product-media-wrap,
+.mv-product-media-wrap {
   position: relative !important;
   width: 100% !important;
-  height: 270px !important;
-  max-height: 280px !important;
-  min-height: 240px !important;
+  height: 280px !important;
+  max-height: 290px !important;
+  min-height: 250px !important;
   overflow: hidden !important;
   background: #FFFFFF !important; /* Pure White Canvas matches image background seamlessly */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: 14px 16px !important; /* Proper padding ensures caps, corks, spoons & bases are 100% visible */
+  padding: 22px 18px 12px !important; /* Proper padding ensures caps, corks, spoons & bases are 100% visible */
   border-bottom: 1px solid rgba(201, 158, 62, 0.16) !important;
   text-decoration: none !important;
   box-sizing: border-box !important;
 }
 
-.mv-card-inner .mv-product-img {
+.mv-card-inner .mv-product-img,
+.mv-product-card .mv-product-img,
+.mv-product-img {
   width: 100% !important;
   height: 100% !important;
   max-width: 100% !important;
@@ -652,10 +656,12 @@ product-card.mv-product-card {
 
 .mv-product-card:hover .mv-product-img.primary,
 .product-grid__item:hover .mv-product-img.primary {
-  transform: scale(1.05) !important;
+  transform: scale(1.04) !important;
 }
 
-.mv-card-inner .mv-product-img.secondary {
+.mv-card-inner .mv-product-img.secondary,
+.mv-product-card .mv-product-img.secondary,
+.mv-product-img.secondary {
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
@@ -663,7 +669,7 @@ product-card.mv-product-card {
   max-width: 100% !important;
   max-height: 100% !important;
   object-fit: contain !important;
-  padding: 14px 16px !important;
+  padding: 22px 18px 12px !important;
   box-sizing: border-box !important;
   opacity: 0 !important;
   transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -672,7 +678,7 @@ product-card.mv-product-card {
 .mv-product-card:hover .mv-product-img.secondary,
 .product-grid__item:hover .mv-product-img.secondary {
   opacity: 1 !important;
-  transform: scale(1.05) !important;
+  transform: scale(1.04) !important;
 }
 
 .mv-card-inner .mv-product-badge {

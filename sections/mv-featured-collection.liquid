@@ -158,7 +158,7 @@
   }
 
   .mv-product-card {
-    background: transparent;
+    background: #FFFFFF;
     border-radius: 18px;
     overflow: hidden;
     border: 1.5px solid rgba(201, 158, 62, 0.30);
@@ -179,12 +179,15 @@
   .mv-product-media-wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 1.08 / 1;
-    max-height: 250px;
+    height: 280px;
+    min-height: 260px;
+    max-height: 300px;
     overflow: hidden;
-    background: transparent;
-    display: block;
-    padding: 0;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px 18px 12px;
     border-bottom: 1px solid rgba(201, 158, 62, 0.16);
     text-decoration: none;
     box-sizing: border-box;
@@ -194,16 +197,16 @@
     width: 100%;
     height: 100%;
     max-width: 100%;
-    max-height: none;
-    object-fit: cover;
+    max-height: 100%;
+    object-fit: contain;
     object-position: center;
-    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
     display: block;
-    margin: 0;
+    margin: 0 auto;
   }
 
   .mv-product-card:hover .mv-product-img.primary {
-    transform: scale(1.06);
+    transform: scale(1.04);
   }
 
   .mv-product-img.secondary {
@@ -212,17 +215,19 @@
     width: 100%;
     height: 100%;
     max-width: 100%;
-    max-height: none;
-    object-fit: cover;
+    max-height: 100%;
+    object-fit: contain;
     object-position: center;
-    margin: 0;
+    padding: 22px 18px 12px;
+    box-sizing: border-box;
+    margin: 0 auto;
     opacity: 0;
-    transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .mv-product-card:hover .mv-product-img.secondary {
     opacity: 1;
-    transform: scale(1.06);
+    transform: scale(1.04);
   }
 
   .mv-product-placeholder {

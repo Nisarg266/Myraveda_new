@@ -1,0 +1,936 @@
+{%- comment -%}
+  MYRA VEDA LUXURY ESSENTIALS - BESPOKE EXPANDABLE PRODUCT DESCRIPTION
+  Smooth Slide-Down / Expander ("Slider" drop-down) with Luxury Bordered Card
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign has_custom_content = false
+  if s.custom_description != blank
+    assign has_custom_content = true
+  endif
+
+  assign has_product_description = false
+  if s.use_product_description and product.description != blank
+    assign has_product_description = true
+  endif
+
+  assign has_blocks = false
+  if section.blocks.size > 0
+    assign has_blocks = true
+  endif
+
+  assign has_any_content = false
+  if has_custom_content or has_product_description or has_blocks or s.heading != blank
+    assign has_any_content = true
+  endif
+-%}
+
+{%- if has_any_content or request.design_mode -%}
+  <div
+    id="mv-expandable-desc-{{ section.id }}"
+    class="mv-expandable-section"
+    style="
+      --mv-ed-pt: {{ s.padding_top | default: 40 }}px;
+      --mv-ed-pb: {{ s.padding_bottom | default: 40 }}px;
+      --mv-ed-pt-mob: {{ s.padding_top_mobile | default: 24 }}px;
+      --mv-ed-pb-mob: {{ s.padding_bottom_mobile | default: 24 }}px;
+      --mv-ed-max-w: {{ s.max_width | default: 920 }}px;
+      --mv-ed-border-color: {{ s.border_color | default: '#E2D3BE' }};
+      --mv-ed-border-width: {{ s.border_width | default: 1 }}px;
+      --mv-ed-border-radius: {{ s.border_radius | default: 16 }}px;
+      --mv-ed-card-bg: {{ s.card_background | default: '#FFFFFF' }};
+      --mv-ed-card-padding: {{ s.card_padding | default: 32 }}px;
+      --mv-ed-card-padding-mob: {{ s.card_padding_mobile | default: 20 }}px;
+      --mv-ed-collapsed-h: {{ s.collapsed_height_desktop | default: 280 }}px;
+      --mv-ed-collapsed-h-mob: {{ s.collapsed_height_mobile | default: 220 }}px;
+      --mv-ed-text-color: {{ s.text_color | default: '#2B2725' }};
+      --mv-ed-heading-color: {{ s.heading_color | default: '#1C1917' }};
+      --mv-ed-accent-color: {{ s.accent_color | default: '#C99E3E' }};
+    "
+    {{ section.shopify_attributes }}
+  >
+    <div class="mv-ed-container">
+      {%- comment -%} Optional Section Header {%- endcomment -%}
+      {%- if s.eyebrow != blank or s.heading != blank -%}
+        <div class="mv-ed-header text-{{ s.header_alignment | default: 'center' }}">
+          {%- if s.eyebrow != blank -%}
+            <span class="mv-ed-eyebrow">
+              <span class="mv-ed-sparkle">✦</span>
+              {{ s.eyebrow | escape }}
+              <span class="mv-ed-sparkle">✦</span>
+            </span>
+          {%- endif -%}
+          {%- if s.heading != blank -%}
+            <h2 class="mv-ed-title">{{ s.heading | escape }}</h2>
+          {%- endif -%}
+          {%- if s.subheading != blank -%}
+            <p class="mv-ed-subtitle">{{ s.subheading | escape }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Empty State Helper in Theme Customizer {%- endcomment -%}
+      {%- if has_any_content == false and request.design_mode -%}
+        <div class="mv-ed-empty-notice">
+          <div class="mv-ed-empty-icon">✨</div>
+          <h4>Expandable Description Section</h4>
+          <p>This section is currently empty. In the sidebar settings, enable <strong>"Use Current Product Description"</strong> or enter <strong>"Custom Description"</strong>, or add <strong>"Accordion Drawer"</strong> blocks to display content.</p>
+        </div>
+      {%- endif -%}
+
+      {%- if has_any_content -%}
+        {%- comment -%} Main Luxury Bordered Description Box {%- endcomment -%}
+        <div class="mv-ed-card {% if s.enable_card_shadow %}mv-ed-card--shadow{% endif %}">
+          {%- comment -%} Expandable Wrapper with Slide-Down Animation {%- endcomment -%}
+          <div
+            id="mv-ed-wrapper-{{ section.id }}"
+            class="mv-ed-wrapper {% if s.enable_slide_toggle %}mv-ed-wrapper--collapsible is-collapsed{% endif %}"
+            data-collapsible="{{ s.enable_slide_toggle }}"
+          >
+            <div class="mv-ed-content-inner" id="mv-ed-content-{{ section.id }}">
+              {%- comment -%} Product Description {%- endcomment -%}
+              {%- if has_product_description -%}
+                <div class="mv-ed-prose mv-ed-product-desc">
+                  {{ product.description }}
+                </div>
+              {%- endif -%}
+
+              {%- comment -%} Custom Rich Text Description {%- endcomment -%}
+              {%- if has_custom_content -%}
+                <div class="mv-ed-prose mv-ed-custom-desc">
+                  {{ s.custom_description }}
+                </div>
+              {%- endif -%}
+
+              {%- comment -%} Collapsible Accordion Drawer Blocks {%- endcomment -%}
+              {%- if has_blocks -%}
+                <div class="mv-ed-accordions-group">
+                  {%- for block in section.blocks -%}
+                    {%- if block.type == 'accordion_item' -%}
+                      <div
+                        class="mv-ed-accordion-item {% if block.settings.open_by_default %}is-open{% endif %}"
+                        {{ block.shopify_attributes }}
+                        data-accordion-item
+                      >
+                        <button
+                          type="button"
+                          class="mv-ed-accordion-trigger"
+                          aria-expanded="{% if block.settings.open_by_default %}true{% else %}false{% endif %}"
+                          aria-controls="mv-acc-panel-{{ block.id }}"
+                        >
+                          <div class="mv-ed-accordion-title-wrap">
+                            {%- if block.settings.icon != blank -%}
+                              <span class="mv-ed-accordion-icon">{{ block.settings.icon | escape }}</span>
+                            {%- endif -%}
+                            <span class="mv-ed-accordion-title">{{ block.settings.title | escape }}</span>
+                          </div>
+                          <span class="mv-ed-accordion-arrow" aria-hidden="true">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                          </span>
+                        </button>
+                        <div
+                          id="mv-acc-panel-{{ block.id }}"
+                          class="mv-ed-accordion-panel"
+                          {% unless block.settings.open_by_default %}style="max-height: 0px;"{% endunless %}
+                        >
+                          <div class="mv-ed-accordion-panel-inner mv-ed-prose">
+                            {{ block.settings.content }}
+                          </div>
+                        </div>
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+
+            {%- comment -%} Fade Overlay (only active when collapsed) {%- endcomment -%}
+            {%- if s.enable_slide_toggle -%}
+              <div class="mv-ed-fade-mask" aria-hidden="true"></div>
+            {%- endif -%}
+          </div>
+
+          {%- comment -%} Slide / Expand Toggle Button {%- endcomment -%}
+          {%- if s.enable_slide_toggle -%}
+            <div class="mv-ed-toggle-container">
+              <button
+                type="button"
+                id="mv-ed-toggle-btn-{{ section.id }}"
+                class="mv-ed-toggle-btn mv-ed-toggle-btn--{{ s.button_style | default: 'luxury_pill' }}"
+                aria-expanded="false"
+                aria-controls="mv-ed-wrapper-{{ section.id }}"
+              >
+                <span class="mv-ed-btn-text" data-expand-text="{{ s.expand_button_text | default: 'Read Full Description' | escape }}" data-collapse-text="{{ s.collapse_button_text | default: 'Show Less' | escape }}">
+                  {{ s.expand_button_text | default: 'Read Full Description' | escape }}
+                </span>
+                <span class="mv-ed-btn-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <style>
+    #mv-expandable-desc-{{ section.id }} {
+      padding-top: var(--mv-ed-pt);
+      padding-bottom: var(--mv-ed-pb);
+      background-color: transparent;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+
+    #mv-expandable-desc-{{ section.id }} .mv-ed-container {
+      max-width: var(--mv-ed-max-w);
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
+      box-sizing: border-box;
+    }
+
+    /* Section Header */
+    #mv-expandable-desc-{{ section.id }} .mv-ed-header {
+      margin-bottom: 24px;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-header.text-center {
+      text-align: center;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-header.text-left {
+      text-align: left;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mv-ed-accent-color);
+      margin-bottom: 8px;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-sparkle {
+      font-size: 10px;
+      opacity: 0.85;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--mv-ed-heading-color);
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      margin: 0 0 8px 0;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-subtitle {
+      font-size: 15px;
+      color: #666;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Luxury Bordered Card */
+    #mv-expandable-desc-{{ section.id }} .mv-ed-card {
+      background-color: var(--mv-ed-card-bg);
+      border: var(--mv-ed-border-width) solid var(--mv-ed-border-color);
+      border-radius: var(--mv-ed-border-radius);
+      padding: var(--mv-ed-card-padding);
+      position: relative;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-card--shadow {
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Expandable Wrapper & Slide Mechanics */
+    #mv-expandable-desc-{{ section.id }} .mv-ed-wrapper {
+      position: relative;
+      overflow: hidden;
+      transition: max-height 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+      box-sizing: border-box;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-wrapper.is-collapsed {
+      max-height: var(--mv-ed-collapsed-h);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-content-inner {
+      box-sizing: border-box;
+      color: var(--mv-ed-text-color);
+    }
+
+    /* Fade Mask Overlay */
+    #mv-expandable-desc-{{ section.id }} .mv-ed-fade-mask {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 110px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.75) 50%, var(--mv-ed-card-bg) 100%);
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.35s ease;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-wrapper:not(.is-collapsed) .mv-ed-fade-mask {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Slide Down / Read More Button */
+    #mv-expandable-desc-{{ section.id }} .mv-ed-toggle-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+      position: relative;
+      z-index: 2;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      background: transparent;
+      border: none;
+      padding: 0;
+      color: var(--mv-ed-heading-color);
+      outline: none;
+    }
+
+    /* Button Styles */
+    #mv-expandable-desc-{{ section.id }} .mv-ed-toggle-btn--luxury_pill {
+      background: #FFFFFF;
+      border: 1px solid var(--mv-ed-border-color);
+      border-radius: 9999px;
+      padding: 10px 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      color: #1a1a1a;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-toggle-btn--luxury_pill:hover {
+      border-color: var(--mv-ed-accent-color);
+      color: var(--mv-ed-accent-color);
+      box-shadow: 0 6px 16px rgba(201, 158, 62, 0.15);
+      transform: translateY(-1px);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-toggle-btn--solid_gold {
+      background: var(--mv-ed-accent-color);
+      color: #FFFFFF;
+      border: 1px solid var(--mv-ed-accent-color);
+      border-radius: 9999px;
+      padding: 10px 24px;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-toggle-btn--solid_gold:hover {
+      background: #b8860b;
+      transform: translateY(-1px);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-toggle-btn--minimal {
+      border-bottom: 1.5px solid var(--mv-ed-accent-color);
+      padding: 4px 6px;
+      border-radius: 0;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-toggle-btn--minimal:hover {
+      color: var(--mv-ed-accent-color);
+    }
+
+    /* Icon Rotation */
+    #mv-expandable-desc-{{ section.id }} .mv-ed-btn-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-toggle-btn[aria-expanded="true"] .mv-ed-btn-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Prose Styling (matches user's screenshot) */
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: var(--mv-ed-text-color);
+      letter-spacing: 0.01em;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose p {
+      margin: 0 0 16px 0;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose p:last-child {
+      margin-bottom: 0;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose strong,
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose b,
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose h3,
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose h4 {
+      font-weight: 700;
+      color: var(--mv-ed-heading-color);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose h3 {
+      font-size: 18px;
+      margin: 22px 0 10px 0;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose h4 {
+      font-size: 16px;
+      margin: 18px 0 8px 0;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose ul {
+      margin: 12px 0 18px 0;
+      padding-left: 20px;
+      list-style-type: disc;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose li {
+      margin-bottom: 6px;
+      line-height: 1.6;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-prose img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 14px 0;
+    }
+
+    /* Accordions Group (Slide Down Drawers) */
+    #mv-expandable-desc-{{ section.id }} .mv-ed-accordions-group {
+      margin-top: 24px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-accordion-item {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-accordion-trigger {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      color: var(--mv-ed-heading-color);
+      transition: color 0.2s ease;
+      outline: none;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-accordion-trigger:hover {
+      color: var(--mv-ed-accent-color);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-accordion-title-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-accordion-icon {
+      font-size: 14px;
+      color: var(--mv-ed-accent-color);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-accordion-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-accordion-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-accordion-item.is-open .mv-ed-accordion-arrow {
+      transform: rotate(180deg);
+      color: var(--mv-ed-accent-color);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-accordion-panel {
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-accordion-panel-inner {
+      padding: 0 0 16px 0;
+      color: var(--mv-ed-text-color);
+      font-size: 14px;
+    }
+
+    /* Customizer Empty Notice */
+    #mv-expandable-desc-{{ section.id }} .mv-ed-empty-notice {
+      border: 2px dashed var(--mv-ed-border-color);
+      border-radius: var(--mv-ed-border-radius);
+      padding: 36px 20px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.6);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-empty-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-empty-notice h4 {
+      margin: 0 0 8px 0;
+      font-size: 17px;
+      color: var(--mv-ed-heading-color);
+    }
+    #mv-expandable-desc-{{ section.id }} .mv-ed-empty-notice p {
+      margin: 0 auto;
+      max-width: 500px;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 749px) {
+      #mv-expandable-desc-{{ section.id }} {
+        padding-top: var(--mv-ed-pt-mob);
+        padding-bottom: var(--mv-ed-pb-mob);
+      }
+      #mv-expandable-desc-{{ section.id }} .mv-ed-container {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      #mv-expandable-desc-{{ section.id }} .mv-ed-card {
+        padding: var(--mv-ed-card-padding-mob);
+        border-radius: calc(var(--mv-ed-border-radius) * 0.85);
+      }
+      #mv-expandable-desc-{{ section.id }} .mv-ed-wrapper.is-collapsed {
+        max-height: var(--mv-ed-collapsed-h-mob);
+      }
+      #mv-expandable-desc-{{ section.id }} .mv-ed-title {
+        font-size: 22px;
+      }
+      #mv-expandable-desc-{{ section.id }} .mv-ed-prose {
+        font-size: 13.5px;
+        line-height: 1.65;
+      }
+      #mv-expandable-desc-{{ section.id }} .mv-ed-fade-mask {
+        height: 90px;
+      }
+    }
+  </style>
+
+  <script>
+    (function() {
+      function initExpandableDescription() {
+        var section = document.getElementById('mv-expandable-desc-{{ section.id }}');
+        if (!section) return;
+
+        var wrapper = section.querySelector('#mv-ed-wrapper-{{ section.id }}');
+        var content = section.querySelector('#mv-ed-content-{{ section.id }}');
+        var toggleBtn = section.querySelector('#mv-ed-toggle-btn-{{ section.id }}');
+        var toggleContainer = section.querySelector('.mv-ed-toggle-container');
+
+        if (wrapper && content && toggleBtn && wrapper.getAttribute('data-collapsible') === 'true') {
+          var btnText = toggleBtn.querySelector('.mv-ed-btn-text');
+          var expandText = btnText ? btnText.getAttribute('data-expand-text') : 'Read Full Description';
+          var collapseText = btnText ? btnText.getAttribute('data-collapse-text') : 'Show Less';
+
+          function getCollapsedLimit() {
+            var isMobile = window.innerWidth <= 749;
+            var cssVar = isMobile ? '--mv-ed-collapsed-h-mob' : '--mv-ed-collapsed-h';
+            var val = getComputedStyle(section).getPropertyValue(cssVar);
+            return parseInt(val, 10) || (isMobile ? 220 : 280);
+          }
+
+          function checkThreshold() {
+            var totalH = content.scrollHeight;
+            var limit = getCollapsedLimit();
+
+            if (totalH <= limit + 40) {
+              // Content is short enough, no need to truncate
+              wrapper.classList.remove('is-collapsed');
+              wrapper.style.maxHeight = 'none';
+              if (toggleContainer) toggleContainer.style.display = 'none';
+            } else {
+              if (toggleContainer) toggleContainer.style.display = 'flex';
+              if (wrapper.classList.contains('is-collapsed')) {
+                wrapper.style.maxHeight = limit + 'px';
+              }
+            }
+          }
+
+          // Initial check
+          checkThreshold();
+          window.addEventListener('resize', checkThreshold);
+
+          // Click handler for Slide Down / Slide Up
+          toggleBtn.addEventListener('click', function() {
+            var isCollapsed = wrapper.classList.contains('is-collapsed');
+
+            if (isCollapsed) {
+              // EXPAND: Smoothly slide down to full height
+              var fullH = content.scrollHeight;
+              wrapper.style.maxHeight = fullH + 'px';
+              wrapper.classList.remove('is-collapsed');
+              toggleBtn.setAttribute('aria-expanded', 'true');
+              if (btnText) btnText.textContent = collapseText;
+
+              // After transition finishes, allow natural height for responsive content
+              setTimeout(function() {
+                if (!wrapper.classList.contains('is-collapsed')) {
+                  wrapper.style.maxHeight = 'none';
+                }
+              }, 550);
+            } else {
+              // COLLAPSE: Smoothly slide back up
+              var currentH = wrapper.scrollHeight;
+              wrapper.style.maxHeight = currentH + 'px';
+              // Force reflow
+              void wrapper.offsetHeight;
+
+              var limit = getCollapsedLimit();
+              wrapper.style.maxHeight = limit + 'px';
+              wrapper.classList.add('is-collapsed');
+              toggleBtn.setAttribute('aria-expanded', 'false');
+              if (btnText) btnText.textContent = expandText;
+
+              // Smoothly scroll back if user scrolled far below the top of card
+              var cardRect = section.getBoundingClientRect();
+              if (cardRect.top < 80) {
+                window.scrollTo({
+                  top: window.pageYOffset + cardRect.top - 100,
+                  behavior: 'smooth'
+                });
+              }
+            }
+          });
+        }
+
+        // Accordion Drawer Blocks Handler (Slide down each item)
+        var accordionItems = section.querySelectorAll('[data-accordion-item]');
+        accordionItems.forEach(function(item) {
+          var trigger = item.querySelector('.mv-ed-accordion-trigger');
+          var panel = item.querySelector('.mv-ed-accordion-panel');
+          if (!trigger || !panel) return;
+
+          // If open by default, set correct initial height
+          if (item.classList.contains('is-open')) {
+            panel.style.maxHeight = panel.scrollHeight + 'px';
+          }
+
+          trigger.addEventListener('click', function() {
+            var isOpen = item.classList.contains('is-open');
+
+            if (isOpen) {
+              panel.style.maxHeight = '0px';
+              item.classList.remove('is-open');
+              trigger.setAttribute('aria-expanded', 'false');
+            } else {
+              panel.style.maxHeight = panel.scrollHeight + 'px';
+              item.classList.add('is-open');
+              trigger.setAttribute('aria-expanded', 'true');
+            }
+
+            // Recalculate parent wrapper height if expanded
+            if (wrapper && !wrapper.classList.contains('is-collapsed')) {
+              wrapper.style.maxHeight = 'none';
+            }
+          });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initExpandableDescription);
+      } else {
+        initExpandableDescription();
+      }
+
+      document.addEventListener('shopify:section:load', function(e) {
+        if (e.target.contains(document.getElementById('mv-expandable-desc-{{ section.id }}'))) {
+          initExpandableDescription();
+        }
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MV - Expandable Desc",
+  "tag": "section",
+  "class": "section-mv-expandable-desc",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header (Optional)"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow / Badge Text"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Description Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_product_description",
+      "label": "Use Current Product Description",
+      "default": false,
+      "info": "Automatically pull the active product's description when placed on product pages."
+    },
+    {
+      "type": "richtext",
+      "id": "custom_description",
+      "label": "Custom Rich Text Description",
+      "info": "Enter or paste your rich description with paragraphs, bullet points, bold headings, etc."
+    },
+    {
+      "type": "header",
+      "content": "Slide-Down / Expander Mechanics"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_slide_toggle",
+      "label": "Enable Slide-Down ('Read More')",
+      "default": true,
+      "info": "Trims initial view and lets customers click to slide open the full content downward."
+    },
+    {
+      "type": "range",
+      "id": "collapsed_height_desktop",
+      "label": "Initial Preview Height (Desktop)",
+      "min": 150,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "default": 280
+    },
+    {
+      "type": "range",
+      "id": "collapsed_height_mobile",
+      "label": "Initial Preview Height (Mobile)",
+      "min": 120,
+      "max": 450,
+      "step": 10,
+      "unit": "px",
+      "default": 220
+    },
+    {
+      "type": "text",
+      "id": "expand_button_text",
+      "label": "Expand Button Text",
+      "default": "Read Full Description"
+    },
+    {
+      "type": "text",
+      "id": "collapse_button_text",
+      "label": "Collapse Button Text",
+      "default": "Show Less"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "luxury_pill", "label": "Luxury Floating Pill (White & Gold)" },
+        { "value": "solid_gold", "label": "Solid Gold Pill" },
+        { "value": "minimal", "label": "Minimal Underlined Link" }
+      ],
+      "default": "luxury_pill"
+    },
+    {
+      "type": "header",
+      "content": "Card & Border Appearance"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Card Maximum Width",
+      "min": 600,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "default": 920
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E2D3BE"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Border Width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border Radius (Corners)",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_card_shadow",
+      "label": "Enable Subtle Luxury Shadow",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card Padding (Desktop)",
+      "min": 16,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "card_padding_mobile",
+      "label": "Card Padding (Mobile)",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Colors & Typography"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Text Color",
+      "default": "#2B2725"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Headings Color",
+      "default": "#1C1917"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / Gold Color",
+      "default": "#C99E3E"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "accordion_item",
+      "name": "Accordion Drawer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Drawer Title"
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Optional Icon / Symbol",
+          "default": "✦",
+          "info": "e.g. ✦, 🍃, ✨, 💧, 🌹"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Drawer Content"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by Default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MV - Expandable Description (Slide Down)",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
