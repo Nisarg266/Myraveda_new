@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "contact_main": {
@@ -51,27 +60,27 @@
         "heading": "Connect With Myra Veda",
         "subheading": "Whether you are seeking personalized botanical ritual guidance, order concierge assistance, bespoke gifting consultations, or wholesale inquiries — our dedicated team is at your service.",
         "phone_label": "WhatsApp & Direct Call",
-        "phone_number": "+91 91372 54894",
-        "whatsapp_number": "919137254894",
+        "phone_number": "+91 9326060697",
+        "whatsapp_number": "9326060697",
         "email_label": "Client Care Concierge",
-        "email_address": "connect@myravedaluxury.com",
+        "email_address": "operations@myravedaluxury.com",
         "hours_label": "Operating Hours",
         "hours_text": "Mon – Sat: 10:00 AM – 7:00 PM IST",
         "gifting_label": "Bespoke Gifting & PR",
         "gifting_subtitle": "Custom Hampers & Corporate PR",
-        "gifting_email": "connect@myravedaluxury.com",
+        "gifting_email": "operations@myravedaluxury.com",
         "form_heading": "Send Us a Message",
         "form_description": "Fill in the details below and our personal care advisors will respond within 24 business hours.",
         "submit_label": "Send Message to Concierge",
         "promise_heading": "A Symphony of Exotic Botanicals & Pure Ayurveda",
         "promise_text": "Our client care team operates with the same meticulous mindfulness that guides our small-batch formulations.",
         "faq_heading": "Instant Answers to Frequent Inquiries",
-        "background_color": "#FAF8F5",
-        "card_background": "#FFFFFF",
-        "accent_gold": "#C99E3E",
-        "primary_text_color": "#112A20",
-        "secondary_text_color": "#5C6B64",
-        "border_color": "#EAE4DC",
+        "background_color": "#faf8f5",
+        "card_background": "#ffffff",
+        "accent_gold": "#c99e3e",
+        "primary_text_color": "#112a20",
+        "secondary_text_color": "#5c6b64",
+        "border_color": "#eae4dc",
         "padding_top": 60,
         "padding_bottom": 80
       }
