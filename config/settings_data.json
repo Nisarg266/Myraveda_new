@@ -1,9 +1,18 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
-    "logo": "shopify://shop_images/256_by_70-01.png",
-    "favicon": "shopify://shop_images/Group_1274_256x256_86460c6e-b24a-4ff0-a9a2-329bbafe26d2.webp",
+    "logo": "shopify://shop_images/MV_final_logo_no_bg.png",
     "logo_height": 48,
     "logo_height_mobile": 34,
+    "favicon": "shopify://shop_images/Group_1274_256x256_86460c6e-b24a-4ff0-a9a2-329bbafe26d2.webp",
     "page_text_color": "{{ settings.color_palette.foreground }}",
     "type_body_font": "inter_n4",
     "type_subheading_font": "inter_n5",
@@ -39,6 +48,7 @@
     "page_width": "narrow",
     "page_transition_enabled": false,
     "transition_to_main_product": false,
+    "add_to_cart_animation": true,
     "card_hover_effect": "none",
     "badge_position": "top-right",
     "badge_corner_radius": 100,
@@ -59,6 +69,7 @@
     "button_border_radius_secondary": 14,
     "cart_type": "drawer",
     "cart_price_font": "secondary",
+    "auto_open_cart_drawer": true,
     "show_cart_note": false,
     "show_add_discount_code": true,
     "drawer_background_color": "{{ settings.color_palette.background }}",
@@ -95,12 +106,11 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
     "variant_button_width": "equal-width-buttons",
+    "content_for_index": [],
     "color_palette": {
       "background": "#ffffff",
       "foreground": "#000000"
-    },
-    "auto_open_cart_drawer": true,
-    "add_to_cart_animation": true
+    }
   },
   "presets": {
     "Horizon": {
